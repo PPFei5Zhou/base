@@ -1,0 +1,9 @@
+# session
+server:
+  servlet:
+    session:
+      timeout: 900
+
+# Log
+logging:
+  config: classpath:logback-spring-pro.xml

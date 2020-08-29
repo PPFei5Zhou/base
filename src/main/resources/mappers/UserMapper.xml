@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.easy.base.dao.mapper.UserMapper">
+    <resultMap id="user" type="com.easy.base.domain.dao.UserInfoDAO">
+        <id property="id" column="user_ID"/>
+        <result property="userName" column="user_UserName"/>
+        <result property="account" column="user_Account"/>
+        <result property="password" column="user_Password"/>
+        <result property="valid" column="user_Valid"/>
+        <result property="createBy" column="user_CreateBy"/>
+        <result property="createDt" column="user_CreateDt"/>
+        <result property="updateBy" column="user_UpdateBy"/>
+        <result property="UpdateDt" column="user_UpdateDt"/>
+    </resultMap>
+
+    <sql id="UserColumn">
+        ID AS user_ID,
+        UserName AS user_UserName,
+        Account AS user_Account,
+        Password AS user_Password,
+        CreateBy AS user_CreateBy,
+        CreateDt AS user_CreateDt,
+        UpdateBy AS user_UpdateBy,
+        UpdateDt AS user_UpdateDt
+    </sql>
+
+    <insert id="saveObject">
+        INSERT INTO userinfo
+        (
+            ID,
+            UserName,
+            Account,
+            Password,
+            CreateBy,
+            CreateDt,
+            Valid
+        )
+        VALUES
+        (
+            #{id},
+            #{userName},
+            #{account},
+            #{password},
+            #{createBy},
+            now(),
+            #{valid}
+        )
+    </insert>
+
+    <update id="updateObject">
+        UPDATE
+        userinfo
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userName != null and userName != ''">
+                UserName = #{userName},
+            </if>
+            <if test="password != null and password != ''">
+                Password = #{password},
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                UpdateBy = #{updateBy}
+            </if>
+            <if test="1 = 1">
+                UpdateDt = now(),
+            </if>
+        </trim>
+        WHERE
+            ID = #{id}
+        AND
+            Valid = 1
+    </update>
+
+    <update id="removeObject">
+        UPDATE
+            userinfo
+        SET
+            Valid = 0
+        WHERE
+            ID = #{id}
+    </update>
+
+    <select id="listUser" resultMap="user">
+        SELECT
+            <include refid="UserColumn" />
+        FROM
+        userinfo
+        <where>
+            AND Valid = 1
+            <if test="userAccount != null and userAccount != ''">
+                AND Account = #{userAccount}
+            </if>
+        </where>
+    </select>
+</mapper>
