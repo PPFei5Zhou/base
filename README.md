@@ -1,83 +1,78 @@
 <!-- TOC -->
+- [1. 基础框架搭建](#1-基础框架搭建)
+  - [1.1. 相关 API Doc](#11-相关-api-doc)
+  - [1.2. 环境搭建](#12-环境搭建)
+    - [1.2.1. Java环境](#121-java环境)
+      - [1.2.1.1. 下载 jdk](#1211-下载-jdk)
+      - [1.2.1.2. 安装](#1212-安装)
+      - [1.2.1.3. Windows 系统环境变量配置](#1213-windows-系统环境变量配置)
+      - [1.2.1.4. 验证](#1214-验证)
+    - [1.2.2. maven环境](#122-maven环境)
+      - [1.2.2.1. 下载 Maven](#1221-下载-maven)
+      - [1.2.2.2. 解压](#1222-解压)
+      - [1.2.2.3. Windows 系统环境配置](#1223-windows-系统环境配置)
+      - [1.2.2.4. Maven 配置](#1224-maven-配置)
+  - [1.3. 创建 Spring Boot 项目](#13-创建-spring-boot-项目)
+    - [1.3.1. 官网创建](#131-官网创建)
+    - [1.3.2. IntelliJ IDEA 创建](#132-intellij-idea-创建)
+    - [1.3.3. Visual Studio Code 创建](#133-visual-studio-code-创建)
+  - [1.4. Spring Boot 项目目录结构](#14-spring-boot-项目目录结构)
+    - [1.4.1. 简介](#141-简介)
+  - [1.5. Spring Boot 项目配置](#15-spring-boot-项目配置)
+    - [1.5.1. `application.yml`/`application.properties` 配置](#151-applicationymlapplicationproperties-配置)
+      - [1.5.1.1. `yml` 和 `properties` 区别](#1511-yml-和-properties-区别)
+      - [1.5.1.2. `application` 配置(以`yml`为例)](#1512-application-配置以yml为例)
+    - [1.5.2. <span id='spanPomXML'>`pom.xml` 配置</span>](#152-pomxml-配置)
+      - [1.5.2.1. 节点说明](#1521-节点说明)
+    - [1.5.3. Maven 常用命令](#153-maven-常用命令)
+  - [1.6. Spring Example](#16-spring-example)
+    - [1.6.1. 命名规则 (建议按照以下规范进行编程)](#161-命名规则-建议按照以下规范进行编程)
+    - [1.6.2. 配置项目 `MAVEN`](#162-配置项目-maven)
+      - [1.6.2.1. 添加依赖](#1621-添加依赖)
+      - [1.6.2.2. 打包静态资源](#1622-打包静态资源)
+    - [1.6.3. 创建 数据传输类 及 数据访问类](#163-创建-数据传输类-及-数据访问类)
+    - [1.6.4. 创建 MyBatis 数据访问逻辑](#164-创建-mybatis-数据访问逻辑)
+    - [1.6.5. 创建 service](#165-创建-service)
+    - [1.6.6. 对 `UserServiceImpl` 建立单元测试](#166-对-userserviceimpl-建立单元测试)
+    - [1.6.7. 运行单元测试](#167-运行单元测试)
+    - [1.6.8. 创建 控制器](#168-创建-控制器)
+    - [1.6.9. 测试控制器](#169-测试控制器)
+      - [1.6.9.1. 使用 IDEA 的 `PostMan`](#1691-使用-idea-的-postman)
+    - [1.6.10. 整合 `Spring Data Jpa`](#1610-整合-spring-data-jpa)
+      - [1.6.10.1. 添加依赖](#16101-添加依赖)
+      - [1.6.10.2. 配置 `application.yml`](#16102-配置-applicationyml)
+      - [1.6.10.3. 创建 `Entity` 类](#16103-创建-entity-类)
+      - [1.6.10.4. 创建 `repository`](#16104-创建-repository)
+      - [1.6.10.5. 扩展 `UserServiceImpl.java` 的 `listObjectFactory` 工厂方法](#16105-扩展-userserviceimpljava-的-listobjectfactory-工厂方法)
+      - [1.6.10.6. 单元测试](#16106-单元测试)
+      - [1.6.10.7. 多条件动态查询](#16107-多条件动态查询)
+    - [1.6.11. 整合 Spring session](#1611-整合-spring-session)
+      - [1.6.11.1. 安装redis](#16111-安装redis)
+        - [1.6.11.1.1. 下载redis](#161111-下载redis)
+        - [1.6.11.1.2. 安装redis](#161112-安装redis)
+        - [1.6.11.1.3. 测试](#161113-测试)
+      - [1.6.11.2. 添加依赖](#16112-添加依赖)
+      - [1.6.11.3. 配置`application.yml`](#16113-配置applicationyml)
+      - [1.6.11.4. 使用 Spring session](#16114-使用-spring-session)
+        - [1.6.11.4.1. 在控制器中创建登录/获取用户/注销的方法](#161141-在控制器中创建登录获取用户注销的方法)
+        - [1.6.11.4.2. 测试及验证](#161142-测试及验证)
+    - [1.6.12. lombok](#1612-lombok)
+      - [1.6.12.1. 官方文檔](#16121-官方文檔)
+- [2. 异常处理](#2-异常处理)
+  - [2.1. IDEA 开发环境中, 修改了 html, 浏览器中访问的 html 仍是修改前的版本](#21-idea-开发环境中-修改了-html-浏览器中访问的-html-仍是修改前的版本)
+    - [2.1.1. 问题原因:](#211-问题原因)
+    - [2.1.2. 解决办法:](#212-解决办法)
+  - [2.2. 单元测试的异常](#22-单元测试的异常)
+    - [2.2.1. 依赖注入失败](#221-依赖注入失败)
 
-- [1. 基礎框架搭建](#1-基礎框架搭建)
-    - [1.1. 相關 API Doc](#11-相關-api-doc)
-    - [1.2. 環境搭建](#12-環境搭建)
-        - [1.2.1. Java環境](#121-java環境)
-            - [1.2.1.1. 下載 jdk](#1211-下載-jdk)
-            - [1.2.1.2. 安裝](#1212-安裝)
-            - [1.2.1.3. Windows 系統環境變量配置](#1213-windows-系統環境變量配置)
-            - [1.2.1.4. 驗證](#1214-驗證)
-        - [1.2.2. maven環境](#122-maven環境)
-            - [1.2.2.1. 下載 Maven](#1221-下載-maven)
-            - [1.2.2.2. 解壓](#1222-解壓)
-            - [1.2.2.3. Windows 系統環境配置](#1223-windows-系統環境配置)
-            - [1.2.2.4. Maven 配置](#1224-maven-配置)
-    - [1.3. 創建 Spring Boot 項目](#13-創建-spring-boot-項目)
-        - [1.3.1. 官網創建](#131-官網創建)
-        - [1.3.2. IntelliJ IDEA 創建](#132-intellij-idea-創建)
-        - [1.3.3. Visual Studio Code 創建](#133-visual-studio-code-創建)
-    - [1.4. Spring Boot 項目目錄結構](#14-spring-boot-項目目錄結構)
-        - [1.4.1. 簡介](#141-簡介)
-    - [1.5. Spring Boot 項目配置](#15-spring-boot-項目配置)
-        - [1.5.1. `application.yml`/`application.properties` 配置](#151-applicationymlapplicationproperties-配置)
-            - [1.5.1.1. `yml` 和 `properties` 區別](#1511-yml-和-properties-區別)
-            - [1.5.1.2. `application` 配置(以`yml`為例)](#1512-application-配置以yml為例)
-                - [1.5.1.2.1. 主配置文件命名為: `application.yml`](#15121-主配置文件命名為-applicationyml)
-                - [1.5.1.2.2. 其他配置文件的命名格式為: `application-{active}.yml`](#15122-其他配置文件的命名格式為-application-activeyml)
-        - [1.5.2. <span id='spanPomXML'>`pom.xml` 配置</span>](#152-span-idspanpomxmlpomxml-配置span)
-            - [1.5.2.1. 節點說明](#1521-節點說明)
-        - [1.5.3. Maven 常用命令](#153-maven-常用命令)
-    - [1.6. Spring Example](#16-spring-example)
-        - [1.6.1. 命名規則 (建議按照以下規範進行編程)](#161-命名規則-建議按照以下規範進行編程)
-        - [1.6.2. 配置項目 `MAVEN`](#162-配置項目-maven)
-            - [1.6.2.1. 添加依賴](#1621-添加依賴)
-            - [1.6.2.2. 打包靜態資源](#1622-打包靜態資源)
-        - [1.6.3. 創建 數據傳輸類 及 數據訪問類](#163-創建-數據傳輸類-及-數據訪問類)
-        - [1.6.4. 創建 MyBatis 數據訪問邏輯](#164-創建-mybatis-數據訪問邏輯)
-        - [1.6.5. 創建 service](#165-創建-service)
-        - [1.6.6. 對 `UserServiceImpl` 建立單元測試](#166-對-userserviceimpl-建立單元測試)
-        - [1.6.7. 運行單元測試](#167-運行單元測試)
-        - [1.6.8. 創建 控制器](#168-創建-控制器)
-        - [1.6.9. 測試控制器](#169-測試控制器)
-            - [1.6.9.1. 使用 IDEA 的 `PostMan`](#1691-使用-idea-的-postman)
-        - [1.6.10. 整合 `Spring Data Jpa`](#1610-整合-spring-data-jpa)
-            - [1.6.10.1. 添加依賴](#16101-添加依賴)
-            - [1.6.10.2. 配置 `application.yml`](#16102-配置-applicationyml)
-            - [1.6.10.3. 創建 `Entity` 類](#16103-創建-entity-類)
-            - [1.6.10.4. 創建 `repository`](#16104-創建-repository)
-            - [1.6.10.5. 擴展 `UserServiceImpl.java` 的 `listObjectFactory` 工廠方法](#16105-擴展-userserviceimpljava-的-listobjectfactory-工廠方法)
-            - [1.6.10.6. 單元測試](#16106-單元測試)
-            - [1.6.10.7. 多條件動態查詢](#16107-多條件動態查詢)
-        - [1.6.11. 整合 Spring session](#1611-整合-spring-session)
-            - [1.6.11.1. 安装redis](#16111-安装redis)
-                - [1.6.11.1.1. 下载redis](#161111-下载redis)
-                - [1.6.11.1.2. 安装redis](#161112-安装redis)
-                - [1.6.11.1.3. 測試](#161113-測試)
-            - [1.6.11.2. 添加依賴](#16112-添加依賴)
-            - [1.6.11.3. 配置`application.yml`](#16113-配置applicationyml)
-            - [1.6.11.4. 使用 Spring session](#16114-使用-spring-session)
-                - [1.6.11.4.1. 在控制器中創建登錄/獲取用戶/注銷的方法](#161141-在控制器中創建登錄獲取用戶注銷的方法)
-                - [1.6.11.4.2. 測試及驗證](#161142-測試及驗證)
-        - [1.6.12. lombok](#1612-lombok)
-            - [1.6.12.1. 官方文檔](#16121-官方文檔)
-- [2. 異常處理](#2-異常處理)
-    - [2.1. IDEA 開發環境中, 修改了 html, 瀏覽器中訪問的 html 仍是修改前的版本](#21-idea-開發環境中-修改了-html-瀏覽器中訪問的-html-仍是修改前的版本)
-        - [2.1.1. 問題原因:](#211-問題原因)
-        - [2.1.2. 解決辦法:](#212-解決辦法)
-    - [2.2. 單元測試的異常](#22-單元測試的異常)
-        - [2.2.1. 依賴注入失敗](#221-依賴注入失敗)
-
-<!-- /TOC -->
-
-# 1. 基礎框架搭建
-[SVN源碼地址](http://10.134.154.103/svn/CFAWeb/JAVA/Base) 
+# 1. 基础框架搭建
+[SVN源码地址](http://10.134.154.103/svn/CFAWeb/JAVA/Base) 
 
 Tips: 
-1. SVN地址可以在瀏覽器直接打開，登錄后即可瀏覽，不建議登錄時勾選記住密碼 
-2. README.md 文件在 SVN 中預覽的效果可能不好
+1. SVN地址可以在浏览器直接打开，登录后即可浏览，不建议登录时勾选记住密码 
+2. README.md 文件在 SVN 中预览的效果可能不好
 
-## 1.1. 相關 API Doc
+## 1.1. 相关 API Doc
 
 1. [Java(TM) Platform, Standard Edition 8 API Specification](https://docs.oracle.com/javase/8/docs/api/)
 2. [Java(TM) EE 7 Specification APIs](https://docs.oracle.com/javaee/7/api/overview-summary.html)
@@ -87,81 +82,81 @@ Tips:
 5. [Spring Data JPA](https://docs.spring.io/spring-data/jpa/docs/2.3.0.RELEASE/reference/html/#reference)
 6. [Hibernate JavaDoc (5.4.17.Final)](https://docs.jboss.org/hibernate/orm/5.4/javadocs/)
 
-## 1.2. 環境搭建
-### 1.2.1. Java環境
-#### 1.2.1.1. 下載 jdk
-[下載鏈接](https://www.java.com/en/download/windows-64bit.jsp)
+## 1.2. 环境搭建
+### 1.2.1. Java环境
+#### 1.2.1.1. 下载 jdk
+[下载链接](https://www.java.com/en/download/windows-64bit.jsp)
 
-#### 1.2.1.2. 安裝
+#### 1.2.1.2. 安装
 
-#### 1.2.1.3. Windows 系統環境變量配置
-1. 添加系統變量 
+#### 1.2.1.3. Windows 系统环境变量配置
+1. 添加系统变量 
 
-    變量名稱: `JAVA_HOME` 
+    变量名称: `JAVA_HOME` 
 
-    變量值: `{Java安裝目錄}`
+    变量值: `{Java安装目录}`
 
-2. 修改Path變量 
+2. 修改Path变量 
     
-    變量值裡添加: `%JAVA_HOME%\bin;`, `%JAVA_HOME%\jre\bin;`
+    变量值里添加: `%JAVA_HOME%\bin;`, `%JAVA_HOME%\jre\bin;`
     
-#### 1.2.1.4. 驗證 
+#### 1.2.1.4. 验证 
 
 CMD命令: `java -version`
 
-### 1.2.2. maven環境
-#### 1.2.2.1. 下載 Maven
-[下載鏈接](https://mirror.bit.edu.cn/apache/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.zip)
+### 1.2.2. maven环境
+#### 1.2.2.1. 下载 Maven
+[下载链接](https://mirror.bit.edu.cn/apache/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.zip)
 
-#### 1.2.2.2. 解壓
-Tips: 解壓目錄中最好不要包含空格
+#### 1.2.2.2. 解压
+Tips: 解压目录中最好不要包含空格
 
-#### 1.2.2.3. Windows 系統環境配置
-1. 添加系統變量 
+#### 1.2.2.3. Windows 系统环境配置
+1. 添加系统变量 
 
-    (1). 變量名: `M2_HOME`變量值: `{maven解壓目錄}` 
+    (1). 变量名: `M2_HOME`变量值: `{maven解压目录}` 
     
-    (2). 變量名: `MAVEN_HOME` 變量值: `{maven解壓目錄}`  
+    (2). 变量名: `MAVEN_HOME` 变量值: `{maven解压目录}`  
     
-2. 修改Path變量 
+2. 修改Path变量 
 
-    變量值裡添加: `%MAVEN_HOME%\bin;` 
+    变量值里添加: `%MAVEN_HOME%\bin;` 
     
-3. 驗證 
+3. 验证 
 
     CMD 命令: `mvn -v`
 
 #### 1.2.2.4. Maven 配置 
 
-1. 配置文件所在目錄: `D:\apache-maven-3.6.0\conf\settings.xml` 
+1. 配置文件所在目录: `D:\apache-maven-3.6.0\conf\settings.xml` 
 
-2. 添加以下節點 (下面配置的`<settings />`不要複製)
+2. 添加以下节点 (下面配置的`<settings />`不要复制)
     ```
     <settings>
-        <!-- 本地倉目錄設置 -->
+        <!-- 本地仓目录设置 -->
         <localRepository>D:\rep</localRepository>
         
-        <!-- 代理設置 -->
+        <!-- 代理设置 -->
         <proxies>
             <proxy>
-                <!-- 代理節點ID -->
+                <!-- 代理节点ID -->
                 <id>company</id> 
-                <!-- 啟用此ID的代理設置,若配置並啟用了多個代理設置,只會有一個代理設置生效 -->
+                <!-- 启用此ID的代理设置,若配置并启用了多个代理设置,只会有一个代理设置生效 -->
                 <active>true</active>
                 <protocol>http</protocol>
-                <username>{賬號}</username>
-                <password>{密碼}</password>
-                <!-- 代理服務器ip -->
+                <username>{账号}</username>
+                <password>{密码}</password>
+                <!-- 代理服务器ip -->
                 <host>{ip}</host>
-                <!-- 代理服務器端口 -->
+                <!-- 代理服务器端口 -->
                 <port>{port}</port>
-                <nonProxyHosts>{不使用代理服務器訪問的網址或ip}</nonProxyHosts>
+                <nonProxyHosts>{不使用代理服务器访问的网址或ip}</nonProxyHosts>
             </proxy>
         </proxies>
         
-        <!-- 私服/公共倉庫配置, 獲取時按先後順序查詢倉庫 -->
+        <!-- 私服/公共仓库配置, 获取时按先后顺序查询仓库 -->
         <mirrors>
-            <!-- 下面兩個是公網上的倉庫, 內網可通過上面設置的代理訪問 -->
+            <!-- 下面两个是公网上的仓库, 内网可通过上面设置的代理访问 -->
             <mirror>
                 <id>sprintio</id>
                 <mirrorOf>central</mirrorOf>
@@ -178,98 +173,98 @@ Tips: 解壓目錄中最好不要包含空格
     </settings>
     ``` 
 
-3. 配置文件其他節點配置可參閱[官方文檔](http://maven.apache.org/settings.html)
+3. 配置文件其他节点配置可参阅[官方文檔](http://maven.apache.org/settings.html)
 
-## 1.3. 創建 Spring Boot 項目
-### 1.3.1. 官網創建
-[官網](https://start.spring.io/) 
+## 1.3. 创建 Spring Boot 项目
+### 1.3.1. 官网创建
+[官网](https://start.spring.io/) 
 
-1. `Project` 選擇 `Maven Project`
-2. `Language` 選擇 `Java`
-3. `Spring Boot` 選擇 `任一版本號(最好是不帶SNAPSHOT的版本, SNAPSHOT版本不是穩定版本)`
-4. `Project Metadata` 根據實際情況填寫, 其中 
+1. `Project` 选择 `Maven Project`
+2. `Language` 选择 `Java`
+3. `Spring Boot` 选择 `任一版本号(最好是不带SNAPSHOT的版本, SNAPSHOT版本不是稳定版本)`
+4. `Project Metadata` 根据实际情况填写, 其中 
 
-    `Packaging` 選擇 `War`, 意思是Maven打包後生成War包 
+    `Packaging` 选择 `War`, 意思是Maven打包后生成War包 
     
-    `Java` 選擇 8 
+    `Java` 选择 8 
     
-5. `Dependencies` 根據實際情況選擇相應的依賴(生成項目後,後續可以在項目的`pom.xml`文件裡添加其他依賴 ) 
+5. `Dependencies` 根据实际情况选择相应的依赖(生成项目后,后续可以在项目的`pom.xml`文件里添加其他依赖 ) 
     
-    此項目中初步選擇了以下依賴包: 
+    此项目中初步选择了以下依赖包: 
     
     - `Spring Boot DevTools`
-    - `Lombok` 此依賴包在IntelliJ IDEA 中打開時會提示要安裝`Lombok`插件
+    - `Lombok` 此依赖包在IntelliJ IDEA 中打开时会提示要安装`Lombok`插件
     - `Spring Web`
     - `JDBC API`
     - `Spring Data JPA`
     - `MyBatis Framework`
     - `MS SQL Server Driver` 
     
-6. 點擊 `GENERATE` 即可下載項目壓縮包
+6. 点击 `GENERATE` 即可下载项目压缩包
 
-### 1.3.2. IntelliJ IDEA 創建
+### 1.3.2. IntelliJ IDEA 创建
 1. Create New Project
-2. 選擇左邊菜單 `Spring Initializer` 
+2. 选择左边菜单 `Spring Initializer` 
      
-     `Project SDK` 選擇電腦中的Java版本 
+     `Project SDK` 选择计算机中的Java版本 
      
-     `Choose starter service URL` 選擇 `Default` 
+     `Choose starter service URL` 选择 `Default` 
      
-     點擊右下角 `Next`
+     点击右下角 `Next`
 
 3. Spring Initializr Project Settings 
 
-    根據實際情況填寫 `Group` `Artifact` `Version` `Name` `Description` 
+    根据实际情况填写 `Group` `Artifact` `Version` `Name` `Description` 
     
-    `Type` 選擇 `Maven POM` 
+    `Type` 选择 `Maven POM` 
     
-    `Language` 選擇 `Java` 
+    `Language` 选择 `Java` 
     
-    `Packaging` 選擇 `War` 
+    `Packaging` 选择 `War` 
     
-    `Java Version` 選擇 `8` 
+    `Java Version` 选择 `8` 
      
-     點擊右下角 `Next`
+     点击右下角 `Next`
      
-4. `Dependencies` 根據實際情況選擇相應的依賴(生成項目後,後續可以在項目的`pom.xml`文件裡添加其他依賴 ) 
+4. `Dependencies` 根据实际情况选择相应的依赖(生成项目后,后续可以在项目的`pom.xml`文件里添加其他依赖 ) 
 
-    `Spring Boot` 選擇 `任一版本號(最好是不帶SNAPSHOT的版本, SNAPSHOT版本不是穩定版本)`
+    `Spring Boot` 选择 `任一版本号(最好是不带SNAPSHOT的版本, SNAPSHOT版本不是稳定版本)`
 
-    此項目中初步選擇了以下依賴包: 
+    此项目中初步选择了以下依赖包: 
     
     - `Spring Boot DevTools`
-    - `Lombok` 此依賴包在IntelliJ IDEA 中打開時會提示要安裝`Lombok`插件
+    - `Lombok` 此依赖包在IntelliJ IDEA 中打开时会提示要安装`Lombok`插件
     - `Spring Web`
     - `JDBC API`
     - `Spring Data JPA`
     - `MyBatis Framework`
     - `MS SQL Server Driver` 
     
-    點擊右下角 `Next` 
+    点击右下角 `Next` 
 
-5. `Project location` 選擇項目目錄 
+5. `Project location` 选择项目目录 
     
-    點擊右下角 `Finish` 
+    点击右下角 `Finish` 
 
-### 1.3.3. Visual Studio Code 創建
-1. 安裝Java開發的插件 `Java Extension Pack`
-2. 安裝Spring Boot的插件 `Spring Boot Extension Pack`
-3. 環境設置 
+### 1.3.3. Visual Studio Code 创建
+1. 安装Java开发的插件 `Java Extension Pack`
+2. 安装Spring Boot的插件 `Spring Boot Extension Pack`
+3. 环境设置 
  
     `Ctrl + Shift + p` 搜索 `settings.json` 
 
-    添加以下節點
+    添加以下节点
     ``` 
-    "java.home": "{Java安裝目錄}\\jdk1.8.0_191",
-    "java.configuration.maven.userSettings": "{Maven安裝目錄}\\conf\\settings.xml",
-    "maven.executable.path": "{Maven安裝目錄}\\bin",
+    "java.home": "{Java安装目录}\\jdk1.8.0_191",
+    "java.configuration.maven.userSettings": "{Maven安装目录}\\conf\\settings.xml",
+    "maven.executable.path": "{Maven安装目录}\\bin",
     ``` 
    
-4. Ctrl+Shift+p打開終端，輸入`Spring initializr: Generate Maven Project`创建项目
-5. 後續的選擇項和前面兩種創建步驟類似
+4. Ctrl+Shift+p打开终端，输入`Spring initializr: Generate Maven Project`创建项目
+5. 后续的选择项和前面两种创建步骤类似
 
-## 1.4. Spring Boot 項目目錄結構
-### 1.4.1. 簡介 
+## 1.4. Spring Boot 项目目录结构
+### 1.4.1. 简介 
 
 
     ·
@@ -309,13 +304,14 @@ Tips: 解壓目錄中最好不要包含空格
         |  |               |   |
         |  |               |   ├─ dto
         |  |               |   |   |  BaseDTO.java
-        |  |               |   |   |  ResponseDTO.java
+        |  |               |   |   |  JsonResult.java
         |  |               |   |   └─ UserDTO.java
         |  |               |   |
         |  |               |   ├─ entity
-        |  |               |   |   └─ SYS_USERINFO.java
+        |  |               |   |   └─ UserInfoEntity.java
         |  |               |   |
         |  |               |   └─ vo
+        |  |               |       └─ UserInfoEntity.java
         |  |               |
         |  |               ├─ service
         |  |               |   └─ impl
@@ -353,42 +349,42 @@ Tips: 解壓目錄中最好不要包含空格
                             └─ ServiceTests.java
 
 
-## 1.5. Spring Boot 項目配置
+## 1.5. Spring Boot 项目配置
 ### 1.5.1. `application.yml`/`application.properties` 配置
-#### 1.5.1.1. `yml` 和 `properties` 區別 
+#### 1.5.1.1. `yml` 和 `properties` 区别 
 
-`yml`文件,通過 `:` 來分層,結構上有比較明顯的層次感, 最後`key`賦值的 `:` 需要留一個空格 
+`yml`文件,通过 `:` 来分层,结构上有比较明显的层次感, 最后`key`赋值的 `:` 需要留一个空格 
 
-`properties` 文件, 通過 `.` 來鏈接, 通過 `=` 來賦值, 沒有分層的效果, 但比較直接 
+`properties` 文件, 通过 `.` 来链接, 通过 `=` 来赋值, 没有分层的效果, 但比较直接 
 
-兩種文件的配置實現的效果是一樣的, 區別只是在於寫法不同 
+两种文件的配置实现的效果是一样的, 区别只是在于写法不同 
 
 ([原文](https://www.jianshu.com/p/941aee2a99cf))
-#### 1.5.1.2. `application` 配置(以`yml`為例) 
+#### 1.5.1.2. `application` 配置(以`yml`为例) 
 
-1. 主配置文件命名為: `application.yml` 
+1. 主配置文件命名为: `application.yml` 
 
-2. 其他配置文件的命名格式為: `application-{active}.yml`
+2. 其他配置文件的命名格式为: `application-{active}.yml`
 
-3. 設置多個 `yml` 配置文件情況下,設置項目要使用的配置文件, `spring.profiles.active` 的值和配置文件後的{active}名稱是一致的 
+3. 设置多个 `yml` 配置文件情况下,设置项目要使用的配置文件, `spring.profiles.active` 的值和配置文件后的{active}名称是一致的 
 
-    如: 在`application.yml`配置以下信息, 則項目啟動後, 會使用 `application-dev.yml` 配置文件
+    如: 在`application.yml`配置以下信息, 则项目启动后, 会使用 `application-dev.yml` 配置文件
    ```
     spring:
       profiles:
        active: dev
     ``` 
    
-4. 項目運行端口設置 
+4. 项目运行端口设置 
 
    ```
     server:
       port: {port}
     ``` 
 
-5. 應用的上下文路徑設置 (此設置的層級和端口設置的層級同屬`server`下),[查看原文](https://blog.csdn.net/onedaycbfly/article/details/80108129)
+5. 应用的上下文路径设置 (此设置的层级和端口设置的层级同属`server`下),[查看原文](https://blog.csdn.net/onedaycbfly/article/details/80108129)
 
-    此設置是應用的上下文路徑,也可以稱項目路徑,是構成url的一部分`http://{網址}/{context}` 
+    此设置是应用的上下文路径,也可以称项目路径,是构成url的一部分`http://{网址}/{context}` 
     
     ```
     server:
@@ -397,7 +393,7 @@ Tips: 解壓目錄中最好不要包含空格
        context-path: /{context}
     ``` 
    
-6. 項目數據庫連接配置 
+6. 项目数据库连接配置 
 
     6.1 SQL Server 配置 
     
@@ -410,7 +406,7 @@ Tips: 解壓目錄中最好不要包含空格
         password: {password}
     ``` 
    
-    若使用Microsoft SQL Server(6.5，7，2000，2005，2008 和 2012)的版本, 可以使用`jtds`的`JDBC`驅動, 配置如下 
+    若使用Microsoft SQL Server(6.5，7，2000，2005，2008 和 2012)的版本, 可以使用`jtds`的`JDBC`驱动, 配置如下 
 
    ```
     spring:
@@ -423,19 +419,11 @@ Tips: 解壓目錄中最好不要包含空格
           connection-test-query: SELECT 1
     ``` 
 
-    其中 `spring.datasource.hikari.connection-test-query` 是因為
-     `net.sourceforge.jtds.jdbc.JtdsConnection` 沒有實現 `isValid` 方法，因此需要指定一個連接測試查詢以確保不調用 `isValid` 方法
+    其中 `spring.datasource.hikari.connection-test-query` 是因为
+     `net.sourceforge.jtds.jdbc.JtdsConnection` 没有实现 `isValid` 方法，因此需要指定一个连接测试查询以确保不调用 `isValid` 方法
     [原文](https://stackoverflow.com/questions/42247864/configure-hikaricp-in-spring-boot-with-jtds) 
 
-    使用 `jtds` 驅動,需要在 `pom.xml` 文件中添加以下依賴(配置方式參考[`pom.xml` 配置](#spanPomXML)) 
-
-    ```
-    <dependency>
-        <groupId>net.sourceforge.jtds</groupId>
-        <artifactId>jtds</artifactId>
-        <version>1.3.1</version>
-    </dependency>
-    ```
+    在下一小节将会添加 `jtds` 驱动 maven 依赖(配置方式参考[`pom.xml` 配置](#spanPomXML)) 
 
     6.2 MYSQL 配置 
     
@@ -448,16 +436,8 @@ Tips: 解壓目錄中最好不要包含空格
        password: {password}
    ``` 
    
-   驱动 maven 依赖 
+   在下一小节将会添加MySQL驱动 maven 依赖 
    
-   ```
-   <dependency>
-       <groupId>mysql</groupId>
-       <artifactId>mysql-connector-java</artifactId>
-       <scope>runtime</scope>
-   </dependency>
-   ```
-
 7. `Session` 配置 
 
    ```
@@ -467,7 +447,7 @@ Tips: 解壓目錄中最好不要包含空格
           timeout: 900
     ``` 
    
-8. Log 日志配置(這裡是引用本地開發時日誌配置文件) 
+8. Log 日志配置
 
    ```
    logging:
@@ -483,12 +463,12 @@ Tips: 解壓目錄中最好不要包含空格
     ```
    
 ### 1.5.2. <span id='spanPomXML'>`pom.xml` 配置</span>
-#### 1.5.2.1. 節點說明
-1. `<packaging />`: 打包的機制, 如pom, jar, maven-plugin, ejb, war, ear, rar, par，默認為jar 
-2. `<properties />`: 為pom定義一些常量，在pom中的其他地方可以直接引用, 使用方式如: `${file.encoding}`
-3. `<dependencies />`: 定義項目的依賴關係 
+#### 1.5.2.1. 节点说明
+1. `<packaging />`: 打包的机制, 如pom, jar, maven-plugin, ejb, war, ear, rar, par，默认为jar 
+2. `<properties />`: 为pom定义一些常量，在pom中的其他地方可以直接引用, 使用方式如: `${file.encoding}`
+3. `<dependencies />`: 定义项目的依赖关系 
 
-    - `<dependency />`: 創建新的依賴, 也可以理解為導入jar包, 子節點如下所示, maven通過 `groupId`, `artifactId`, `version` 這三個子節點來檢索構件, 然後引入到項目中. 可以到此[網站](https://mvnrepository.com/)搜索相應的jar包的maven依賴
+    - `<dependency />`: 创建新的依赖, 也可以理解为导入jar包, 子节点如下所示, maven通过 `groupId`, `artifactId`, `version` 这三个子节点来检索构件, 然后引入到项目中. 可以到此[网站](https://mvnrepository.com/)搜索相应的jar包的maven依赖
     
         (1) `<groupId>`: 
         
@@ -496,40 +476,40 @@ Tips: 解壓目錄中最好不要包含空格
         
         (3) `<version>`: 
         
-        (4) `<scope>`: 取值可以是: compile(編譯範圍), provided(已提供範圍), runtime(運行時範圍), test(測試範圍), system(系統範圍) 
+        (4) `<scope>`: 取值可以是: compile(编译范围), provided(已提供范围), runtime(运行时范围), test(测试范围), system(系统范围) 
     
-    - `<build />`: maven 構建配置 
+    - `<build />`: maven 构建配置 
         
         - `<resources />`
 
-         - `<resource />` 配置項目相關的所有資源路徑列表, 這些資源將會被打包到打包文件中, 如果沒有配置此節點, 可能會出現靜態資源404的情況 
+         - `<resource />` 配置项目相关的所有资源路径列表, 这些资源将会被打包到打包文件中, 如果没有配置此节点, 可能会出现静态资源404的情况 
 
-         - `<directory />`: 資源所在目錄, 路徑是相對pom路徑, 如 `src/main/resources/mappers/***.xml`, `src`和`pom.xml`是在同一級的目錄中
+         - `<directory />`: 资源所在目录, 路径是相对pom路径, 如 `src/main/resources/mappers/***.xml`, `src`和`pom.xml`是在同一级的目录中
          - `<includes />`: 包含的模式列表 
-           - `<include />`: 如: `<include>**/*.yml</include>`, 意思是,匹配 `<directory />` 目錄下的所有目錄的擴展名是 `.yml` 的文件 
+           - `<include />`: 如: `<include>**/*.yml</include>`, 意思是,匹配 `<directory />` 目录下的所有目录的扩展名是 `.yml` 的文件 
         
-        - `<finalName />`: 打包文件的名稱 
+        - `<finalName />`: 打包文件的名称 
 
-4. 其他配置, 可參閱此[網站](https://blog.csdn.net/qq_33363618/article/details/79438044), 或搜索: pom.xml 配置
+4. 其他配置, 可参阅:[博客](https://blog.csdn.net/qq_33363618/article/details/79438044)
 
 ### 1.5.3. Maven 常用命令
 1. `mvn clean` 
 
-    清除產生的項目 
+    清除产生的项目 
    
 2. `mvn package` 
 
-    打包, 打包的war文件(這裡的配置設置為war包)存放在項目目錄的`target`中 
+    打包, 打包的war文件(这里的配置设置为war包)存放在项目目录的`target`中 
 
 3.  `mvn dependency:copy-dependencies` 
 
-    下载`pom.xml`中的依賴
+    下载`pom.xml`中的依赖
 
-4. 使用過程中的問題或其他命令使用方式, 請百度或谷歌 
+4. 使用过程中的问题或其他命令使用方式, 请百度或谷歌 
 
 ## 1.6. Spring Example
-### 1.6.1. 命名規則 (建議按照以下規範進行編程)
-1. 所有編程相關命名均不能以下劃線或美元符號開始, 也不能以下劃線或美元符號結束 
+### 1.6.1. 命名规则 (建议按照以下规范进行编程)
+1. 所有编程相关命名均不能以下划线或美元符号开始, 也不能以下划线或美元符号结束 
 
     反例: 
 
@@ -537,11 +517,11 @@ Tips: 解壓目錄中最好不要包含空格
     _name / __name / $Object / name_ / name$ / Object$
     ``` 
 
-2. 所有編程相關命名嚴禁使用拼音與英文混合的方式 
+2. 所有编程相关命名严禁使用拼音与英文混合的方式 
 
-3. 類名使用 `UpperCamelCase` 風格, 必須遵從駝峰形式, 但以下情形例外: (`domain` 模型相關命名) `DO/DTO/VO/DAO` 等 
+3. 类名使用 `UpperCamelCase` 风格, 必须遵从驼峰形式, 但以下情形例外: (`domain` 模型相关命名) `DO/DTO/VO/DAO` 等 
 
-4. 方法名, 參數名, 成員變量, 局部變量都統一使用 `lowerCamelCase` 風格, 必須遵從駝峰形式 
+4. 方法名, 参数名, 成员变量, 局部变量都统一使用 `lowerCamelCase` 风格, 必须遵从驼峰形式 
 
     正例: 
 
@@ -549,7 +529,7 @@ Tips: 解壓目錄中最好不要包含空格
     localValue / getHttpMessage() /inputUserId
     ``` 
 
-5. 常量命名全部大寫, 單詞間隔用下劃線隔開, 語義力求表達完整清楚, 不要嫌命名過長 
+5. 常量命名全部大写, 单词间隔用下划线隔开, 语义力求表达完整清楚, 不要嫌命名过长 
 
     正例: 
 
@@ -563,26 +543,26 @@ Tips: 解壓目錄中最好不要包含空格
     MAX_COUNT
     ```
 
-6. 抽象類命名使用 `Abstract` 或 `base` 開頭; 異常類命名以 `Exception` 結尾; 測試類命名以測試的類的名稱開始, 以 `Test` 結尾 
+6. 抽象类命名使用 `Abstract` 或 `base` 开头; 异常类命名以 `Exception` 结尾; 测试类命名以测试的类的名称开始, 以 `Test` 结尾 
 
-7. POJO類中的任何布爾類型的變量, 都不要加is, 否則部分框架解析會引起序列化錯誤
+7. POJO类中的任何布尔类型的变量, 都不要加is, 否则部分框架解析会引起串行化错误
 
-8. 報名同意使用小寫, 點分隔符之間有且僅有一個自然語義的英語單詞. 包名統一使用單數形式, 但是類名如果有複數含義, 類名可以使用複數形式 
+8. 报名同意使用小写, 点分隔符之间有且仅有一个自然语义的英语单词. 包名统一使用单数形式, 但是类名如果有复数含义, 类名可以使用复数形式 
 
     正例: 
 
     ```
     com.alibaba.mpp.util // 包名
-    MessageUtils // 類名
+    MessageUtils // 类名
     ``` 
 
-9. 其他編程規範參考[阿里Java開發規範手冊](https://blog.csdn.net/qiagua8198/article/details/79678092) 
+9. 其他编程规范参考[阿里Java开发规范手册](https://blog.csdn.net/qiagua8198/article/details/79678092) 
 
-### 1.6.2. 配置項目 `MAVEN` 
+### 1.6.2. 配置项目 `MAVEN` 
 
-#### 1.6.2.1. 添加依賴
+#### 1.6.2.1. 添加依赖
 
-在建立項目時已添加的依賴基礎上, 添加以下依賴: 
+在建立项目时已添加的依赖基础上, 添加以下依赖: 
 
   ```
   <dependencies>
@@ -590,6 +570,11 @@ Tips: 解壓目錄中最好不要包含空格
           <groupId>net.sourceforge.jtds</groupId>
           <artifactId>jtds</artifactId>
           <version>1.3.1</version>
+      </dependency>
+      <dependency>
+          <groupId>mysql</groupId>
+          <artifactId>mysql-connector-java</artifactId>
+          <scope>runtime</scope>
       </dependency>
       <dependency>
           <groupId>org.mybatis.spring.boot</groupId>
@@ -617,17 +602,17 @@ Tips: 解壓目錄中最好不要包含空格
   </dependencies>
   ``` 
 
-這些依賴包含了 `jtds` (用於連接 SQL server 2008及舊版的 SQL server), 和 `Junit` , `MyBatis` (用於單元測試) 
+这些依赖包含了 `jtds` (用于连接 SQL server 2008及旧版的 SQL server), 和 `Junit` , `MyBatis` (用于单元测试) 
 
-添加依賴後, 在項目目錄中打開PowerShell, 執行以下命令, 將依賴下載到項目中 
+添加依赖后, 在项目目录中打开PowerShell, 执行以下命令, 将依赖下载到项目中 
 
   ```
   mvn dependency:copy-dependencies
   ```
 
-#### 1.6.2.2. 打包靜態資源 
+#### 1.6.2.2. 打包静态资源 
 
-在 `<build>` 標籤中添加以下節點 
+在 `<build>` 标签中添加以下节点 
 
   ```
   <resources>
@@ -652,39 +637,39 @@ Tips: 解壓目錄中最好不要包含空格
   </resources>
   ```
 
-### 1.6.3. 創建 數據傳輸類 及 數據訪問類 
+### 1.6.3. 创建 数据传输类 及 数据访问类 
 
-1. 創建 `BaseDTO` 類 
+1. 创建 `BaseDTO` 类 
     
-    在 `domain` 包中創建 `BaseDTO` 類 
+    在 `domain` 包中创建 `BaseDTO` 类 
 
-    其他的DTO類可以繼承此類, 可以閱讀 [java 繼承](https://www.runoob.com/java/java-inheritance.html)
+    其他的DTO类可以继承此类, 可以阅读 [java 继承](https://www.runoob.com/java/java-inheritance.html)
 
-    - `@Data` 註解是 lombok 提供的功能, 默認生成類中所有屬性的 `getter/setter` 方法, 以及重寫 `toString()`, `equals()`, `hashCode()` 方法
+    - `@Data` 批注是 lombok 提供的功能, 默认生成类中所有属性的 `getter/setter` 方法, 以及重写 `toString()`, `equals()`, `hashCode()` 方法
 
-2. 創建 `ResponseDTO`類 
+2. 创建 `ResponseDTO`类 
 
-    在 `domain/dto` 包中創建 `ResponseDTO` 類 
+    在 `domain/dto` 包中创建 `ResponseDTO` 类 
 
-    給 service 層或其他層返回指定的類型
+    给 service 层或其他层返回指定的类型
 
-    - `@NoArgsConstructor` 註解是 lombok 提供的功能, 生成無參構造器
-    - `@Scope("prototype")` 註解是 spring 提供的註解, 意思是每次通過 spring 容器獲取到的實例都是一個新的實例, 如果不設置改註解, 則默認是單例模式, 還有其他的值可以設置, 可參閱[@Scope說明](https://blog.csdn.net/ColdFireMan/article/details/100576702)
-    - `@Component` 註解是 Spring 的註解, 實現 bean 注入功能, 一般是用於各種組件實例化, 另外相同功能的註解為: `@controller`, `@service`, `@repository`, 這三個註解意義和 `@Component` 不同, `@controller` 為控制器, `@service` 一般用於 service 層, `@repository` 一般用於數據訪問層
+    - `@NoArgsConstructor` 批注是 lombok 提供的功能, 生成无参构造器
+    - `@Scope("prototype")` 批注是 spring 提供的批注, 意思是每次通过 spring 容器获取到的实例都是一个新的实例, 如果不设置改批注, 则默认是单例模式, 还有其他的值可以设置, 可参阅[@Scope说明](https://blog.csdn.net/ColdFireMan/article/details/100576702)
+    - `@Component` 批注是 Spring 的批注, 实现 bean 注入功能, 一般是用于各种组件实例化, 另外相同功能的批注为: `@controller`, `@service`, `@repository`, 这三个批注意义和 `@Component` 不同, `@controller` 为控制器, `@service` 一般用于 service 层, `@repository` 一般用于数据访问层
 
-3. 創建 `User` 相關的 `DTO` 和 `DAO` 類 
+3. 创建 `User` 相关的 `DTO` 和 `DAO` 类 
 
-    `DAO` 是根據數據庫表的字段來定義的類, 用於保存查詢結果 
+    `DAO` 是根据数据库表的字段来定义的类, 用于保存查询结果 
 
-    在 `domain.dao` 包中創建 `UserInfoDAO` 類 
+    在 `domain.dao` 包中创建 `UserInfoDAO` 类 
 
-    在 `domain.dto` 包中創建 `UserDTO` 類, 繼承 `BaseDTO` 類 
+    在 `domain.dto` 包中创建 `UserDTO` 类, 继承 `BaseDTO` 类 
 
-### 1.6.4. 創建 MyBatis 數據訪問邏輯 
+### 1.6.4. 创建 MyBatis 数据访问逻辑 
 
-1. 創建 `BaseDAO` 接口 
+1. 创建 `BaseDAO` 接口 
 
-    在 `dao` 包中創建接口
+    在 `dao` 包中创建接口
 
     ```
     package com.easy.base.dao;
@@ -696,9 +681,9 @@ Tips: 解壓目錄中最好不要包含空格
     }
     ``` 
 
-2. 創建 `UserMapper` 接口
+2. 创建 `UserMapper` 接口
 
-    在 `dao.mapper` 包中創建接口 
+    在 `dao.mapper` 包中创建接口 
 
     ```
     public interface UserMapper extends BaseMapper {
@@ -715,28 +700,28 @@ Tips: 解壓目錄中最好不要包含空格
     }
     ``` 
 
-3. 創建 `UserMapper` 接口對應的 xml 
+3. 创建 `UserMapper` 接口对应的 xml 
 
-    在 `resources/mappers` 文件夾創建 `UserMapper.xml` 
+    在 `resources/mappers` 活页夹创建 `UserMapper.xml` 
 
-    - `<mapper>` 的 `namespace` 屬性的值是 `UserMapper` 的全限定名
-    - `<resultMap>` 自動映射查詢結果, 可參閱[官方文檔](https://mybatis.org/mybatis-3/zh/sqlmap-xml.html#Auto-mapping),
-    `id` 屬性的值是當前映射的名稱, `type` 屬性的值是要映射的類的全限定名 
-    - `<id>` 和 `<result>` 的 `property` 屬性是指映射的類的屬性, `column` 屬性是指表的字段名稱(也可以是查詢語句的別名)
-    - `<id>` 是指表的主鍵 
-    - `<sql>` 是可被其他語句引用的可重用語句塊
-    - `<insert>`, `<update>`, `<select>` 包含了 `id` 屬性, `id`的值, 要和 `UserMapper` 接口的方法名一致 
-    - `#{property}` 是 `UserMapper` 接口的方法的參數變量的名稱, 如果參數是類類型, 則是對應類里的各個屬性名 
-    - `<trim>` 動態拼接 SQL 語句, `prefix` 屬性是前綴, `suffixOverrides` 屬性是移除多餘的後綴, 其他屬性可參閱
-    - `<if>` 條件判斷, `test` 屬性是判斷的條件
+    - `<mapper>` 的 `namespace` 属性的值是 `UserMapper` 的全限定名
+    - `<resultMap>` 自动映射查询结果, 可参阅[官方文檔](https://mybatis.org/mybatis-3/zh/sqlmap-xml.html#-mapping),
+    `id` 属性的值是当前映像的名称, `type` 属性的值是要映像的类的全限定名 
+    - `<id>` 和 `<result>` 的 `property` 属性是指映像的类的属性, `column` 属性是指表的字段名称(也可以是查询语句的别名)
+    - `<id>` 是指表的主键 
+    - `<sql>` 是可被其他语句引用的可重用语句块
+    - `<insert>`, `<update>`, `<select>` 包含了 `id` 属性, `id`的值, 要和 `UserMapper` 接口的方法名一致 
+    - `#{property}` 是 `UserMapper` 接口的方法的参数变量的名称, 如果参数是类类型, 则是对应类里的各个属性名 
+    - `<trim>` 动态拼接 SQL 语句, `prefix` 属性是前缀, `suffixOverrides` 属性是移除多余的后缀, 其他属性可参阅
+    - `<if>` 条件判断, `test` 属性是判断的条件
     [此博客](https://blog.csdn.net/weixin_34123613/article/details/93397418)
-    - `<include>` 是引用 `<sql>` 的語句
-    - `<where>` 可動態生成 where 條件的 SQL 語句 
+    - `<include>` 是引用 `<sql>` 的语句
+    - `<where>` 可动态生成 where 条件的 SQL 语句 
 
-### 1.6.5. 創建 service 
-這裡會使用到工廠模式, [Java多態](https://www.zhihu.com/question/30082151?sort=created)的知識 
+### 1.6.5. 创建 service 
+这里会使用到工厂模式, [Java多态](https://www.zhihu.com/question/30082151?sort=created)的知识 
 
-1. 創建 `BaseService` 接口
+1. 创建 `BaseService` 接口
     
     ```
     package com.easy.base.service;
@@ -753,101 +738,101 @@ Tips: 解壓目錄中最好不要包含空格
     }
     ```
    
-2. 實現 `BaseService` 接口 
+2. 实现 `BaseService` 接口 
 
-    - 使用 `@Service` 註解 
-    - 使用構造器方法注入依賴 
+    - 使用 `@Service` 批注 
+    - 使用构造器方法注入依赖 
 
-### 1.6.6. 對 `UserServiceImpl` 建立單元測試 
+### 1.6.6. 对 `UserServiceImpl` 建立单元测试 
 
-在 `src/test/java/com/wia/base` 目錄下創建 `ServiceTests` 類 
+在 `src/test/java/com/wia/base` 目录下创建 `ServiceTests` 类 
 
 1. `@RunWith(SpringRunner.class)` 
 
-    - 讓測試用例在 spring 容器環境中運行 
+    - 让测试用例在 spring 容器环境中运行 
   
 2. `@MapperScan` 
 
-    - 掃描 MyBatis 的 mapper 接口類所在的包
-    - 在編譯之後都生成相應的實現類 
+    - 扫描 MyBatis 的 mapper 接口类所在的包
+    - 在编译之后都生成相应的实现类 
   
 3. `@ComponentScan` 
 
-      - 掃描指定的包下所有的配置類(使用了 `@Controller`, `@Service`, `@Component`, `@Repository` 註解的類) 
-      - 註冊到 spring 容器中
+      - 扫描指定的包下所有的配置类(使用了 `@Controller`, `@Service`, `@Component`, `@Repository` 批注的类) 
+      - 注册到 spring 容器中
 
-4. `@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)` 
+4. `@ConfigureTestDatabase(replace = ConfigureTestDatabase.Replace.NONE)` 
 
-      - `AutoConfigureTestDatabase` 註解: 因為使用了 `@MybatisTest`, 所以會替換 spring 的數據源配置為虛擬數據源 
-      - `AutoConfigureTestDatabase.Replace.NONE` 表示: 不替換數據源配置 
+      - `ConfigureTestDatabase` 批注: 因为使用了 `@MybatisTest`, 所以会替换 spring 的数据源配置为虚拟数据源 
+      - `ConfigureTestDatabase.Replace.NONE` 表示: 不替换数据源配置 
   
-5. 單元測試的 `insert`, `update`, `delete` 和事務都會回滾
+5. 单元测试的 `insert`, `update`, `delete` 和事务都会回滚
 
-完整代碼: 
+完整代码: 
 
-### 1.6.7. 運行單元測試 
+### 1.6.7. 运行单元测试 
 1. IntelliJ IDEA 
 
-    - 在對應的測試方法左邊有一個綠色的箭頭, 點擊後, 選 `Run '{方法名}()'`, 或選 `Debug '{方法名}()'`即可運行 
-    - 右鍵點擊方法名, 選 `Run '{方法名}()'`, 或選 `Debug '{方法名}()'` 
+    - 在对应的测试方法左边有一个绿色的箭头, 点击后, 选 `Run '{方法名}()'`, 或选 `Debug '{方法名}()'`即可运行 
+    - 右键点击方法名, 选 `Run '{方法名}()'`, 或选 `Debug '{方法名}()'` 
 
 2. VSCode 
 
-### 1.6.8. 創建 控制器 
+### 1.6.8. 创建 控制器 
 
-1. 在 `controller` 包中創建 `UserController` 
+1. 在 `controller` 包中创建 `UserController` 
 
-    - `@Scope("session")` 表示控制器在每一個不同的 session 中都是不同的實例, 這個值需要 spring 是在 web 應用中
-    - `@RestController` 表示控制器返回 JSON , XML 或其他文本, 而 `@Controller` 返回頁面, [二者區別](https://www.jianshu.com/p/c89a3550588a)
+    - `@Scope("session")` 表示控制器在每一个不同的 session 中都是不同的实例, 这个值需要 spring 是在 web 应用中
+    - `@RestController` 表示控制器返回 JSON , XML 或其他文本, 而 `@Controller` 返回页面, [二者区别](https://www.jianshu.com/p/c89a3550588a)
     - `@RequestMapping(value = "/Login", method = RequestMethod.GET)` 
-      - 此註解可以寫在控制器類上和控制器的方法中
-      - 寫在控制器上, 則請求控制器裡的方法, 都要在請求路徑中加上對應的值, 如請求 `UserController` 的 `login()` 方法時, URL 要寫成: `http://{ip}:{port}/User/Login`
-      - `value` 表示映射值, 可以簡寫為: `@RequestMapping("/User")`
-      - `method` 表示 `action` 的請求方式, 默認是 `GET`, 常用的有: `GET`, `POST`, `PUT`, `DELETE`
+      - 此批注可以写在控制器类上和控制器的方法中
+      - 写在控制器上, 则请求控制器里的方法, 都要在请求路径中加上对应的值, 如请求 `UserController` 的 `login()` 方法时, URL 要写成: `http://{ip}:{port}/User/Login`
+      - `value` 表示映射值, 可以简写为: `@RequestMapping("/User")`
+      - `method` 表示 `action` 的请求方式, 默认是 `GET`, 常用的有: `GET`, `POST`, `PUT`, `DELETE`
 
-2. 在 `controller` 包中創建 `PageController` 
+2. 在 `controller` 包中创建 `PageController` 
 
-### 1.6.9. 測試控制器
+### 1.6.9. 测试控制器
 #### 1.6.9.1. 使用 IDEA 的 `PostMan` 
 
 ### 1.6.10. 整合 `Spring Data Jpa` 
 
-可以理解為 `.net` 中的 `EntityFramework` 框架, `Jpa` 可以將對象映射到數據庫, 可以不用重複編寫每個表的 `CRUD` 邏輯.
+可以理解为 `.net` 中的 `EntityFramework` 框架, `Jpa` 可以将对象映像到数据库, 可以不用重复编写每个表的 `CRUD` 逻辑.
 
-詳細教程可以看
+详细教程可以看
 [官方文檔](https://docs.spring.io/spring-data/jpa/docs/2.3.0.RELEASE/reference/html/#reference)
 
-#### 1.6.10.1. 添加依賴 
+#### 1.6.10.1. 添加依赖 
 
 #### 1.6.10.2. 配置 `application.yml` 
   
-  - `spring.jpa.hibernate.ddl-auto` 可賦值如下
+  - `spring.jpa.hibernate.ddl-` 可赋值如下
   
-    - `create`: 運行程序會新建表, 結束程序會清空表數據 
-    - `create-drop`: 運行程序會新建表, 結束程序會刪除表 
-    - `update`: 運行程序如沒有表則新建表, 表內數據不清空, 只更新 
-    - `valid`: 運行程序會校驗數據與數據庫的字段類型是否相同, 不同會報錯 
+    - `create`: 运行程序会新建表, 结束程序会清空表数据 
+    - `create-drop`: 运行程序会新建表, 结束程序会删除表 
+    - `update`: 运行程序如没有表则新建表, 表内数据不清空, 只更新 
+    - `valid`: 运行程序会校验数据与数据库的字段类型是否相同, 不同会报错 
     
   - `spring.jpa.hibernate.naming.physical-strategy` 
   
-    配置物理名稱命名策略, `PhysicalNamingStrategyStandardImpl` 是直接映射, 不做處理 
+    配置物理名称命名策略, `PhysicalNamingStrategyStandardImpl` 是直接映像, 不做处理 
     
-  - `spring.jpa,properties.hibernate.dialect` 設置 Hibernate 的數據庫方言(dialect) 
+  - `spring.jpa,properties.hibernate.dialect` 设置 Hibernate 的数据库方言(dialect) 
 
-    設置方言是為了 Hibernate 可以根據數據庫來識別 SQL 語句的差異
+    设置方言是为了 Hibernate 可以根据数据库来识别 SQL 语句的差异
 
-    可設置的值參考[官方文檔](https://docs.jboss.org/hibernate/orm/5.4/javadocs/)
+    可设置的值参考[官方文檔](https://docs.jboss.org/hibernate/orm/5.4/javadocs/)
   
-    如果在連接 SQL server 2008 或更老的版本的數據庫時候未配置方言, 在運行過程中會拋出下面的異常信息: 
+    如果在连接 SQL server 2008 或更老的版本的数据库时候未配置方言, 在运行过程中会抛出下面的异常信息: 
     
     ```
     ...
     Caused by: org.hibernate.exception.SQLGrammarException: Unable to build DatabaseInformation
     ...
-    Caused by: java.sql.SQLException: 無效的物件名稱 'INFORMATION_SCHEMA.SEQUENCES'
+    Caused by: java.sql.SQLException: 无效的对象名称 'INFORMATION_SCHEMA.SEQUENCES'
     ```
   
-`application.yml` 設置: 
+`application.yml` 设置: 
 
 ```
 spring:
@@ -855,7 +840,7 @@ spring:
     database: sql_server
     show-sql: true
     hibernate:
-      ddl-auto: none
+      ddl-: none
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
@@ -863,7 +848,7 @@ spring:
         format_sql: true
 ``` 
 
-`application-dev.yml` 設置: 
+`application-dev.yml` 设置: 
 
 ```
 spring:
@@ -873,7 +858,7 @@ spring:
         dialect: "org.hibernate.dialect.SQLServer2008Dialect"
 ```
 
-`application-prd.yml` 設置: 
+`application-prd.yml` 设置: 
 
 ```
 spring:
@@ -883,25 +868,25 @@ spring:
         dialect: "org.hibernate.dialect.SQLServer2012Dialect"
 ```
 
-#### 1.6.10.3. 創建 `Entity` 類
+#### 1.6.10.3. 创建 `Entity` 类
 
-  - 在 `domain.entity` 創建類 `SYS_USERINFO` 
-  - 添加 `@Data`, `@NoArgsConstructor`, `@Entity`, `@Table` 註解
-  - 在主鍵的屬性上使用 `@Id` 註解
-  - 在屬性中使用 `@Column` 註解, 指定持久屬性或字段的映射列, 如果未指定任何列註釋, 則使用默認值, 可閱讀[官方文檔](https://docs.oracle.com/javaee/7/api/index.html?javax/persistence/Column.html)
-  , 這裡只羅列了這個例子中用到的屬性 
+  - 在 `domain.entity` 创建类 `SYS_USERINFO` 
+  - 添加 `@Data`, `@NoArgsConstructor`, `@Entity`, `@Table` 批注
+  - 在主键的属性上使用 `@Id` 批注
+  - 在属性中使用 `@Column` 批注, 指定持久属性或字段的映像列, 如果未指定任何列注释, 则使用默认值, 可阅读[官方文檔](https://docs.oracle.com/javaee/7/api/index.html?javax/persistence/Column.html)
+  , 这里只罗列了这个例子中用到的属性 
     
-    - `name`: 字段名稱(非必要設置)
-    - `unique`: 字段是否為唯一鍵, 默認值是 `false` 
-    - `nullable`: 字段是否為空, 默認值是 `true`
-    - `length`: 字段的長度
-    - `columnDefinition`: 字段的類型 
+    - `name`: 字段名称(非必要设置)
+    - `unique`: 字段是否为唯一键, 默认值是 `false` 
+    - `nullable`: 字段是否为空, 默认值是 `true`
+    - `length`: 字段的长度
+    - `columnDefinition`: 字段的类型 
     
-#### 1.6.10.4. 創建 `repository` 
+#### 1.6.10.4. 创建 `repository` 
 
-1. 在 `com/wia/base/dao/jpa` 創建 `UserRepository.java` 接口 
+1. 在 `com/wia/base/dao/jpa` 创建 `UserRepository.java` 接口 
 
-2. 接口繼承 `JpaRepository<T, String>` 接口 
+2. 接口继承 `JpaRepository<T, String>` 接口 
 
   `JpaRepository<T, String>` 接口包含了以下方法: 
   
@@ -919,13 +904,13 @@ spring:
   <S extends T> List<S> findAll(Example<S> var1, Sort var2);
   ``` 
 
-  這些方法都可以直接調用, 若要自定義新的方法, 則在 `UserRepository` 接口中添加即可 
+  这些方法都可以直接调用, 若要自定义新的方法, 则在 `UserRepository` 接口中添加即可 
   
-  假設要自定義查詢方法, 方法名的命名規則如下 
+  假设要自定义查询方法, 方法名的命名规则如下 
   
-  [官方文檔](https://docs.spring.io/spring-data/jpa/docs/2.3.0.RELEASE/reference/html/#jpa.query-methods)羅列的方法名關鍵字的清單 
+  [官方文檔](https://docs.spring.io/spring-data/jpa/docs/2.3.0.RELEASE/reference/html/#jpa.query-methods)罗列的方法名关键词的列表 
   
-  這裡只展示一部分, 條件包括 `=`, `<>`, `>`, `>=`, `<`, `<=`, `AND`, `OR`, `LIKE`, `IS NULL`, `IS NOT NULL`, `ORDER BY` 
+  这里只展示一部分, 条件包括 `=`, `<>`, `>`, `>=`, `<`, `<=`, `AND`, `OR`, `LIKE`, `IS NULL`, `IS NOT NULL`, `ORDER BY` 
 
 
 | Keyword | Sample | JPQL snippet |
@@ -948,17 +933,17 @@ spring:
 
 
 
-#### 1.6.10.5. 擴展 `UserServiceImpl.java` 的 `listObjectFactory` 工廠方法 
+#### 1.6.10.5. 扩展 `UserServiceImpl.java` 的 `listObjectFactory` 工厂方法 
 
-#### 1.6.10.6. 單元測試 
+#### 1.6.10.6. 单元测试 
 
-1. 單元測試類的註解 把 `@MybatisTest` 改成 `@SpringBootTest` 
+1. 单元测试类的批注 把 `@MybatisTest` 改成 `@SpringBootTest` 
 
-    因為 `@MybatisTest` 儘支持 MyBatis 的測試, 沒有集成 jpa 的相關環境 
+    因为 `@MybatisTest` 尽支持 MyBatis 的测试, 没有集成 jpa 的相关环境 
   
-#### 1.6.10.7. 多條件動態查詢 
+#### 1.6.10.7. 多条件动态查询 
 
-可參閲下面兩篇文章（待驗證）
+可参阅下面两篇文章（待验证）
 
 1. [Spring-Data-JPA criteria 查询](https://www.jianshu.com/p/0939cec7e207)
 2. [Spring-Data-JPA 动态查询黑科技](https://www.jianshu.com/p/dbdf04070243)
@@ -975,19 +960,19 @@ spring:
 2. Windows环境 
 
     - [下载链接](https://github.com/tporadowski/redis/releases) 
-    - 解壓縮包, 並將目錄重命名為 `redis`
-    - 在目錄中運行 cmd 命令: `.\redis-server.exe redis.windows.conf`(不要關閉此cmd窗口)
+    - 解压缩包, 并将目录重命名为 `redis`
+    - 在目录中运行 cmd 命令: `.\redis-server.exe redis.windows.conf`(不要关闭此cmd窗口)
     
-##### 1.6.11.1.3. 測試 
-1. Linux環境 
+##### 1.6.11.1.3. 测试 
+1. Linux环境 
 
-2. Windows環境 
+2. Windows环境 
 
-    - 在 `redis` 目錄中運行 cmd 命令: `.\redis-cli.exe -h 127.0.0.1 -p 6379`
-    - 設置鍵值對: `set myKey abc`
-    - 獲取鍵值對: `get myKey`
+    - 在 `redis` 目录中运行 cmd 命令: `.\redis-cli.exe -h 127.0.0.1 -p 6379`
+    - 设置键值对: `set myKey abc`
+    - 获取键值对: `get myKey`
 
-#### 1.6.11.2. 添加依賴 
+#### 1.6.11.2. 添加依赖 
 
 ```
 <dependencies>
@@ -1008,7 +993,7 @@ spring:
 </dependencies>
 ``` 
 
-下載依賴: `mvn dependency:copy-dependencies` 
+下载依赖: `mvn dependency:copy-dependencies` 
 
 重新打包: `mvn clean package`
 
@@ -1023,7 +1008,7 @@ spring.session.redis.flush-mode=on_save # Sessions flush mode.
 spring.session.redis.namespace=spring:session # Namespace for keys used to store sessions.
 ``` 
 
-2. Redis 連接配置 
+2. Redis 连接配置 
 
 ```
 spring.redis.host=localhost # Redis server host.
@@ -1034,7 +1019,7 @@ spring.redis.database=0 # Redis server port.
 
 #### 1.6.11.4. 使用 Spring session 
 
-##### 1.6.11.4.1. 在控制器中創建登錄/獲取用戶/注銷的方法
+##### 1.6.11.4.1. 在控制器中创建登录/获取用户/注销的方法
 
 ```
 public class UserController {
@@ -1086,45 +1071,45 @@ public class UserController {
 }
 ```
 
-##### 1.6.11.4.2. 測試及驗證 
+##### 1.6.11.4.2. 测试及验证 
 
-1. postman 中調用控制器的登錄方法 
-2. 在 `redis` 目錄中運行 cmd 命令: `.\redis-cli.exe -h 127.0.0.1 -p 6379`
-3. 執行 `keys '*'` 命令, 可看到 `spring:session` 相關的 key 
-4. postman 中調用控制器的獲取用戶方法,可看到返回的用戶信息 
-5. 執行 `del {keys}` 命令,其中, `keys`是`3.`中執行結果的前綴`spring:session:sessions:{...}`的key
-6. postman 中調用控制器的獲取用戶方法,此時返回的用戶信息為null
+1. postman 中调用控制器的登录方法 
+2. 在 `redis` 目录中运行 cmd 命令: `.\redis-cli.exe -h 127.0.0.1 -p 6379`
+3. 执行 `keys '*'` 命令, 可看到 `spring:session` 相关的 key 
+4. postman 中调用控制器的获取用户方法,可看到返回的用户信息 
+5. 执行 `del {keys}` 命令,其中, `keys`是`3.`中执行结果的前缀`spring:session:sessions:{...}`的key
+6. postman 中调用控制器的获取用户方法,此时返回的用户信息为null
 
 ### 1.6.12. lombok
 #### 1.6.12.1. 官方文檔
-[鏈接](https://projectlombok.org/features/all)
+[链接](https://projectlombok.org/features/all)
 
-# 2. 異常處理
-## 2.1. IDEA 開發環境中, 修改了 html, 瀏覽器中訪問的 html 仍是修改前的版本 
-### 2.1.1. 問題原因: 
-1. maven 打包的文件還是修改前的文件 
+# 2. 异常处理
+## 2.1. IDEA 开发环境中, 修改了 html, 浏览器中访问的 html 仍是修改前的版本 
+### 2.1.1. 问题原因: 
+1. maven 打包的文件还是修改前的文件 
 2. IDEA 自身的毛病 
 
-### 2.1.2. 解決辦法: 
-1. 針對上述的原因1, 每次啟動項目前, 都執行一次 maven 打包指令 `mvn clean package`
-2. 重啟 IDEA
-3. 清除 IDEA 的設置緩存: `File -> Invalidate caches / Restart -> Invalidate / Restart` 
+### 2.1.2. 解决办法: 
+1. 针对上述的原因1, 每次启动项目前, 都执行一次 maven 打包指令 `mvn clean package`
+2. 重启 IDEA
+3. 清除 IDEA 的设置缓存: `File -> Invalidate caches / Restart -> Invalidate / Restart` 
 
-## 2.2. 單元測試的異常
-### 2.2.1. 依賴注入失敗
-1. 編譯器DEBUG日誌 
+## 2.2. 单元测试的异常
+### 2.2.1. 依赖注入失败
+1. 编译程序DEBUG日志 
 
 ```
 java.lang.IllegalStateException: Failed to load ApplicationContext
 ...
 Caused by: 
   org.springframework.beans.factory.UnsatisfiedDependencyException: 
-    Error creating bean with name '{類名}' defined in file [類文件路徑]:
+    Error creating bean with name '{类名}' defined in file [类文件路径]:
       Unsatisfied dependency expressed through constructor parameter 1; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException:
-        No qualifying bean of type '{類全路徑名}' available:
-          expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+        No qualifying bean of type '{类全路径名}' available:
+          expected at least 1 bean which qualifies as wire candidate. Dependency annotations: {}
 ``` 
 
-2. 解決思路 
+2. 解决思路 
 
-  - 排查 `@ComponentScan` 是否包含了用到的包, 如果是 `@ComponentScan("com.easy.base.*")` 那麼, spring會掃描 `base` 下註解為 `@Service`, `@Repository`, `@Component` 類, 如果是 `@ComponentScan("com.easy.base.service.*")` 那麼只會掃描 `service` 包裡的註解為 `@Service`, `@Repository`, `@Component` 的類
+  - 排查 `@ComponentScan` 是否包含了用到的包, 如果是 `@ComponentScan("com.easy.base.*")` 那么, spring会扫描 `base` 下批注为 `@Service`, `@Repository`, `@Component` 类, 如果是 `@ComponentScan("com.easy.base.service.*")` 那么只会扫描 `service` 包里的批注为 `@Service`, `@Repository`, `@Component` 的类
