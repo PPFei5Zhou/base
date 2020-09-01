@@ -19,4 +19,6 @@ public interface UserMapper extends BaseMapper {
     int removeObject();
 
     List<UserInfoDAO> listUser(UserDTO dto);
+
+    UserInfoDAO userInfo(String account);
 }

@@ -26,7 +26,7 @@ public class UserInfoEntity implements Serializable {
     @Column(name = "UserName")
     private String userName;
 
-    @Column(name = "Account")
+    @Column(name = "Account", unique = true)
     private String account;
 
     @Column(name = "Password")

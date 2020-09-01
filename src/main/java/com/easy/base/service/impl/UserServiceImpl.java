@@ -2,19 +2,30 @@ package com.easy.base.service.impl;
 
 import com.easy.base.dao.jpa.UserRepository;
 import com.easy.base.dao.mapper.UserMapper;
+import com.easy.base.domain.dao.RoleInfoDAO;
 import com.easy.base.domain.dao.UserInfoDAO;
+import com.easy.base.domain.dao.UserRoleDAO;
 import com.easy.base.domain.dto.BaseDTO;
 import com.easy.base.domain.dto.JsonResult;
 import com.easy.base.domain.dto.UserDTO;
 import com.easy.base.domain.entity.UserInfoEntity;
+import com.easy.base.domain.vo.RoleVO;
 import com.easy.base.domain.vo.UserVO;
 import com.easy.base.service.BaseService;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements BaseService {
+public class UserServiceImpl implements BaseService, UserDetailsService {
     private final UserMapper userMapper;
     private final UserRepository userRepository;
 
@@ -72,8 +83,6 @@ public class UserServiceImpl implements BaseService {
                 result = findAll();
             } else if ("FindByUserNameLike".equals(type)) {
                 result = findByUserNameLike(userDTO);
-            } else if ("login".equals(type)) {
-                result = login(userDTO);
             } else {
                 jsonResult.setErrorResult("沒有找到對應的方法, 請確認!");
                 result = jsonResult;
@@ -81,6 +90,20 @@ public class UserServiceImpl implements BaseService {
         }
 
         return result;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        UserInfoDAO userInfoDAO = GetUserInfoDAO(username);
+        if (userInfoDAO == null) {
+            throw new UsernameNotFoundException("用户名不存在");
+        }
+
+        for (RoleInfoDAO role : userInfoDAO.getUserRoles()) {
+            authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
+        }
+        return new User(userInfoDAO.getId(), userInfoDAO.getPassword(), authorities);
     }
 
     private JsonResult listBaseUserInfo(UserDTO dto) {
@@ -120,18 +143,46 @@ public class UserServiceImpl implements BaseService {
         JsonResult jsonResult = new JsonResult();
         try {
             UserInfoEntity userinfo = userRepository.findByAccountAndPasswordAndValidIsTrue(dto.getUserAccount(), dto.getPassword());
-            if (userinfo != null) {
-                UserVO userVo = new UserVO();
-                userVo.setId(userinfo.getId());
-                userVo.setAccount(userinfo.getAccount());
-                userVo.setUsername(userinfo.getUserName());
-                jsonResult.setObject(userVo);
-            } else {
+            if (userinfo == null) {
                 jsonResult.setErrorResult("账号/密码不正确");
+                return jsonResult;
             }
+
+            UserInfoDAO userInfoDAO = GetUserInfoDAO(userinfo.getUserName());
+
+            if (userInfoDAO == null) {
+                jsonResult.setErrorResult("账号状态异常");
+                return jsonResult;
+            }
+
+            List<RoleVO> roles = new ArrayList<>();
+            for (RoleInfoDAO role : userInfoDAO.getUserRoles()) {
+                RoleVO roleVO = new RoleVO();
+                roleVO.setId(role.getId());
+                roleVO.setRoleName(role.getRoleName());
+                roles.add(roleVO);
+            }
+
+            UserVO userVo = new UserVO();
+            userVo.setId(userInfoDAO.getId());
+            userVo.setAccount(userInfoDAO.getAccount());
+            userVo.setUsername(userInfoDAO.getUserName());
+            userVo.setRoles(roles);
+
+            jsonResult.setObject(userVo);
+            return jsonResult;
         } catch (Exception ex) {
             jsonResult.setErrorResult(ex.getMessage());
+            return jsonResult;
         }
-        return jsonResult;
+    }
+
+    private UserInfoDAO GetUserInfoDAO(String account) {
+        try {
+            return userMapper.userInfo(account);
+        } catch (Exception ex) {
+            System.out.println("GetUserInfoDAO, " + ex.getMessage());
+            return null;
+        }
     }
 }

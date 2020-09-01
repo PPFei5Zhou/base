@@ -1,15 +1,15 @@
 package com.easy.base.domain.dao;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-@AllArgsConstructor
-public class UserInfoDAO {
+@ToString
+public class UserInfoDAO extends BaseDAO {
     private String id;
     private String userName;
     private String account;
@@ -19,4 +19,5 @@ public class UserInfoDAO {
     private Timestamp createDt;
     private String updateBy;
     private Timestamp updateDt;
+    private List<RoleInfoDAO> userRoles;
 }

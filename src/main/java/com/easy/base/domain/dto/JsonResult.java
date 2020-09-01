@@ -2,12 +2,16 @@ package com.easy.base.domain.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
+@ToString
 public class JsonResult implements Serializable {
+    private static final long serialVersionUID = 2757646236478345787L;
+
     /**
      * 設置 List 結果
      * @param listTotalCount List 列表總數

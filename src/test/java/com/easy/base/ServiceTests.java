@@ -25,8 +25,7 @@ public class ServiceTests {
     public void userServiceTest() {
         UserDTO dto = new UserDTO();
         dto.setUserAccount("admin");
-        dto.setUserName("張");
-        dto.setMethodName("FindByUserNameLike");
+        dto.setMethodName("ListBaseUserInfo");
         JsonResult jsonResult = userService.listObjectFactory(dto);
         System.out.println(jsonResult.toString());
     }

@@ -11,17 +11,54 @@
         <result property="createDt" column="user_CreateDt"/>
         <result property="updateBy" column="user_UpdateBy"/>
         <result property="UpdateDt" column="user_UpdateDt"/>
+        <collection property="userRoles" resultMap="roleInfo"/>
+    </resultMap>
+
+    <resultMap id="roleInfo" type="com.easy.base.domain.dao.RoleInfoDAO">
+        <id property="id" column="ri_ID"/>
+        <result property="roleName" column="ri_RoleName"/>
+        <result property="valid" column="ri_Valid"/>
+        <result property="createBy" column="ri_CreateBy"/>
+        <result property="createDt" column="ri_CreateDt"/>
+        <result property="updateBy" column="ri_UpdateBy"/>
+        <result property="updateDt" column="ri_UpdateDt"/>
+    </resultMap>
+
+    <resultMap id="userRole" type="com.easy.base.domain.dao.UserRoleDAO">
+        <id property="id" column="ur_ID"/>
+        <result property="userID" column="ur_UserID"/>
+        <result property="roleID" column="ur_RoleID"/>
+        <result property="valid" column="ur_Valid"/>
+        <association property="roleInfo" resultMap="roleInfo"/>
     </resultMap>
 
     <sql id="UserColumn">
-        ID AS user_ID,
-        UserName AS user_UserName,
-        Account AS user_Account,
-        Password AS user_Password,
-        CreateBy AS user_CreateBy,
-        CreateDt AS user_CreateDt,
-        UpdateBy AS user_UpdateBy,
-        UpdateDt AS user_UpdateDt
+        ui.ID AS user_ID,
+        ui.UserName AS user_UserName,
+        ui.Account AS user_Account,
+        ui.Password AS user_Password,
+        ui.Valid AS user_Valid,
+        ui.CreateBy AS user_CreateBy,
+        ui.CreateDt AS user_CreateDt,
+        ui.UpdateBy AS user_UpdateBy,
+        ui.UpdateDt AS user_UpdateDt,
+    </sql>
+
+    <sql id="RoleInfoColumn">
+        ri.ID as ri_ID,
+        ri.RoleName as ri_RoleName,
+        ri.Valid as ri_Valid,
+        ri.CreateBy as ri_CreateBy,
+        ri.CreateDt as ri_CreateDt,
+        ri.UpdateBy as ri_UpdateBy,
+        ri.UpdateDt as ri_UpdateDt,
+    </sql>
+
+    <sql id="UserRoleColumn">
+        ur.ID as ur_ID,
+        ur.UserID as ur_UserID,
+        ur.RoleID as ur_RoleID,
+        ur.Valid as ur_Valid,
     </sql>
 
     <insert id="saveObject">
@@ -80,15 +117,36 @@
     </update>
 
     <select id="listUser" resultMap="user">
-        SELECT
-            <include refid="UserColumn" />
-        FROM
-        userinfo
+        select
+        <trim suffixOverrides=",">
+            <include refid="UserColumn"/>
+            <include refid="RoleInfoColumn"/>
+            <include refid="UserRoleColumn"/>
+        </trim>
+        from userinfo ui
+        left join userrole ur on ur.UserID = ui.ID and ur.Valid = 1
+        left join roleinfo ri on ri.ID = ur.RoleID and ri.Valid = 1
         <where>
-            AND Valid = 1
+            AND ui.Valid = 1
             <if test="userAccount != null and userAccount != ''">
-                AND Account = #{userAccount}
+                AND ui.Account = #{userAccount}
             </if>
+        </where>
+    </select>
+
+    <select id="userInfo" resultMap="user">
+        select
+        <trim suffixOverrides=",">
+            <include refid="UserColumn"/>
+            <include refid="RoleInfoColumn"/>
+            <include refid="UserRoleColumn"/>
+        </trim>
+        from userinfo ui
+        left join userrole ur on ur.UserID = ui.ID and ur.Valid = 1
+        left join roleinfo ri on ri.ID = ur.RoleID and ri.Valid = 1
+        <where>
+            AND ui.Valid = 1
+            AND ui.Account = #{account}
         </where>
     </select>
 </mapper>

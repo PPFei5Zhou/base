@@ -4,6 +4,8 @@ import com.easy.base.domain.dto.JsonResult;
 import com.easy.base.domain.dto.UserDTO;
 import com.easy.base.domain.vo.UserVO;
 import com.easy.base.service.impl.UserServiceImpl;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,25 +24,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    @RequestMapping(value = "/Login", method = RequestMethod.POST)
-    public JsonResult login(HttpServletRequest request, String account, String password) {
-        HttpSession session = request.getSession();
-        JsonResult jsonResult = new JsonResult();
-        UserDTO userDTO = new UserDTO(account, password);
-        userDTO.setMethodName("login");
-        JsonResult result = userService.listObjectFactory(userDTO);
-        UserVO userVO = (UserVO)result.getObj();
-        UserVO sessionObj = (UserVO)session.getAttribute("User");
-        if (Objects.equals(sessionObj, userVO)) {
-            jsonResult.setObject(sessionObj);
-        } else {
-            session.setAttribute("User", userVO);
-            jsonResult.setObject(userVO);
-        }
-        jsonResult.setResult(true);
-        return jsonResult;
-    }
-
     @RequestMapping(value = "/Logout", method = RequestMethod.POST)
     public JsonResult logout(HttpServletRequest request) {
         HttpSession session = request.getSession();
@@ -55,16 +38,9 @@ public class UserController {
 
     @RequestMapping(value = "/GetSessionUser", method = RequestMethod.GET)
     public JsonResult getSessionUser(HttpServletRequest request) {
-        HttpSession session = request.getSession();
         JsonResult jsonResult = new JsonResult();
-        UserVO sessionObj = (UserVO)session.getAttribute("User");
-        if (sessionObj != null) {
-            jsonResult.setResult(true);
-            jsonResult.setObject(sessionObj);
-        } else {
-            jsonResult.setResult(false);
-            session.removeAttribute("User");
-        }
+        jsonResult.setResult(true);
+        jsonResult.setObj(SecurityContextHolder.getContext().getAuthentication().getName());
         return jsonResult;
     }
 }
