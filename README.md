@@ -58,6 +58,7 @@
         - [1.6.11.4.2. 测试及验证](#161142-测试及验证)
     - [1.6.12. lombok](#1612-lombok)
       - [1.6.12.1. 官方文檔](#16121-官方文檔)
+    - [1.6.13. 整合Spring security](#1613-整合Spring-security)
 - [2. 异常处理](#2-异常处理)
   - [2.1. IDEA 开发环境中, 修改了 html, 浏览器中访问的 html 仍是修改前的版本](#21-idea-开发环境中-修改了-html-浏览器中访问的-html-仍是修改前的版本)
     - [2.1.1. 问题原因:](#211-问题原因)
@@ -1083,6 +1084,10 @@ public class UserController {
 ### 1.6.12. lombok
 #### 1.6.12.1. 官方文檔
 [链接](https://projectlombok.org/features/all)
+
+### 1.6.13. 整合Spring security
+
+参考[博客](https://blog.csdn.net/yuanlaijike/category_9283872.html)
 
 # 2. 异常处理
 ## 2.1. IDEA 开发环境中, 修改了 html, 浏览器中访问的 html 仍是修改前的版本 
