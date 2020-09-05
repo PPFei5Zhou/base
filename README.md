@@ -1087,7 +1087,9 @@ public class UserController {
 
 ### 1.6.13. 整合Spring security
 
-参考[博客](https://blog.csdn.net/yuanlaijike/category_9283872.html)
+参考[博客](https://blog.csdn.net/yuanlaijike/category_9283872.html)  
+
+实现了登录验证, 异常处理, 自定义表单登录, 登录管理, 角色继承
 
 # 2. 异常处理
 ## 2.1. IDEA 开发环境中, 修改了 html, 浏览器中访问的 html 仍是修改前的版本 
