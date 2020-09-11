@@ -36,6 +36,45 @@ public class JsonResult implements Serializable {
     }
 
     /**
+     * 成功
+     */
+    public void success() {
+        this.result = true;
+        this.listTotalCount = 0;
+        this.message = "";
+        this.obj = null;
+    }
+
+    /**
+     * 成功
+     * @param message
+     */
+    public void success(String message) {
+        success();
+        this.message = message;
+    }
+
+    /**
+     * 成功
+     * @param obj
+     */
+    public void success(Object obj) {
+        success();
+        this.obj = obj;
+    }
+
+    /**
+     * 成功
+     * @param message
+     * @param obj
+     */
+    public void success(String message, Object obj) {
+        success();
+        this.message = message;
+        this.obj = obj;
+    }
+
+    /**
      * 設置錯誤狀態的返回類型
      */
     public void setErrorResult() {

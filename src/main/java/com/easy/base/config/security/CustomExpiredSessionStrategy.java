@@ -1,6 +1,5 @@
 package com.easy.base.config.security;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.session.SessionInformationExpiredEvent;
@@ -8,8 +7,6 @@ import org.springframework.security.web.session.SessionInformationExpiredStrateg
 
 import javax.servlet.ServletException;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class CustomExpiredSessionStrategy implements SessionInformationExpiredStrategy {
 //    private ObjectMapper objectMapper = new ObjectMapper();

@@ -1,6 +1,9 @@
 package com.easy.base.config.security;
 
 import com.easy.base.service.impl.UserServiceImpl;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -16,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
+    private Logger logger = LoggerFactory.getLogger(getClass());
     private UserServiceImpl userService;
 
     public CustomAuthenticationProvider(UserServiceImpl userService) {
@@ -37,9 +41,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         UserDetails userDetails = userService.loadUserByUsername(username);
 
         if (!userDetails.getPassword().equals(password)) {
-            throw new BadCredentialsException("密码错误");
+            throw new BadCredentialsException("账号或密码错误");
         }
-        return new UsernamePasswordAuthenticationToken(username, password, userDetails.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
     }
 
     @Override
@@ -50,6 +54,10 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     private boolean validateVerify(String verifyCode) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String validateCode = ((String) request.getSession().getAttribute("validateCode")).toLowerCase();
+        logger.info("验证码: " + validateCode + ", 用户输入: " + verifyCode);
+        if (validateCode == null) {
+            return false;
+        }
         verifyCode = verifyCode.toLowerCase();
         return validateCode.equals(verifyCode);
     }

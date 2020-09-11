@@ -17,12 +17,12 @@ public class VerifyServlet extends HttpServlet {
     /**
      * 验证码图片的宽度。
      */
-    private int width = 100;
+    private int width = 90;
 
     /**
      *  验证码图片的高度。
      */
-    private int height = 30;
+    private int height = 38;
 
     /**
      * 验证码字符个数
@@ -37,7 +37,7 @@ public class VerifyServlet extends HttpServlet {
     /**
      * 干扰线数量
      */
-    private int interLine = 16;
+    private int interLine = 32;
 
     /**
      * 第一个字符的x轴值，因为后面的字符坐标依次递增，所以它们的x轴值是codeX的倍数
@@ -86,7 +86,7 @@ public class VerifyServlet extends HttpServlet {
         //codeCount+1     //等比分配显示的宽度，包括左右两边的空格
         codeX = (width-4) / (codeCount+1);
         //height - 10 集中显示验证码
-        fontHeight = height - 10;
+        fontHeight = height - 5;
         codeY = height - 7;
     }
 
@@ -111,7 +111,7 @@ public class VerifyServlet extends HttpServlet {
         // 设置字体。
         gd.setFont(font);
         // 画边框。
-        gd.setColor(Color.BLACK);
+        gd.setColor(new Color(230, 230, 230));
         gd.drawRect(0, 0, width - 1, height - 1);
         // 随机产生16条干扰线，使图象中的认证码不易被其它程序探测到。
         gd.setColor(Color.gray);

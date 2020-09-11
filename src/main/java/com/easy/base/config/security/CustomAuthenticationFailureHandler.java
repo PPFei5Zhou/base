@@ -1,5 +1,6 @@
 package com.easy.base.config.security;
 
+import com.easy.base.domain.dto.JsonResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,9 +26,10 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
     @Override
     public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
         logger.info("登录失败");
-
-        httpServletResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        JsonResult jsonResult = new JsonResult();
+        jsonResult.setErrorResult(e.getMessage());
+        httpServletResponse.setStatus(HttpStatus.OK.value());
         httpServletResponse.setContentType("application/json;charset=UTF-8");
-        httpServletResponse.getWriter().write(objectMapper.writeValueAsString(e.getMessage()));
+        httpServletResponse.getWriter().write(objectMapper.writeValueAsString(jsonResult));
     }
 }
