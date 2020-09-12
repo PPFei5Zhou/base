@@ -106,7 +106,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .usernameParameter("username")
 //                .passwordParameter("password")
                 .and()
-                .logout().logoutUrl("/User/Logout")
+                .logout().logoutUrl("/Logout")
                 .permitAll()
                 .and()
                 .sessionManagement()

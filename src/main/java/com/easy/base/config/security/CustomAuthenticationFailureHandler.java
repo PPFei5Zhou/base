@@ -27,7 +27,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
     public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
         logger.info("登录失败");
         JsonResult jsonResult = new JsonResult();
-        jsonResult.setErrorResult(e.getMessage());
+        jsonResult.failed(e.getMessage());
         httpServletResponse.setStatus(HttpStatus.OK.value());
         httpServletResponse.setContentType("application/json;charset=UTF-8");
         httpServletResponse.getWriter().write(objectMapper.writeValueAsString(jsonResult));

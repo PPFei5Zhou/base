@@ -15,6 +15,7 @@ public class UserDTO extends BaseDTO {
         this.password = password;
     }
 
+    private String id;
     private String userAccount;
     private String userName;
     private String password;

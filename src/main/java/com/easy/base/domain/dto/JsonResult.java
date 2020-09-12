@@ -77,7 +77,7 @@ public class JsonResult implements Serializable {
     /**
      * 設置錯誤狀態的返回類型
      */
-    public void setErrorResult() {
+    public void failed() {
         this.result = false;
         this.obj = null;
         this.listTotalCount = 0;
@@ -87,8 +87,8 @@ public class JsonResult implements Serializable {
      * 設置錯誤信息的返回類型
      * @param message 自定義的錯誤信息
      */
-    public void setErrorResult(String message) {
-        setErrorResult();
+    public void failed(String message) {
+        failed();
         this.message = message;
     }
 
