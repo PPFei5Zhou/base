@@ -1,11 +1,11 @@
 package com.easy.base;
 
-import com.easy.base.domain.dto.JsonResult;
-import com.easy.base.domain.dto.UserDTO;
-import com.easy.base.service.impl.UserServiceImpl;
+import com.easy.base.utils.RedisUtil;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mybatis.spring.annotation.MapperScan;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,19 +14,22 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@MapperScan("com.easy.base.dao.mapper")
 @ComponentScan("com.easy.base")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class ServiceTests {
+public class RedisTest {
+    private Logger logger = LoggerFactory.getLogger(getClass());
+    
     @Autowired
-    private UserServiceImpl userService;
+    private RedisUtil redisUtil;
 
     @Test
-    public void userServiceTest() {
-        UserDTO dto = new UserDTO();
-        dto.setUserAccount("admin");
-        dto.setMethodName("");
-        JsonResult jsonResult = userService.listObjectFactory(dto);
-        System.out.println(jsonResult.toString());
+    public void TestRedis() {
+        boolean result = redisUtil.set("key", "value");
+        logger.info(String.valueOf(result));
+        Object object = redisUtil.get("key");
+        logger.info(String.valueOf(object));
+        redisUtil.del("key");
+        object = redisUtil.get("key");
+        logger.info(String.valueOf(object));
     }
 }
