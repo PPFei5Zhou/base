@@ -3,7 +3,7 @@ spring:
   profiles:
     active: dev
   jpa:
-    database: sql_server
+    database: mysql
     show-sql: true
     open-in-view: false
     hibernate:
@@ -16,8 +16,8 @@ spring:
   session:
     store-type: redis
     redis:
-      flush-mode: on_save
-      namespace: projectbase:session
+      flush-mode: ON_SAVE
+      namespace: base:session
   redis:
     host: localhost
     port: 6379
