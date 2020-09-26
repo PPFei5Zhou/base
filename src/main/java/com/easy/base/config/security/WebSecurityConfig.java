@@ -117,7 +117,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .sessionRegistry(sessionRegistry()); // 当达到最大值时，旧用户被踢出后的操作
 
         // 关闭CSRF跨域
-        http.csrf().disable();
+        http.csrf().disable().headers().frameOptions().sameOrigin();
     }
 
     @Override
