@@ -6,9 +6,14 @@ import lombok.ToString;
 
 import java.io.Serializable;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 @Data
 @NoArgsConstructor
 @ToString
+@Scope("prototype")
+@Component
 public class JsonResult implements Serializable {
     private static final long serialVersionUID = 2757646236478345787L;
 

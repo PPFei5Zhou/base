@@ -34,3 +34,10 @@ server:
 mybatis:
   type-aliases-package: com.wia.base.model
   mapper-locations: "classpath:mappers/*.xml"
+
+# Share 服务器
+smb:
+  name: Share
+  password: Share
+  ip: 192.168.1.110
+  folder: Share
