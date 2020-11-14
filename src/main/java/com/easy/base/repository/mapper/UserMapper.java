@@ -1,6 +1,6 @@
-package com.easy.base.dao.mapper;
+package com.easy.base.repository.mapper;
 
-import com.easy.base.dao.BaseMapper;
+import com.easy.base.repository.BaseMapper;
 import com.easy.base.domain.dao.UserInfoDAO;
 import com.easy.base.domain.dto.UserDTO;
 import org.springframework.stereotype.Repository;

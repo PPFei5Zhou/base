@@ -75,7 +75,7 @@
     <!-- mybatis logger -->
     <logger name="org.apache.ibatis" level="DEBUG"/>
     <logger name="java.sql" level="DEBUG"/>
-    <logger name="com.easy.base.dao.mapper" level="DEBUG"/>
+    <logger name="com.easy.base.repository.mapper" level="DEBUG"/>
     <!-- Spring framework logger -->
     <logger name="org.springframework" level="INFO" additivity="false"/>
 

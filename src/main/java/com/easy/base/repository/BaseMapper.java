@@ -1,4 +1,4 @@
-package com.easy.base.dao;
+package com.easy.base.repository;
 
 public interface BaseMapper {
     int saveObject();

@@ -673,7 +673,7 @@ Tips: 解压目录中最好不要包含空格
     在 `dao` 包中创建接口
 
     ```
-    package com.easy.base.dao;
+    package com.easy.base.repository;
 
     public interface BaseDAO {
         int saveObject();
