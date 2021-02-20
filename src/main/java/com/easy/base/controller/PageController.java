@@ -15,12 +15,12 @@ import java.io.IOException;
 public class PageController {
     @RequestMapping("Login")
     public String login() {
-        return  "/html/login.html";
+        return  "login";
     }
 
     @RequestMapping("Index")
     public String index() {
-        return "/html/index.html";
+        return "index";
     }
 
     @RequestMapping("/LoginError")
@@ -37,6 +37,6 @@ public class PageController {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @RequestMapping("/Invalid")
     public String invalid() {
-        return "Session 已过期，请重新登录";
+        return "invalid";
     }
 }

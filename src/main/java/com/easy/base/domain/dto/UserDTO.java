@@ -1,5 +1,6 @@
 package com.easy.base.domain.dto;
 
+import com.easy.base.domain.dao.UserInfoDAO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -9,14 +10,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDTO extends BaseDTO {
-    public UserDTO(String userAccount, String password) {
-        this.userAccount = userAccount;
-        this.password = password;
-    }
-
-    private String id;
-    private String userAccount;
-    private String userName;
-    private String password;
+public class UserDTO extends UserInfoDAO {
+    private int page;
+    private int pageSize;
+    private String methodName;
 }

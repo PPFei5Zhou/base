@@ -76,12 +76,12 @@ $(function() {
 
 function RenderUserInfo() {
     $.ajax({
-        url: '/base/User/GetSessionUser',
+        url: 'User/GetSessionUser',
         type: 'get',
         dataType: 'json',
         success: function(data) {
             if (data.result) {
-                $('#labelUserName').text(data.obj.username);
+                $('#labelUserName').text(data.obj.userName);
             }
         }
     });

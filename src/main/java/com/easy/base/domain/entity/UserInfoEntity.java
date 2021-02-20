@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @EqualsAndHashCode
 @Entity
-@Table(name = "userinfo")
+@Table(name = "user_info")
 public class UserInfoEntity implements Serializable {
     private static final long serialVersionUID = 2432808679310666404L;
 
@@ -26,8 +26,8 @@ public class UserInfoEntity implements Serializable {
     @Column(name = "UserName")
     private String userName;
 
-    @Column(name = "Account", unique = true)
-    private String account;
+    @Column(name = "UserAccount", unique = true)
+    private String userAccount;
 
     @Column(name = "Password")
     private String password;
@@ -40,4 +40,10 @@ public class UserInfoEntity implements Serializable {
 
     @Column(name = "CreateDt")
     private Timestamp createDt;
+
+    @Column(name = "UpdateBy")
+    private String updateBy;
+
+    @Column(name = "UpdateDt")
+    private Timestamp updateDt;
 }

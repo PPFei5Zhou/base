@@ -6,10 +6,11 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
-@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
 @ToString
 public class RoleInfoDAO extends BaseDAO {
-    private int id;
+    private String id;
+    private String roleCode;
     private String roleName;
 }

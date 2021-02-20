@@ -4,18 +4,19 @@
     <resultMap id="user" type="com.easy.base.domain.dao.UserInfoDAO">
         <id property="id" column="user_ID"/>
         <result property="userName" column="user_UserName"/>
-        <result property="account" column="user_Account"/>
+        <result property="userAccount" column="user_UserAccount"/>
         <result property="password" column="user_Password"/>
         <result property="valid" column="user_Valid"/>
         <result property="createBy" column="user_CreateBy"/>
         <result property="createDt" column="user_CreateDt"/>
         <result property="updateBy" column="user_UpdateBy"/>
-        <result property="UpdateDt" column="user_UpdateDt"/>
-        <collection property="userRoles" resultMap="roleInfo"/>
+        <result property="updateDt" column="user_UpdateDt"/>
+        <collection property="userRoles" column="user_UserAccount" select="selectUserRoleByUserAccount"/>
     </resultMap>
 
     <resultMap id="roleInfo" type="com.easy.base.domain.dao.RoleInfoDAO">
         <id property="id" column="ri_ID"/>
+        <result property="roleCode" column="ri_RoleCode"/>
         <result property="roleName" column="ri_RoleName"/>
         <result property="valid" column="ri_Valid"/>
         <result property="createBy" column="ri_CreateBy"/>
@@ -26,47 +27,61 @@
 
     <resultMap id="userRole" type="com.easy.base.domain.dao.UserRoleDAO">
         <id property="id" column="ur_ID"/>
-        <result property="userID" column="ur_UserID"/>
-        <result property="roleID" column="ur_RoleID"/>
+        <result property="userAccount" column="ur_UserAccount"/>
+        <result property="roleCode" column="ur_RoleCode"/>
         <result property="valid" column="ur_Valid"/>
-        <association property="roleInfo" resultMap="roleInfo"/>
+        <result property="createBy" column="ur_CreateBy"/>
+        <result property="createDt" column="ur_CreateDt"/>
+        <result property="updateBy" column="ur_UpdateBy"/>
+        <association property="roleInfo" column="ur_RoleCode" select="selectRoleInfoByRoleCode"/>
     </resultMap>
 
-    <sql id="UserColumn">
-        ui.ID AS user_ID,
-        ui.UserName AS user_UserName,
-        ui.Account AS user_Account,
-        ui.Password AS user_Password,
-        ui.Valid AS user_Valid,
-        ui.CreateBy AS user_CreateBy,
-        ui.CreateDt AS user_CreateDt,
-        ui.UpdateBy AS user_UpdateBy,
-        ui.UpdateDt AS user_UpdateDt,
+    <sql id="UserInfoColumn">
+        <!--@sql select -->
+        ID AS user_ID,
+        UserName AS user_UserName,
+        UserAccount AS user_UserAccount,
+        Password AS user_Password,
+        Valid AS user_Valid,
+        CreateBy AS user_CreateBy,
+        CreateDt AS user_CreateDt,
+        UpdateBy AS user_UpdateBy,
+        UpdateDt AS user_UpdateDt
+        <!--@sql from user_info -->
     </sql>
 
     <sql id="RoleInfoColumn">
-        ri.ID as ri_ID,
-        ri.RoleName as ri_RoleName,
-        ri.Valid as ri_Valid,
-        ri.CreateBy as ri_CreateBy,
-        ri.CreateDt as ri_CreateDt,
-        ri.UpdateBy as ri_UpdateBy,
-        ri.UpdateDt as ri_UpdateDt,
+        <!--@sql select -->
+        ID as ri_ID,
+        RoleCode as ri_RoleCode,
+        RoleName as ri_RoleName,
+        Valid as ri_Valid,
+        CreateBy as ri_CreateBy,
+        CreateDt as ri_CreateDt,
+        UpdateBy as ri_UpdateBy,
+        UpdateDt as ri_UpdateDt
+        <!--@sql from role_info -->
     </sql>
 
     <sql id="UserRoleColumn">
-        ur.ID as ur_ID,
-        ur.UserID as ur_UserID,
-        ur.RoleID as ur_RoleID,
-        ur.Valid as ur_Valid,
+        <!--@sql select -->
+        ID as ur_ID,
+        UserAccount as ur_UserAccount,
+        RoleCode as ur_RoleCode,
+        Valid as ur_Valid,
+        CreateBy as ur_CreateBy,
+        CreateDt as ur_CreateDt,
+        UpdateBy as ur_UpdateBy,
+        UpdateDt as ur_UpdateDt
+        <!--@sql from user_role -->
     </sql>
 
-    <insert id="saveObject">
-        INSERT INTO userinfo
+    <insert id="insertEntity">
+        INSERT INTO user_info
         (
             ID,
             UserName,
-            Account,
+            UserAccount,
             Password,
             CreateBy,
             CreateDt,
@@ -76,7 +91,7 @@
         (
             #{id},
             #{userName},
-            #{account},
+            #{userAccount},
             #{password},
             #{createBy},
             now(),
@@ -84,10 +99,10 @@
         )
     </insert>
 
-    <update id="updateObject">
+    <update id="updateEntity">
         UPDATE
-        userinfo
-        <trim prefix="SET" suffixOverrides=",">
+        user_info
+        <set>
             <if test="userName != null and userName != ''">
                 UserName = #{userName},
             </if>
@@ -95,58 +110,90 @@
                 Password = #{password},
             </if>
             <if test="updateBy != null and updateBy != ''">
-                UpdateBy = #{updateBy}
+                UpdateBy = #{updateBy},
             </if>
-            <if test="1 = 1">
-                UpdateDt = now(),
-            </if>
-        </trim>
+            UpdateDt = now()
+        </set>
         WHERE
             ID = #{id}
         AND
             Valid = 1
     </update>
 
-    <update id="removeObject">
+    <update id="removeEntity">
         UPDATE
-            userinfo
+            user_info
         SET
             Valid = 0
         WHERE
-            ID = #{id}
+            ID IN
+        <foreach collection="ids" item="id" index="index" open="(" separator="," close=")">
+            #{id}
+        </foreach>
     </update>
 
-    <select id="listUser" resultMap="user">
+    <select id="selectEntities" resultMap="user">
+        with list as (
+            select
+                dense_rank() over(order by UserAccount) as rn,
+                <include refid="UserInfoColumn"/>
+            from user_info
+            <where>
+                AND Valid = 1
+                <if test="model.userAccount != null and model.userAccount != ''">
+                    AND UserAccount = #{model.userAccount}
+                </if>
+                <if test="model.userName != null and model.userName != ''">
+                    and UserName like '%' + #{model.userName} + '%'
+                </if>
+            </where>
+        )
+
         select
-        <trim suffixOverrides=",">
-            <include refid="UserColumn"/>
-            <include refid="RoleInfoColumn"/>
-            <include refid="UserRoleColumn"/>
-        </trim>
-        from userinfo ui
-        left join userrole ur on ur.UserID = ui.ID and ur.Valid = 1
-        left join roleinfo ri on ri.ID = ur.RoleID and ri.Valid = 1
+            *
+        from list
+        where rn <![CDATA[<=]]> #{page} * #{limit}
+          and rn > (#{page} - 1) * #{limit}
+    </select>
+
+    <select id="countSelect" resultType="integer">
+        select
+            count(1)
+        from user_info
         <where>
-            AND ui.Valid = 1
+            AND Valid = 1
             <if test="userAccount != null and userAccount != ''">
-                AND ui.Account = #{userAccount}
+                AND UserAccount = #{userAccount}
+            </if>
+            <if test="userName != null and userName != ''">
+                and UserName like '%' + #{userName} + '%'
             </if>
         </where>
     </select>
 
-    <select id="userInfo" resultMap="user">
+    <select id="selectEntityById" resultMap="user">
         select
-        <trim suffixOverrides=",">
-            <include refid="UserColumn"/>
-            <include refid="RoleInfoColumn"/>
-            <include refid="UserRoleColumn"/>
-        </trim>
-        from userinfo ui
-        left join userrole ur on ur.UserID = ui.ID and ur.Valid = 1
-        left join roleinfo ri on ri.ID = ur.RoleID and ri.Valid = 1
+            <include refid="UserInfoColumn"/>
+        from user_info
         <where>
-            AND ui.Valid = 1
-            AND ui.Account = #{account}
+            AND Valid = 1
+            AND UserAccount = #{account}
         </where>
+    </select>
+
+    <select id="selectRoleInfoByRoleCode" resultMap="roleInfo">
+        select
+            <include refid="RoleInfoColumn"/>
+        from role_info
+        where RoleCode = #{roleCode}
+          and Valid = 1
+    </select>
+
+    <select id="selectUserRoleByUserAccount" resultMap="userRole">
+        select
+            <include refid="UserRoleColumn"/>
+        from user_role
+        where Valid = 1
+          and UserAccount = #{userAccount}
     </select>
 </mapper>

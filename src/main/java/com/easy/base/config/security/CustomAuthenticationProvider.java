@@ -1,6 +1,6 @@
 package com.easy.base.config.security;
 
-import com.easy.base.service.impl.UserServiceImpl;
+import com.easy.base.service.impl.UserService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,16 +15,18 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
     private Logger logger = LoggerFactory.getLogger(getClass());
-    private UserServiceImpl userService;
 
-    public CustomAuthenticationProvider(UserServiceImpl userService) {
-        this.userService = userService;
-    }
+    @Resource
+    private UserService userService;
+
+    @Resource
+    private HttpServletRequest request;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -52,12 +54,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     }
 
     private boolean validateVerify(String verifyCode) {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String validateCode = ((String) request.getSession().getAttribute("validateCode")).toLowerCase();
         logger.info("验证码: " + validateCode + ", 用户输入: " + verifyCode);
-        if (validateCode == null) {
-            return false;
-        }
         verifyCode = verifyCode.toLowerCase();
         return validateCode.equals(verifyCode);
     }

@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@MapperScan("com.easy.base.dao.mapper")
+@MapperScan("com.easy.base.repository.mapper")
 @EnableRedisHttpSession
 @EnableTransactionManagement
 @SpringBootApplication

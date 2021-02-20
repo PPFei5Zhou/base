@@ -12,12 +12,12 @@ import java.util.List;
 public class UserInfoDAO extends BaseDAO {
     private String id;
     private String userName;
-    private String account;
+    private String userAccount;
     private String password;
     private boolean valid;
     private String createBy;
     private Timestamp createDt;
     private String updateBy;
     private Timestamp updateDt;
-    private List<RoleInfoDAO> userRoles;
+    private List<UserRoleDAO> userRoles;
 }

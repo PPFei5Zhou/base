@@ -12,4 +12,4 @@ spring:
 
 logging:
   level:
-    com.easy.base.dao.mapper: debug
+    com.easy.base.repository.mapper: debug

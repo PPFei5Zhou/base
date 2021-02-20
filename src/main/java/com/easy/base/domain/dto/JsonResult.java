@@ -6,95 +6,61 @@ import lombok.ToString;
 
 import java.io.Serializable;
 
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 @Data
 @NoArgsConstructor
 @ToString
-@Scope("prototype")
-@Component
-public class JsonResult implements Serializable {
+public class JsonResult<T> implements Serializable {
     private static final long serialVersionUID = 2757646236478345787L;
 
-    /**
-     * 設置 List 結果
-     * @param listTotalCount List 列表總數
-     * @param obj List 類型
-     */
-    public void setList(int listTotalCount, Object obj) {
-        this.result = true;
-        this.listTotalCount = listTotalCount;
-        this.message = "";
-        this.obj = obj;
-    }
-
-    /**
-     * 設置 Object 返回結果
-     * @param obj 任意類型
-     */
-    public void setObject(Object obj) {
-        this.result = true;
-        this.listTotalCount = 0;
-        this.message = "";
-        this.obj = obj;
-    }
-
-    /**
-     * 成功
-     */
-    public void success() {
-        this.result = true;
-        this.listTotalCount = 0;
+    JsonResult(boolean result) {
+        this.result = result;
         this.message = "";
         this.obj = null;
+        this.count = 0;
     }
 
-    /**
-     * 成功
-     * @param message
-     */
-    public void success(String message) {
-        success();
+    JsonResult(boolean result, String message) {
+        this.result = result;
         this.message = message;
-    }
-
-    /**
-     * 成功
-     * @param obj
-     */
-    public void success(Object obj) {
-        success();
-        this.obj = obj;
-    }
-
-    /**
-     * 成功
-     * @param message
-     * @param obj
-     */
-    public void success(String message, Object obj) {
-        success();
-        this.message = message;
-        this.obj = obj;
-    }
-
-    /**
-     * 設置錯誤狀態的返回類型
-     */
-    public void failed() {
-        this.result = false;
         this.obj = null;
-        this.listTotalCount = 0;
+        this.count = 0;
     }
 
-    /**
-     * 設置錯誤信息的返回類型
-     * @param message 自定義的錯誤信息
-     */
-    public void failed(String message) {
-        failed();
+    JsonResult(boolean result, T obj) {
+        this.result = result;
+        this.message = "";
+        this.obj = obj;
+        this.count = 0;
+    }
+
+    JsonResult(boolean result, T obj, String message) {
+        this.result = result;
         this.message = message;
+        this.obj = obj;
+        this.count = 0;
+    }
+
+    JsonResult(boolean result, T obj, int count) {
+        this.result = result;
+        this.message = "";
+        this.obj = obj;
+        this.count = count;
+    }
+
+    public static <T> JsonResult<T> CreateResult(boolean result) {
+        return new JsonResult<>(result);
+    }
+
+    public static <T> JsonResult<T> CreateResult(boolean result, String message) {
+        return new JsonResult<>(result, message);
+    }
+
+    public static <T> JsonResult<T> CreateResult(boolean result, T obj, int count) {
+        return new JsonResult<>(result, obj, count);
+    }
+
+    public static <T> JsonResult<T> CreateResult(boolean result, T obj) {
+        return new JsonResult<>(result, obj);
     }
 
     /**
@@ -110,10 +76,10 @@ public class JsonResult implements Serializable {
     /**
      * 响应对象
      */
-    private Object obj;
+    private T obj;
 
     /**
      * 列表總數
      */
-    private int listTotalCount;
+    private int count;
 }

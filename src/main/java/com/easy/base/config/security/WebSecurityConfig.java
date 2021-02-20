@@ -1,6 +1,6 @@
 package com.easy.base.config.security;
 
-import com.easy.base.service.impl.UserServiceImpl;
+import com.easy.base.service.impl.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
@@ -24,13 +24,13 @@ import javax.servlet.http.HttpServletRequest;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    private final UserServiceImpl userService;
+    private final UserService userService;
     private final AuthenticationDetailsSource<HttpServletRequest, WebAuthenticationDetails> authenticationDetailsSource;
     private CustomAuthenticationProvider customAuthenticationProvider;
     private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
     private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
 
-    public WebSecurityConfig(UserServiceImpl userService
+    public WebSecurityConfig(UserService userService
             , AuthenticationDetailsSource<HttpServletRequest, WebAuthenticationDetails> authenticationDetailsSource
             , CustomAuthenticationProvider customAuthenticationProvider
             , CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler

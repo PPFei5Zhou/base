@@ -10,14 +10,14 @@ $(function(){
             refreshVerifyCode();
         });
 
-        $('body').keydown(function() {
+        $('body').keydown(function(event) {
             if (event.which === 13) {
                 login();
             }
         });
 
         function refreshVerifyCode() {
-            $("#imgVerifyCode").attr('src', '/base/GetVerifyCode?random=' + Math.random());
+            $("#imgVerifyCode").attr('src', 'GetVerifyCode?random=' + Math.random());
             $('#inputVerifyCode').val('');
         }
 
@@ -43,7 +43,7 @@ $(function(){
             }
         
             $.ajax({
-                url: '/base/Login',
+                url: 'Login',
                 type: 'post',
                 dataType: 'json',
                 data: {
@@ -56,7 +56,7 @@ $(function(){
                 },
                 success: function(data) {
                     if (data.result) {
-                        window.location.replace("/base/Index");
+                        window.location.replace("Index");
                     } else {
                         layer.alert(data.message);
                     }
