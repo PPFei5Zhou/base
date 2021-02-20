@@ -267,88 +267,7 @@ Tips: 解压目录中最好不要包含空格
 ## 1.4. Spring Boot 项目目录结构
 ### 1.4.1. 简介 
 
-
-    ·
-    | HELP.md
-    | mvnw
-    | mvnw.cmd
-    | pom.xml
-    | README.md
-    |
-    └─ src
-        | main
-        |  ├─ java
-        |  |   └─ com
-        |  |       └─ wia
-        |  |           └─ base
-        |  |               |  BaseApplication.java
-        |  |               |
-        |  |               ├─ config
-        |  |               |
-        |  |               ├─ controller
-        |  |               |   |  PageController.java
-        |  |               |   |
-        |  |               |   └─ UserController.java
-        |  |               |
-        |  |               ├─ dao
-        |  |               |   | BaseMapper.java
-        |  |               |   |
-        |  |               |   ├─ mapper
-        |  |               |   |   └─ UserMapper.java
-        |  |               |   |
-        |  |               |   └─ jpa
-        |  |               |       └─ UserRepository.java
-        |  |               |
-        |  |               ├─ domain
-        |  |               |   ├─ dao
-        |  |               |   |   └─ UserInfoDAO.java
-        |  |               |   |
-        |  |               |   ├─ dto
-        |  |               |   |   |  BaseDTO.java
-        |  |               |   |   |  JsonResult.java
-        |  |               |   |   └─ UserDTO.java
-        |  |               |   |
-        |  |               |   ├─ entity
-        |  |               |   |   └─ UserInfoEntity.java
-        |  |               |   |
-        |  |               |   └─ vo
-        |  |               |       └─ UserInfoEntity.java
-        |  |               |
-        |  |               ├─ service
-        |  |               |   └─ impl
-        |  |               |       | BaseService.java
-        |  |               |       |
-        |  |               |       └─ impl
-        |  |               |           └─ UserServiceImpl.java
-        |  |               |
-        |  |               └─ utils
-        |  └─ resources
-        |      |  application.yml
-        |      |  application-dev.yml
-        |      |  application-prd.yml
-        |      |  banner.txt
-        |      |  logback-spring-dev.xml
-        |      |  logback-spring-pro.xml
-        |      |
-        |      ├─ mappers
-        |      |
-        |      ├─ static
-        |      |   ├─ js
-        |      |   ├─ css
-        |      |   ├─ layui
-        |      |   └─ html
-        |      |       |  login.html
-        |      |       └─ index.html
-        |      └─ templates
-        |
-        └─ test
-            └─ java
-                └─ com
-                    └─ wia
-                        └─ base
-                            ├─ BaseApplicationTests.java
-                            └─ ServiceTests.java
-
+请看项目结构
 
 ## 1.5. Spring Boot 项目配置
 ### 1.5.1. `application.yml`/`application.properties` 配置
@@ -563,45 +482,8 @@ Tips: 解压目录中最好不要包含空格
 
 #### 1.6.2.1. 添加依赖
 
-在建立项目时已添加的依赖基础上, 添加以下依赖: 
+在建立项目时已添加的依赖基础上, 添加依赖请看 `pom.xml` 
 
-  ```
-  <dependencies>
-      <dependency>
-          <groupId>net.sourceforge.jtds</groupId>
-          <artifactId>jtds</artifactId>
-          <version>1.3.1</version>
-      </dependency>
-      <dependency>
-          <groupId>mysql</groupId>
-          <artifactId>mysql-connector-java</artifactId>
-          <scope>runtime</scope>
-      </dependency>
-      <dependency>
-          <groupId>org.mybatis.spring.boot</groupId>
-          <artifactId>mybatis-spring-boot-starter-test</artifactId>
-          <version>2.1.2</version>
-          <scope>test</scope>
-      </dependency>
-      <dependency>
-          <groupId>junit</groupId>
-          <artifactId>junit</artifactId>
-          <version>4.13</version>
-          <scope>test</scope>
-      </dependency>
-      <dependency>
-          <groupId>org.springframework.boot</groupId>
-          <artifactId>spring-boot-starter-test</artifactId>
-          <scope>test</scope>
-          <exclusions>
-              <exclusion>
-                  <groupId>org.junit.vintage</groupId>
-                  <artifactId>junit-vintage-engine</artifactId>
-              </exclusion>
-          </exclusions>
-      </dependency>
-  </dependencies>
-  ``` 
 
 这些依赖包含了 `jtds` (用于连接 SQL server 2008及旧版的 SQL server), 和 `Junit` , `MyBatis` (用于单元测试) 
 
@@ -640,136 +522,11 @@ Tips: 解压目录中最好不要包含空格
 
 ### 1.6.3. 创建 数据传输类 及 数据访问类 
 
-1. 创建 `BaseDTO` 类 
-    
-    在 `domain` 包中创建 `BaseDTO` 类 
-
-    其他的DTO类可以继承此类, 可以阅读 [java 继承](https://www.runoob.com/java/java-inheritance.html)
-
-    - `@Data` 批注是 lombok 提供的功能, 默认生成类中所有属性的 `getter/setter` 方法, 以及重写 `toString()`, `equals()`, `hashCode()` 方法
-
-2. 创建 `ResponseDTO`类 
-
-    在 `domain/dto` 包中创建 `ResponseDTO` 类 
-
-    给 service 层或其他层返回指定的类型
-
-    - `@NoArgsConstructor` 批注是 lombok 提供的功能, 生成无参构造器
-    - `@Scope("prototype")` 批注是 spring 提供的批注, 意思是每次通过 spring 容器获取到的实例都是一个新的实例, 如果不设置改批注, 则默认是单例模式, 还有其他的值可以设置, 可参阅[@Scope说明](https://blog.csdn.net/ColdFireMan/article/details/100576702)
-    - `@Component` 批注是 Spring 的批注, 实现 bean 注入功能, 一般是用于各种组件实例化, 另外相同功能的批注为: `@controller`, `@service`, `@repository`, 这三个批注意义和 `@Component` 不同, `@controller` 为控制器, `@service` 一般用于 service 层, `@repository` 一般用于数据访问层
-
-3. 创建 `User` 相关的 `DTO` 和 `DAO` 类 
-
-    `DAO` 是根据数据库表的字段来定义的类, 用于保存查询结果 
-
-    在 `domain.dao` 包中创建 `UserInfoDAO` 类 
-
-    在 `domain.dto` 包中创建 `UserDTO` 类, 继承 `BaseDTO` 类 
-
 ### 1.6.4. 创建 MyBatis 数据访问逻辑 
 
-1. 创建 `BaseDAO` 接口 
-
-    在 `dao` 包中创建接口
-
-    ```
-    package com.easy.base.repository;
-
-    public interface BaseDAO {
-        int saveObject();
-        int updateObject();
-        int removeObject();
-    }
-    ``` 
-
-2. 创建 `UserMapper` 接口
-
-    在 `dao.mapper` 包中创建接口 
-
-    ```
-    public interface UserMapper extends BaseMapper {
-        @Override
-        int saveObject();
-
-        @Override
-        int updateObject();
-
-        @Override
-        int removeObject();
-
-        List<UserInfoDAO> listUser(UserDTO dto);
-    }
-    ``` 
-
-3. 创建 `UserMapper` 接口对应的 xml 
-
-    在 `resources/mappers` 活页夹创建 `UserMapper.xml` 
-
-    - `<mapper>` 的 `namespace` 属性的值是 `UserMapper` 的全限定名
-    - `<resultMap>` 自动映射查询结果, 可参阅[官方文檔](https://mybatis.org/mybatis-3/zh/sqlmap-xml.html#-mapping),
-    `id` 属性的值是当前映像的名称, `type` 属性的值是要映像的类的全限定名 
-    - `<id>` 和 `<result>` 的 `property` 属性是指映像的类的属性, `column` 属性是指表的字段名称(也可以是查询语句的别名)
-    - `<id>` 是指表的主键 
-    - `<sql>` 是可被其他语句引用的可重用语句块
-    - `<insert>`, `<update>`, `<select>` 包含了 `id` 属性, `id`的值, 要和 `UserMapper` 接口的方法名一致 
-    - `#{property}` 是 `UserMapper` 接口的方法的参数变量的名称, 如果参数是类类型, 则是对应类里的各个属性名 
-    - `<trim>` 动态拼接 SQL 语句, `prefix` 属性是前缀, `suffixOverrides` 属性是移除多余的后缀, 其他属性可参阅
-    - `<if>` 条件判断, `test` 属性是判断的条件
-    [此博客](https://blog.csdn.net/weixin_34123613/article/details/93397418)
-    - `<include>` 是引用 `<sql>` 的语句
-    - `<where>` 可动态生成 where 条件的 SQL 语句 
-
 ### 1.6.5. 创建 service 
-这里会使用到工厂模式, [Java多态](https://www.zhihu.com/question/30082151?sort=created)的知识 
-
-1. 创建 `BaseService` 接口
-    
-    ```
-    package com.easy.base.service;
-    
-    import com.easy.base.domain.dto.BaseDTO;
-    import com.easy.base.domain.dto.JsonResult;
-    
-    public interface BaseService {
-        ResponseDTO saveObject(BaseDTO dto);
-        ResponseDTO updateObject(BaseDTO dto);
-        ResponseDTO removeObject(BaseDTO dto);
-        ResponseDTO getSingleObject(BaseDTO dto);
-        ResponseDTO listObjectFactory(BaseDTO dto, String type);
-    }
-    ```
-   
-2. 实现 `BaseService` 接口 
-
-    - 使用 `@Service` 批注 
-    - 使用构造器方法注入依赖 
 
 ### 1.6.6. 对 `UserServiceImpl` 建立单元测试 
-
-在 `src/test/java/com/wia/base` 目录下创建 `ServiceTests` 类 
-
-1. `@RunWith(SpringRunner.class)` 
-
-    - 让测试用例在 spring 容器环境中运行 
-  
-2. `@MapperScan` 
-
-    - 扫描 MyBatis 的 mapper 接口类所在的包
-    - 在编译之后都生成相应的实现类 
-  
-3. `@ComponentScan` 
-
-      - 扫描指定的包下所有的配置类(使用了 `@Controller`, `@Service`, `@Component`, `@Repository` 批注的类) 
-      - 注册到 spring 容器中
-
-4. `@ConfigureTestDatabase(replace = ConfigureTestDatabase.Replace.NONE)` 
-
-      - `ConfigureTestDatabase` 批注: 因为使用了 `@MybatisTest`, 所以会替换 spring 的数据源配置为虚拟数据源 
-      - `ConfigureTestDatabase.Replace.NONE` 表示: 不替换数据源配置 
-  
-5. 单元测试的 `insert`, `update`, `delete` 和事务都会回滚
-
-完整代码: 
 
 ### 1.6.7. 运行单元测试 
 1. IntelliJ IDEA 
@@ -780,18 +537,6 @@ Tips: 解压目录中最好不要包含空格
 2. VSCode 
 
 ### 1.6.8. 创建 控制器 
-
-1. 在 `controller` 包中创建 `UserController` 
-
-    - `@Scope("session")` 表示控制器在每一个不同的 session 中都是不同的实例, 这个值需要 spring 是在 web 应用中
-    - `@RestController` 表示控制器返回 JSON , XML 或其他文本, 而 `@Controller` 返回页面, [二者区别](https://www.jianshu.com/p/c89a3550588a)
-    - `@RequestMapping(value = "/Login", method = RequestMethod.GET)` 
-      - 此批注可以写在控制器类上和控制器的方法中
-      - 写在控制器上, 则请求控制器里的方法, 都要在请求路径中加上对应的值, 如请求 `UserController` 的 `login()` 方法时, URL 要写成: `http://{ip}:{port}/User/Login`
-      - `value` 表示映射值, 可以简写为: `@RequestMapping("/User")`
-      - `method` 表示 `action` 的请求方式, 默认是 `GET`, 常用的有: `GET`, `POST`, `PUT`, `DELETE`
-
-2. 在 `controller` 包中创建 `PageController` 
 
 ### 1.6.9. 测试控制器
 #### 1.6.9.1. 使用 IDEA 的 `PostMan` 
@@ -1021,56 +766,6 @@ spring.redis.database=0 # Redis server port.
 #### 1.6.11.4. 使用 Spring session 
 
 ##### 1.6.11.4.1. 在控制器中创建登录/获取用户/注销的方法
-
-```
-public class UserController {
-    @RequestMapping(value = "/Login", method = RequestMethod.POST)
-    public ResponseDTO login(HttpServletRequest request, String account, String password) {
-        HttpSession session = request.getSession();
-        ResponseDTO jsonResult = new ResponseDTO();
-        UserDTO userDTO = new UserDTO(account, password);
-        userDTO.setMethodName("login");
-        ResponseDTO result = userService.listObjectFactory(userDTO);
-        UserInfoEntity userinfo = (UserInfoEntity)result.getObj();
-        UserInfoEntity sessionObj = (UserInfoEntity)session.getAttribute("User");
-        if (Objects.equals(sessionObj, userinfo)) {
-            jsonResult.setObject(sessionObj);
-        } else {
-            session.setAttribute("User", userinfo);
-            jsonResult.setObject(userinfo);
-        }
-        jsonResult.setResult(true);
-        return jsonResult;
-    }
-    
-    @RequestMapping(value = "/Logout", method = RequestMethod.POST)
-    public ResponseDTO logout(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        ResponseDTO jsonResult = new ResponseDTO();
-        UserInfoEntity sessionObj = (UserInfoEntity)session.getAttribute("User");
-        if (sessionObj != null) {
-            session.removeAttribute("User");
-        }
-        jsonResult.setResult(true);
-        return jsonResult;
-    }
-    
-    @RequestMapping(value = "/GetSessionUser", method = RequestMethod.GET)
-    public ResponseDTO getSessionUser(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        ResponseDTO jsonResult = new ResponseDTO();
-        UserInfoEntity sessionObj = (UserInfoEntity)session.getAttribute("User");
-        if (sessionObj != null) {
-            jsonResult.setResult(true);
-            jsonResult.setObject(sessionObj);
-        } else {
-            jsonResult.setResult(false);
-            session.removeAttribute("User");
-        }
-        return jsonResult;
-    }
-}
-```
 
 ##### 1.6.11.4.2. 测试及验证 
 
