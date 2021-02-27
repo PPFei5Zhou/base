@@ -10,7 +10,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class UserRoleDAO extends BaseDAO {
-    private String id;
     private String userAccount;
     private String roleCode;
     private RoleInfoDAO roleInfo;

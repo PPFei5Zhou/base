@@ -10,7 +10,6 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 public class UserInfoDAO extends BaseDAO {
-    private String id;
     private String userName;
     private String userAccount;
     private String password;

@@ -3,7 +3,7 @@ package com.easy.base;
 import com.easy.base.domain.dao.UserInfoDAO;
 import com.easy.base.domain.dto.JsonResult;
 import com.easy.base.domain.dto.UserDTO;
-import com.easy.base.service.impl.UserService;
+import com.easy.base.service.impl.user.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,11 +1,10 @@
 package com.easy.base.service;
 
-import com.easy.base.domain.dao.BaseDAO;
 import com.easy.base.domain.dto.JsonResult;
 
 import java.util.List;
 
-public interface IBaseService<T extends BaseDAO> {
+public interface IBaseService<T> {
     JsonResult<?> insertEntity(T model);
     JsonResult<?> updateEntity(T model);
     JsonResult<?> removeEntity(String[] ids);

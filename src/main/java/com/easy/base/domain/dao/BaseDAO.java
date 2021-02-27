@@ -8,9 +8,10 @@ import java.sql.Timestamp;
 @Data
 @EqualsAndHashCode
 public class BaseDAO {
+    private String id;
     private boolean valid;
-    private String CreateBy;
-    private Timestamp CreateDt;
-    private String UpdateBy;
-    private Timestamp UpdateDt;
+    private String createBy;
+    private Timestamp createDt;
+    private String updateBy;
+    private Timestamp updateDt;
 }

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <script src="/scripts/header-reference.js"></script>
+    <script src="/scripts/layui_ext/dtree/dtree.js"></script>
+    <link rel="stylesheet" href="/scripts/layui_ext/dtree/dtree.css">
+    <link rel="stylesheet" href="/scripts/layui_ext/dtree/font/dtreefont.css">
+    <title>用户菜单</title>
+</head>
+<body class="layui-layout-body layui-form">
+<div class="layui-card">
+    <div class="layui-card-body">
+        <div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="inputMenuName">菜单</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" id="inputMenuName" placeholder="请输入菜单">
+                </div>
+                <label class="layui-form-label" for="selectMenuLevel">菜单层级</label>
+                <div class="layui-input-inline">
+                    <select id="selectMenuLevel" lay-search>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button class="layui-btn" id="btnSearchMenu">查询</button>
+                <button class="layui-btn" id="btnInsertMenu" dtree-id="ulMenuTree" dtree-menu="btnInsertMenu">新增节点</button>
+            </div>
+        </div>
+        <hr>
+        <div>
+            <ul id="ulMenuTree" class="dtree" data-id="0"></ul>
+        </div>
+    </div>
+</div>
+<script src="/scripts/userMenu/index.js"></script>
+</body>
+</html>

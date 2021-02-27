@@ -1,11 +1,10 @@
 package com.easy.base.repository;
 
-import com.easy.base.domain.dao.BaseDAO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-public interface BaseMapper<T extends BaseDAO> {
+public interface BaseMapper<T> {
     int insertEntity(T model);
     int updateEntity(T model);
     int removeEntity(@Param("ids") String[] ids);

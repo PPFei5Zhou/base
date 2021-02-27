@@ -1,9 +1,7 @@
 package com.easy.base.config.security;
 
-import com.easy.base.service.impl.UserService;
+import com.easy.base.service.impl.user.UserService;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -12,15 +10,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
-    private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Resource
     private UserService userService;
@@ -55,7 +50,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     private boolean validateVerify(String verifyCode) {
         String validateCode = ((String) request.getSession().getAttribute("validateCode")).toLowerCase();
-        logger.info("验证码: " + validateCode + ", 用户输入: " + verifyCode);
         verifyCode = verifyCode.toLowerCase();
         return validateCode.equals(verifyCode);
     }

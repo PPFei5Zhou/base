@@ -1,9 +1,10 @@
-package com.easy.base.controller;
+package com.easy.base.controller.user;
 
+import com.easy.base.controller.BaseController;
 import com.easy.base.domain.dao.UserInfoDAO;
 import com.easy.base.domain.dto.JsonResult;
-import com.easy.base.service.impl.UserService;
 
+import com.easy.base.service.user.IUserServer;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;
@@ -12,18 +13,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.security.Principal;
 import java.util.List;
 
 @RestController
 @RequestMapping("/User")
-public class UserController {
-    private UserService userService;
+public class UserController extends BaseController<UserInfoDAO, IUserServer> {
+    @Resource
     private SessionRegistry sessionRegistry;
 
-    public UserController(UserService userService, SessionRegistry sessionRegistry) {
-        this.userService = userService;
-        this.sessionRegistry = sessionRegistry;
+    public UserController() {
+        urlPrefix = "User";
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN1')")
@@ -51,6 +52,6 @@ public class UserController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "/GetSessionUser", method = RequestMethod.GET)
     public JsonResult<UserInfoDAO> getSessionUser(Principal principal) {
-        return userService.selectEntityByID(principal.getName());
+        return service.selectEntityByID(principal.getName());
     }
 }

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.easy.base.repository.mapper.MenuListMapper">
+    <resultMap id="BaseResultMap" type="com.easy.base.domain.dao.MenuItemDAO">
+        <id column="ID" jdbcType="VARCHAR" property="id" />
+        <result column="MenuUrl" jdbcType="VARCHAR" property="menuUrl" />
+        <result column="MenuName" jdbcType="VARCHAR" property="menuName" />
+        <result column="MenuSort" jdbcType="INTEGER" property="menuSort" />
+        <result column="MenuLevel" jdbcType="INTEGER" property="menuLevel" />
+        <result column="ParentID" jdbcType="VARCHAR" property="parentId" />
+        <result column="Valid" jdbcType="BIT" property="valid" />
+        <result column="CreateBy" jdbcType="VARCHAR" property="createBy" />
+        <result column="CreateDt" jdbcType="TIMESTAMP" property="createDt" />
+        <result column="UpdateBy" jdbcType="VARCHAR" property="updateBy" />
+        <result column="UpdateDt" jdbcType="TIMESTAMP" property="updateDt" />
+        <collection column="ID" jdbcType="VARCHAR" property="childMenu" select="selectChildMenu"/>
+    </resultMap>
+
+    <resultMap id="DTreeResultMap" type="com.easy.base.domain.dto.dTree.DTreeData">
+        <id column="ID" jdbcType="VARCHAR" property="id" />
+        <result column="MenuUrl" jdbcType="VARCHAR" property="url" />
+        <result column="MenuName" jdbcType="VARCHAR" property="title" />
+        <result column="ParentID" jdbcType="VARCHAR" property="parentId" />
+        <association property="checkArr" javaType="com.easy.base.domain.dto.dTree.DTreeCheckArr">
+            <result column="type" property="type" />
+            <result column="checked" property="checked" />
+        </association>
+        <collection column="ID" jdbcType="VARCHAR" property="children" select="getDTreeData"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        <!--@sql select -->
+        ID,
+        MenuUrl,
+        MenuName,
+        MenuSort,
+        MenuLevel,
+        ParentID,
+        Valid,
+        CreateBy,
+        CreateDt,
+        UpdateBy,
+        UpdateDt
+        <!--@sql from menu_list -->
+    </sql>
+    
+    <insert id="insertEntity">
+        insert menu_list
+        values
+        (
+            #{id},
+            #{menuUrl},
+            #{menuName},
+            #{menuSort},
+            #{menuLevel},
+            #{parentId},
+            #{valid},
+            #{createBy},
+            #{createDt},
+            #{updateBy},
+            #{updateDt}
+        )
+    </insert>
+    
+    <update id="updateEntity">
+        update menu_list
+        <set>
+            <if test="menuUrl != null and menuUrl != ''">
+                MenuUrl = #{menuUrl},
+            </if>
+            <if test="menuName != null and menuName != ''">
+                MenuName = #{menuName},
+            </if>
+            <if test="menuSort != null">
+                MenuSort = #{menuSort},
+            </if>
+            <if test="menuLevel != null">
+                MenuLevel = #{menuLevel},
+            </if>
+            <if test="parentId != null and parentId != ''">
+                ParentID = #{parentId},
+            </if>
+            <if test="valid != null">
+                Valid = #{valid},
+            </if>
+            UpdateBy = #{updateBy},
+            UpdateDt = now()
+        </set>
+        where ID = #{id}
+    </update>
+    
+    <update id="removeEntity">
+        update menu_list
+        set Valid = 0
+        where ID in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+    
+    <select id="selectEntities" resultMap="BaseResultMap">
+        with list as ( 
+            select
+                dense_rank() over (order by MenuLevel, MenuSort) as rn,
+                <include refid="Base_Column_List" />
+            from menu_list
+            <where>
+                and Valid = 1
+                <if test="model.menuName != null and model.menuName != ''">
+                    and MenuName = #{model.menuName}
+                </if>
+                <if test="model.menuLevel != null">
+                    and MenuLevel = #{model.menuLevel}
+                </if>
+                <if test="model.parentId != null and model.parentId != ''">
+                    and ParentID = #{model.parentId}
+                </if>
+            </where>
+        )
+        
+        select
+            *
+        from list
+        where rn <![CDATA[<=]]> #{page} * #{limit}
+          and rn >= (#{page} - 1) * #{limit}
+        order by MenuLevel, MenuSort
+    </select>
+
+    <select id="countSelect" resultType="integer">
+        select
+            count(1)
+        from menu_list
+        <where>
+            and Valid = 1
+            <if test="menuName != null and menuName != ''">
+                and MenuName = #{menuName}
+            </if>
+            <if test="menuLevel != null">
+                and MenuLevel = #{menuLevel}
+            </if>
+            <if test="parentId != null and parentId != ''">
+                and ParentID = #{parentId}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectEntityById" resultMap="BaseResultMap">
+        select
+            <include refid="Base_Column_List" />
+        from menu_list
+        where ID = #{id}
+    </select>
+
+    <select id="getMenuLevel" resultType="integer">
+        select 0  as MenuLevel
+        union
+        select
+            distinct
+            ifnull(MenuLevel, 0) as MenuLevel
+        from menu_list
+        order by MenuLevel
+    </select>
+
+    <select id="selectChildMenu" resultMap="BaseResultMap">
+        select
+            <include refid="Base_Column_List"/>
+        from menu_list
+        where ParentID = #{id}
+        and Valid = 1
+    </select>
+
+    <select id="getDTreeData" resultMap="DTreeResultMap">
+        select
+            <include refid="Base_Column_List" />,
+            '' as 'type',
+            '' as checked
+        from menu_list
+        <where>
+            and Valid = 1
+            <if test="title != null and title != ''">
+                and MenuName like concat('%', #{title},'%')
+            </if>
+            <if test="level != null">
+                and MenuLevel = #{level}
+            </if>
+            <if test="parentId != null and parentId != ''">
+                and ParentID = #{parentId}
+            </if>
+        </where>
+    </select>
+</mapper>
