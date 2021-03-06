@@ -5,8 +5,8 @@
     <script src="/scripts/header-reference.js"></script>
     <title>用户菜单-编辑</title>
 </head>
-<body>
-<form id="editForm" class="layui-form" style="margin: 20px;">
+<body class="layui-form">
+<form id="editForm" style="margin: 20px;">
     <input type="hidden" name="id" id="hiddenId"/>
     <div class="layui-form-item">
         <label class="layui-form-label" for="inputMenuLevel">菜单层级</label>
@@ -40,10 +40,10 @@
             <input type="checkbox" name="valid" id="inputValid" lay-skin="switch" lay-text="有效|无效">
         </div>
     </div>
-    <div class="layui-form-item" style="text-align: center;">
-        <button class="layui-btn" id="btnSave">保存</button>
-    </div>
 </form>
+<div class="layui-form-item" style="text-align: center;">
+    <button class="layui-btn" id="btnSave">保存</button>
+</div>
 <script src="/scripts/userMenu/edit.js"></script>
 </body>
 </html>

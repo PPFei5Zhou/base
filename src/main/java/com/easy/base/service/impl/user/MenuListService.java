@@ -1,6 +1,6 @@
 package com.easy.base.service.impl.user;
 
-import com.easy.base.domain.dao.MenuItemDAO;
+import com.easy.base.domain.dao.MenuInfoDAO;
 import com.easy.base.domain.dto.JsonResult;
 import com.easy.base.domain.dto.dTree.DTreeDTO;
 import com.easy.base.domain.dto.dTree.DTreeData;
@@ -16,18 +16,18 @@ import java.util.List;
 
 @Slf4j
 @Service
-public class MenuListService extends BaseService<MenuItemDAO, MenuListMapper> implements IMenuListService {
+public class MenuListService extends BaseService<MenuInfoDAO, MenuListMapper> implements IMenuListService {
     @Override
-    public JsonResult<?> insertEntity(MenuItemDAO model) {
+    public JsonResult<?> insertEntity(MenuInfoDAO model) {
         String parentId = model.getParentId();
         if (StringUtils.isBlank(parentId)) {
-            MenuItemDAO model1 = new MenuItemDAO();
+            MenuInfoDAO model1 = new MenuInfoDAO();
             model1.setMenuLevel(0);
-            List<MenuItemDAO> list = mapper.selectEntities(model1, 0, Integer.MAX_VALUE);
+            List<MenuInfoDAO> list = mapper.selectEntities(model1, 1, Integer.MAX_VALUE);
             model.setMenuLevel(0);
             model.setMenuSort(list.size() + 1);
         } else {
-            MenuItemDAO parentMenu = mapper.selectEntityById(parentId);
+            MenuInfoDAO parentMenu = mapper.selectEntityById(parentId);
             if (parentMenu != null) {
                 model.setMenuLevel(parentMenu.getMenuLevel() + 1);
                 model.setMenuSort(parentMenu.getChildMenu().size() + 1);
@@ -50,7 +50,7 @@ public class MenuListService extends BaseService<MenuItemDAO, MenuListMapper> im
     @Override
     public JsonResult<?> riseMenuSort(String id) {
         try {
-            MenuItemDAO menuItem = mapper.selectEntityById(id);
+            MenuInfoDAO menuItem = mapper.selectEntityById(id);
             if (menuItem.getMenuSort() > 0) {
                 menuItem.setMenuSort(menuItem.getMenuSort() - 1);
             }
@@ -64,7 +64,7 @@ public class MenuListService extends BaseService<MenuItemDAO, MenuListMapper> im
     @Override
     public JsonResult<?> dropMenuSort(String id) {
         try {
-            MenuItemDAO menuItem = mapper.selectEntityById(id);
+            MenuInfoDAO menuItem = mapper.selectEntityById(id);
             menuItem.setMenuSort(menuItem.getMenuSort() + 1);
             return updateEntity(menuItem);
         } catch (Exception e) {

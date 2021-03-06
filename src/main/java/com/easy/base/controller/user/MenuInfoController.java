@@ -1,7 +1,7 @@
 package com.easy.base.controller.user;
 
 import com.easy.base.controller.BaseController;
-import com.easy.base.domain.dao.MenuItemDAO;
+import com.easy.base.domain.dao.MenuInfoDAO;
 import com.easy.base.domain.dto.JsonResult;
 import com.easy.base.domain.dto.dTree.DTreeDTO;
 import com.easy.base.domain.dto.dTree.DTreeData;
@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("UserMenu")
-public class MenuListController extends BaseController<MenuItemDAO, IMenuListService> {
+public class MenuInfoController extends BaseController<MenuInfoDAO, IMenuListService> {
 
-    public MenuListController() {
+    public MenuInfoController() {
         urlPrefix = "userMenu";
     }
 

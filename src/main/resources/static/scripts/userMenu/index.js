@@ -47,26 +47,30 @@ $(function (){
          menubar: true,
          menubarTips: {
             freedom: [{menubarId: 'btnInsertMenu', handler:function (node) {
+               // 新增节点
+               let parentId = '';
                let level = node.level;
                let params = dtree.getCheckbarNodesParam("ulMenuTree");
                if (params && params.length > 0) {
+                  parentId = params[0].nodeId;
                   level = params[0].level;
                }
                layer.open({
                   type: 2,
                   area: ['500px', '500px'],
-                  content: prefixUrl + '/Edit?levelCode=' + level + '&r=' + Math.random()
+                  content: prefixUrl + '/Edit?parentId=' + parentId + '&levelCode=' + level + '&r=' + Math.random()
                });
             }}],
             group:[] // 按钮组制空
          }
       });
 
+      // 编辑节点
       dtree.on("node('ulMenuTree')", function (obj) {
          layer.open({
             type: 2,
             area: ['500px', '500px'],
-            content: prefixUrl + '/Edit?id=' + obj.param.nodeId + '&levelCode=' + obj.param.level + '&r=' + Math.random()
+            content: prefixUrl + '/Edit?id=' + obj.param.nodeId + '&levelCode=' + (Number(obj.param.level) - 1) + '&r=' + Math.random()
          });
       });
 

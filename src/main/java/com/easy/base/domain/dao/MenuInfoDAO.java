@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper=true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class MenuItemDAO extends BaseDAO implements Serializable {
+public class MenuInfoDAO extends BaseDAO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String menuUrl;
@@ -25,5 +25,5 @@ public class MenuItemDAO extends BaseDAO implements Serializable {
 
     private String parentId;
 
-    private List<MenuItemDAO> childMenu;
+    private List<MenuInfoDAO> childMenu;
 }

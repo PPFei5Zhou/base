@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.easy.base.repository.mapper.MenuListMapper">
-    <resultMap id="BaseResultMap" type="com.easy.base.domain.dao.MenuItemDAO">
+    <resultMap id="BaseResultMap" type="com.easy.base.domain.dao.MenuInfoDAO">
         <id column="ID" jdbcType="VARCHAR" property="id" />
         <result column="MenuUrl" jdbcType="VARCHAR" property="menuUrl" />
         <result column="MenuName" jdbcType="VARCHAR" property="menuName" />
@@ -20,12 +20,13 @@
         <id column="ID" jdbcType="VARCHAR" property="id" />
         <result column="MenuUrl" jdbcType="VARCHAR" property="url" />
         <result column="MenuName" jdbcType="VARCHAR" property="title" />
+        <result column="MenuLevel" jdbcType="INTEGER" property="level" />
         <result column="ParentID" jdbcType="VARCHAR" property="parentId" />
         <association property="checkArr" javaType="com.easy.base.domain.dto.dTree.DTreeCheckArr">
             <result column="type" property="type" />
             <result column="checked" property="checked" />
         </association>
-        <collection column="ID" jdbcType="VARCHAR" property="children" select="getDTreeData"/>
+        <collection column="ID" jdbcType="VARCHAR" property="children" select="getDTreeChildrenData"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -41,11 +42,11 @@
         CreateDt,
         UpdateBy,
         UpdateDt
-        <!--@sql from menu_list -->
+        <!--@sql from menu_info -->
     </sql>
     
     <insert id="insertEntity">
-        insert menu_list
+        insert menu_info
         values
         (
             #{id},
@@ -63,7 +64,7 @@
     </insert>
     
     <update id="updateEntity">
-        update menu_list
+        update menu_info
         <set>
             <if test="menuUrl != null and menuUrl != ''">
                 MenuUrl = #{menuUrl},
@@ -90,7 +91,7 @@
     </update>
     
     <update id="removeEntity">
-        update menu_list
+        update menu_info
         set Valid = 0
         where ID in
         <foreach collection="ids" item="id" open="(" separator="," close=")">
@@ -103,7 +104,7 @@
             select
                 dense_rank() over (order by MenuLevel, MenuSort) as rn,
                 <include refid="Base_Column_List" />
-            from menu_list
+            from menu_info
             <where>
                 and Valid = 1
                 <if test="model.menuName != null and model.menuName != ''">
@@ -129,7 +130,7 @@
     <select id="countSelect" resultType="integer">
         select
             count(1)
-        from menu_list
+        from menu_info
         <where>
             and Valid = 1
             <if test="menuName != null and menuName != ''">
@@ -147,7 +148,7 @@
     <select id="selectEntityById" resultMap="BaseResultMap">
         select
             <include refid="Base_Column_List" />
-        from menu_list
+        from menu_info
         where ID = #{id}
     </select>
 
@@ -157,14 +158,15 @@
         select
             distinct
             ifnull(MenuLevel, 0) as MenuLevel
-        from menu_list
+        from menu_info
+        where Valid = 1
         order by MenuLevel
     </select>
 
     <select id="selectChildMenu" resultMap="BaseResultMap">
         select
             <include refid="Base_Column_List"/>
-        from menu_list
+        from menu_info
         where ParentID = #{id}
         and Valid = 1
     </select>
@@ -174,7 +176,7 @@
             <include refid="Base_Column_List" />,
             '' as 'type',
             '' as checked
-        from menu_list
+        from menu_info
         <where>
             and Valid = 1
             <if test="title != null and title != ''">
@@ -187,5 +189,15 @@
                 and ParentID = #{parentId}
             </if>
         </where>
+    </select>
+
+    <select id="getDTreeChildrenData" resultMap="DTreeResultMap">
+        select
+        <include refid="Base_Column_List" />,
+        '' as 'type',
+        '' as checked
+        from menu_info
+        where Valid = 1
+          and ParentID = #{id}
     </select>
 </mapper>
