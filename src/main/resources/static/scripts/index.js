@@ -1,3 +1,5 @@
+let tab = $(".layui-tab-title li[lay-id]");
+
 $(function() {
     layui.use(['form', 'layer', 'element', "jquery"], function() {
         let element = layui.element;
@@ -5,12 +7,13 @@ $(function() {
         let form = layui.form;
 
         RenderUserInfo();
+        renderUserMenu();
 
         // 配置tab实践在下面无法获取到菜单元素
         $(".site-demo-active").on("click", function () {
             let dataid = $(this);
             //这时会判断右侧.layui-tab-title属性下的有lay-id属性的li的数目，即已经打开的tab项数目
-            if ($(".layui-tab-title li[lay-id]").length <= 0) {
+            if (tab.length <= 0) {
                 //如果比零小，则直接打开新的tab项
                 active.tabAdd(
                     dataid.attr("data-url"),
@@ -71,12 +74,55 @@ $(function() {
             let h = $(window).height() - 128;
             $("iframe").css("height", h + "px");
         }
+
+        function renderUserMenu() {
+            $.ajax({
+                url: '/UserMenu/SelectEntities',
+                async: false,
+                type: 'get',
+                data: {
+                    menuLevel: 0,
+                    page: 1,
+                    limit: 100
+                },
+                dataType: 'json',
+                success: function (data) {
+                    if (data.result && data.obj && data.obj.length > 0) {
+                        let _html = renderUserMenuHtml(data.obj);
+                        if (_html) {
+                            $('#dlUserMenu').html(_html);
+                        }
+                    }
+                },
+                complete: function () {
+                    form.render();
+                }
+            });
+        }
+
+        function renderUserMenuHtml(child) {
+            let _html = '';
+            if (child && child.length > 0) {
+                $.each(child, function (index, item) {
+                    if (item.childMenu && item.childMenu.length > 0) {
+                        _html += '<li><a href="javascript:">' + item.menuName + '</a><dl class="layui-nav-child">';
+                        _html += '';
+                        _html += renderUserMenuHtml(item.childMenu);
+                        _html += '</dl></li>';
+                    } else {
+                        _html += '<dd><a href="javascript:" class="site-demo-active" data-id="' + item.id + '" data-title="' + item.menuName + '" data-type="tabAdd" data-url="' + item.menuUrl + '">' + item.menuName + '</a></dd>';
+                    }
+                });
+            }
+            return _html;
+        }
     });
 });
 
 function RenderUserInfo() {
     $.ajax({
-        url: 'User/GetSessionUser',
+        url: '/User/GetSessionUser',
+        async: false,
         type: 'get',
         dataType: 'json',
         success: function(data) {

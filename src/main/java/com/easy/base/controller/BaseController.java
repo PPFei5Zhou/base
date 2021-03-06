@@ -8,12 +8,25 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
+
 public class BaseController<T extends BaseDAO, S extends IBaseService<T>> {
     @Autowired
     @SuppressWarnings("all")
     public S service;
 
     public String urlPrefix;
+
+    @Resource
+    public HttpServletRequest request;
+
+    /** 获取当前用户账号 */
+    public String getSessionUserAccount() {
+        Principal principal = request.getUserPrincipal();
+        return principal.getName();
+    }
 
     @GetMapping("/Index")
     public ModelAndView index() {

@@ -31,13 +31,18 @@ public class BaseService<T extends BaseDAO, M extends BaseMapper<T>> implements 
     @Resource
     public UUIDUtil uuidUtil;
 
+    /** 获取当前用户账号 */
+    public String getSessionUserAccount() {
+        Principal principal = request.getUserPrincipal();
+        return principal.getName();
+    }
+
     @Override
     public JsonResult<?> insertEntity(T model) {
         try {
-            Principal principal = request.getUserPrincipal();
             Date now = new Date();
             model.setId(uuidUtil.generateUUID());
-            model.setCreateBy(principal.getName());
+            model.setCreateBy(getSessionUserAccount());
             model.setCreateDt(new Timestamp(now.getTime()));
             int i = mapper.insertEntity(model);
             return JsonResult.CreateResult(i > 0, model.getId());
@@ -50,9 +55,8 @@ public class BaseService<T extends BaseDAO, M extends BaseMapper<T>> implements 
     @Override
     public JsonResult<?> updateEntity(T model) {
         try {
-            Principal principal = request.getUserPrincipal();
             Date now = new Date();
-            model.setUpdateBy(principal.getName());
+            model.setUpdateBy(getSessionUserAccount());
             model.setUpdateDt(new Timestamp(now.getTime()));
             int i = mapper.updateEntity(model);
             return JsonResult.CreateResult(i > 0);
