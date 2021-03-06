@@ -6,6 +6,7 @@ import com.easy.base.service.IBaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
@@ -54,7 +55,7 @@ public class BaseController<T extends BaseDAO, S extends IBaseService<T>> {
     }
 
     @PostMapping("RemoveEntity")
-    public JsonResult<?> removeEntity(String[] ids) {
+    public JsonResult<?> removeEntity(@RequestParam(value = "ids[]") String[] ids) {
         return service.removeEntity(ids);
     }
 

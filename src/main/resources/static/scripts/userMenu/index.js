@@ -10,6 +10,7 @@ $(function (){
       let element = layui.element;
       let layer = layui.layer;
       let dtree = layui.dtree;
+      let layerIndex = 0;
       let prefixUrl = '/UserMenu';
 
       $.ajax({
@@ -46,22 +47,59 @@ $(function (){
          checkbarType: "p-casc",
          menubar: true,
          menubarTips: {
-            freedom: [{menubarId: 'btnInsertMenu', handler:function (node) {
-               // 新增节点
-               let parentId = '';
-               let level = node.level;
-               let params = dtree.getCheckbarNodesParam("ulMenuTree");
-               if (params && params.length > 0) {
-                  parentId = params[0].nodeId;
-                  level = params[0].level;
+            freedom: [
+                {menubarId: 'btnInsertMenu', handler:function (node) {
+                  // 新增节点
+                  let parentId = '';
+                  let level = node.level;
+                  let params = dtree.getCheckbarNodesParam("ulMenuTree");
+                  if (params && params.length > 0) {
+                     parentId = params[0].nodeId;
+                     level = params[0].level;
+                  }
+                  layer.open({
+                     type: 2,
+                     area: ['500px', '500px'],
+                     content: prefixUrl + '/Edit?parentId=' + parentId + '&levelCode=' + level + '&r=' + Math.random()
+                  });
+               }}, {menubarId: 'btnDeleteMenu', handler: function (node) {
+                  // 删除节点
+                  layer.confirm('是否要删除?', function () {
+                     let ids = [];
+                     let params = dtree.getCheckbarNodesParam("ulMenuTree");
+                     $.each(params, function (index, item) {
+                        ids.push(item.nodeId);
+                     });
+
+                     $.ajax({
+                        url: '/UserMenu/RemoveEntity',
+                        type: 'post',
+                        data: {ids: ids},
+                        dataType: 'json',
+                        beforeSend: function () {
+                           layerIndex = layer.load();
+                        },
+                        success: function (data) {
+                           layer.msg(data.message);
+                        },
+                        complete: function () {
+                           let title = inputMenuName.val();
+                           let level = selectMenuLevel.val();
+                           layer.close(layerIndex);
+                           dtree.reload('ulMenuTree', {
+                              request: {
+                                 'title': title,
+                                 'level': level ? level : undefined,
+                                 'page': 1,
+                                 'limit': 200
+                              }
+                           });
+                        }
+                     });
+                  });
                }
-               layer.open({
-                  type: 2,
-                  area: ['500px', '500px'],
-                  content: prefixUrl + '/Edit?parentId=' + parentId + '&levelCode=' + level + '&r=' + Math.random()
-               });
-            }}],
-            group:[] // 按钮组制空
+            }],
+            group:["checkAll", "unCheckAll", "invertAll"] // 按钮组
          }
       });
 
