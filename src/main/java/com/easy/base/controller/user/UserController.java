@@ -1,7 +1,7 @@
 package com.easy.base.controller.user;
 
 import com.easy.base.controller.BaseController;
-import com.easy.base.domain.dao.UserInfoDAO;
+import com.easy.base.domain.dao.user.UserInfoDAO;
 import com.easy.base.domain.dto.JsonResult;
 
 import com.easy.base.service.user.IUserServer;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.easy.base.repository.mapper.MenuListMapper">
-    <resultMap id="BaseResultMap" type="com.easy.base.domain.dao.MenuInfoDAO">
+    <resultMap id="BaseResultMap" type="com.easy.base.domain.dao.user.MenuInfoDAO">
         <id column="ID" jdbcType="VARCHAR" property="id" />
         <result column="MenuUrl" jdbcType="VARCHAR" property="menuUrl" />
         <result column="MenuName" jdbcType="VARCHAR" property="menuName" />

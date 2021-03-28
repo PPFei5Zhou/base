@@ -1,6 +1,6 @@
 package com.easy.base;
 
-import com.easy.base.domain.dao.UserInfoDAO;
+import com.easy.base.domain.dao.user.UserInfoDAO;
 import com.easy.base.domain.dto.JsonResult;
 import com.easy.base.domain.dto.UserDTO;
 import com.easy.base.service.impl.user.UserService;

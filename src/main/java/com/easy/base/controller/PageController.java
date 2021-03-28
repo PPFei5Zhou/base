@@ -3,6 +3,7 @@ package com.easy.base.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -13,17 +14,17 @@ import java.io.IOException;
 @Controller
 @RequestMapping("/")
 public class PageController {
-    @RequestMapping("Login")
+    @GetMapping("Login")
     public String login() {
         return  "login";
     }
 
-    @RequestMapping("Index")
+    @GetMapping("Index")
     public String index() {
         return "index";
     }
 
-    @RequestMapping("/LoginError")
+    @GetMapping("/LoginError")
     public void loginError(HttpServletRequest request, HttpServletResponse response) {
         response.setContentType("text/html;charset=utf-8");
         AuthenticationException exception = (AuthenticationException)request.getSession().getAttribute("SPRING_SECURITY_LAST_EXCEPTION");
@@ -35,7 +36,7 @@ public class PageController {
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    @RequestMapping("/Invalid")
+    @GetMapping("/Invalid")
     public String invalid() {
         return "invalid";
     }

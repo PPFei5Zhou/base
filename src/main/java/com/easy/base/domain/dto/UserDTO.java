@@ -1,6 +1,6 @@
 package com.easy.base.domain.dto;
 
-import com.easy.base.domain.dao.UserInfoDAO;
+import com.easy.base.domain.dao.user.UserInfoDAO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

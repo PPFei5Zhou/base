@@ -28,7 +28,6 @@ spring:
     suffix: .html
     encoding: UTF-8 # 指定字符集编码
 
-
 # 服务配置
 server:
   port: 80

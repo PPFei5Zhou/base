@@ -73,6 +73,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public RoleHierarchy roleHierarchy() {
+        // TODO 从后台读取权限排列顺序
         String separator = System.lineSeparator();
         RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
         String hierarchy = "ROLE_ADMIN > ROLE_ADMIN1 " + separator + " ROLE_ADMIN1 > ROLE_USER";
@@ -123,6 +124,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) {
         // 设置拦截忽略文件夹，可以对静态资源放行
-        web.ignoring().antMatchers("/css/**", "/html/**", "/scripts/**");
+        web.ignoring().antMatchers("/scripts/**");
     }
 }

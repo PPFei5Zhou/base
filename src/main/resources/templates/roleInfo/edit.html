@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="/scripts/header-reference.js"></script>
+    <title>账号角色-编辑</title>
+</head>
+<body>
+    <form class="layui-form edit-form" lay-filter="form">
+        <input type="hidden" id="hiddenId" name="id">
+        <div class="layui-form-item">
+            <label class="layui-form-label" for="inputRoleCode">权限标识</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" name="roleCode"
+                       id="inputRoleCode" required lay-verify="required|RoleCode"
+                       placeholder="请输入权限标识" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" for="inputRoleName">权限名称</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" name="roleName"
+                       id="inputRoleName" required lay-verify="required"
+                       placeholder="请输入权限名称" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" for="inputRoleSort">权限顺序</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" name="roleSort"
+                       id="inputRoleSort" required lay-verify="required|PositiveInteger"
+                       placeholder="请输入权限顺序" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" for="inputValid">是否有效</label>
+            <div class="layui-input-block">
+                <input type="checkbox" name="valid" id="inputValid" lay-skin="switch" lay-text="ON|OFF">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="submit" class="layui-btn" id="btnSave" lay-submit lay-filter="save">保存</button>
+            </div>
+        </div>
+    </form>
+</body>
+<script type="text/javascript">
+    let hiddenId = $('#hiddenId');
+    $(function () {
+        layui.use(['form', 'layer'], function () {
+            let form = layui.form;
+            let layer = layui.layer;
+            let id = $.getUrlParam("id");
+            let layerIndex = 0;
+            let prefixes = '/RoleInfo';
+            let suffix = '';
+            let method = '';
+
+            if (id) {
+                suffix = '/UpdateEntity';
+                method = 'put';
+                getItemInfo();
+            } else {
+                suffix = '/InsertEntity';
+                method = 'post';
+            }
+
+            form.verify(FormVerify);
+
+            form.on('submit(save)', function (data) {
+                $.ajax({
+                    url: prefixes + suffix,
+                    method: method,
+                    data: data.field,
+                    dataType: 'json',
+                    beforeSend: function () {
+                        layerIndex = layer.load();
+                    },
+                    success: function (result) {
+                        layer.msg(result.message);
+                        window.parent.document.getElementById('btnSearch').click();
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(xhr);
+                        console.log(status);
+                        console.log(error);
+                    },
+                    complete: function (xhr, status) {
+                        layer.close(layerIndex);
+                        console.log(xhr);
+                        console.log(status);
+                    }
+                })
+            });
+
+            function getItemInfo() {
+                $.ajax({
+                    url: prefixes + '/SelectEntityByID',
+                    method: 'get',
+                    data: {id: id},
+                    dataType: 'json',
+                    beforeSend: function () {
+                        layerIndex = layer.load();
+                    },
+                    success: function (result) {
+                        form.val('form', {
+                            "id": result.id,
+                            "roleCode": result.roleCode,
+                            "roleName": result.roleName,
+                            "roleSort": result.roleSort,
+                            "valid": result.valid
+                        });
+                    },
+                    error: function (xhr,status,error) {
+                        console.log(xhr);
+                        console.log(status);
+                        console.log(error);
+                    },
+                    complete: function (xhr, status) {
+                        layer.close(layerIndex);
+                        console.log(xhr);
+                        console.log(status);
+                    }
+                })
+            }
+        });
+    });
+</script>
+</html>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.easy.base.repository.mapper.UserMapper">
-    <resultMap id="user" type="com.easy.base.domain.dao.UserInfoDAO">
+    <resultMap id="user" type="com.easy.base.domain.dao.user.UserInfoDAO">
         <id property="id" column="user_ID"/>
         <result property="userName" column="user_UserName"/>
         <result property="userAccount" column="user_UserAccount"/>
@@ -14,7 +14,7 @@
         <collection property="userRoles" column="user_UserAccount" select="selectUserRoleByUserAccount"/>
     </resultMap>
 
-    <resultMap id="roleInfo" type="com.easy.base.domain.dao.RoleInfoDAO">
+    <resultMap id="roleInfo" type="com.easy.base.domain.dao.user.RoleInfoDAO">
         <id property="id" column="ri_ID"/>
         <result property="roleCode" column="ri_RoleCode"/>
         <result property="roleName" column="ri_RoleName"/>
@@ -25,7 +25,7 @@
         <result property="updateDt" column="ri_UpdateDt"/>
     </resultMap>
 
-    <resultMap id="userRole" type="com.easy.base.domain.dao.UserRoleDAO">
+    <resultMap id="userRole" type="com.easy.base.domain.dao.user.UserRoleDAO">
         <id property="id" column="ur_ID"/>
         <result property="userAccount" column="ur_UserAccount"/>
         <result property="roleCode" column="ur_RoleCode"/>

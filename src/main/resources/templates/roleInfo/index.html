@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <script src="/scripts/header-reference.js"></script>
+    <title>角色列表</title>
+</head>
+<body>
+<div class="layui-card">
+    <div class="layui-card-body">
+        <div class="layui-form">
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="inputRoleName">权限名称</label>
+                <div class="layui-input-block">
+                    <input type="text" id="inputRoleName" class="layui-input">
+                </div>
+            </div>
+            <div>
+                <button class="layui-btn" id="btnSearch">查询</button>
+            </div>
+        </div>
+        <hr>
+        <div>
+            <script type="text/html" id="dataBar">
+                <div class="layui-btn-container">
+                    <button class="layui-btn layui-btn-sm layui-btn-normal" lay-event="Insert">新增</button>
+                    <button class="layui-btn layui-btn-sm layui-btn-warm" lay-event="Update">修改</button>
+                    <button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="Delete">删除</button>
+                </div>
+            </script>
+            <table id="dataTable" lay-filter="dataTable"></table>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" th:inline="none">
+    let inputRoleName = $('#inputRoleName');
+
+    $(function () {
+        layui.use(['form', 'table', 'layer'], function () {
+            let form = layui.form;
+            let table = layui.table;
+            let layer = layui.layer;
+            let prefixes = '/RoleInfo';
+
+            table.render({
+                id: 'dataTable',
+                elem: '#dataTable',
+                url: prefixes + '/EntitiesLayuiTable',
+                page: true,
+                toolbar: '#dataBar',
+                defaultToolbar: ['exports'],
+                cols: [[
+                    {type: 'checkbox', fixed: 'left'},
+                    {field: 'id', title: 'ID', minWidth: 305},
+                    {field: 'roleCode', title: '权限标识', minWidth: 120},
+                    {field: 'roleName', title: '权限名称', minWidth: 120},
+                    {field: 'roleSort', title: '权限顺序', minWidth: 120},
+                    {field: 'valid', title: '是否有效', minWidth: 120},
+                    {field: 'updateDt', title: '最后修改日期'}
+                ]]
+            });
+
+            table.on('toolbar(dataTable)', function (obj) {
+                let checkStatus = table.checkStatus('dataTable');
+                let data = checkStatus.data;
+                switch (obj.event) {
+                    case 'Insert': {
+                        insertAction();
+                    } break;
+                    case 'Update': {
+                        if (data.length > 0) {
+                            updateAction(data[0].id);
+                        } else {
+                            layer.msg('请选择数据');
+                        }
+                    } break;
+                    case 'Delete': {
+                        let ids = [];
+                        if (data.length > 0) {
+                            $.each(data, function (index, item) {
+                                ids.push(item.id);
+                            });
+                            deleteAction(ids);
+                        } else {
+                            layer.msg('请选择数据');
+                        }
+                    } break;
+                }
+            });
+
+            function insertAction() {
+                layer.open({
+                    type: 2,
+                    title: '新增',
+                    content: prefixes + '/Edit',
+                    area: [Width, Height]
+                });
+            }
+
+            function updateAction(id) {
+                layer.open({
+                    type: 2,
+                    title: '修改',
+                    content: prefixes + '/Edit?id=' + id,
+                    area: [Width, Height]
+                });
+            }
+
+            function deleteAction(ids) {
+                $.ajax({
+                    url: prefixes + '/RemoveEntity',
+                    method: 'delete',
+                    data: {ids: ids},
+                    dataType: 'json',
+                    success: function (result,status,xhr) {
+                        console.log(result);
+                        console.log(status);
+                        console.log(xhr);
+                        tableReload();
+                    },
+                    error: function (xhr,status,error) {
+                        console.log(xhr);
+                        console.log(status);
+                        console.log(error);
+                    },
+                    complete: function (xhr, status) {
+                        console.log(xhr);
+                        console.log(status);
+                    }
+                });
+            }
+
+            function tableReload() {
+                table.reload('dataTable', {
+                    where: {
+                        roleName: inputRoleName.val()
+                    }
+                })
+            }
+
+            $('#btnSearch').on('click', function () {
+                tableReload();
+            });
+
+            form.render();
+        });
+    });
+</script>
+</html>

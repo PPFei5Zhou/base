@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.easy.base.repository.mapper.RoleInfoMapper">
+    <resultMap id="BaseResultMap" type="com.easy.base.domain.dao.user.RoleInfoDAO">
+        <!--@mbg.generated-->
+        <!--@Table role_info-->
+        <id column="ID" jdbcType="VARCHAR" property="id" />
+        <result column="RoleCode" jdbcType="VARCHAR" property="roleCode" />
+        <result column="RoleName" jdbcType="VARCHAR" property="roleName" />
+        <result column="RoleSort" jdbcType="INTEGER" property="roleSort" />
+        <result column="Valid" jdbcType="BIT" property="valid" />
+        <result column="CreateBy" jdbcType="VARCHAR" property="createBy" />
+        <result column="CreateDt" jdbcType="TIMESTAMP" property="createDt" />
+        <result column="UpdateBy" jdbcType="VARCHAR" property="updateBy" />
+        <result column="UpdateDt" jdbcType="TIMESTAMP" property="updateDt" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        ID, RoleCode, RoleName, RoleSort, `Valid`, CreateBy, CreateDt, UpdateBy, UpdateDt
+    </sql>
+
+    <select id="selectEntities" resultMap="BaseResultMap">
+        with list as (
+            select
+                dense_rank() over (order by ID) as rn,
+                <include refid="Base_Column_List" />
+            from role_info
+            <where>
+                and Valid = 1
+                <if test="model.roleCode != null and model.roleCode != ''">
+                    and RoleCode = #{model.roleCode}
+                </if>
+                <if test="model.roleName != null and model.roleName != ''">
+                    and RoleName like concat('%', #{model.roleName}, '%')
+                </if>
+            </where>
+            order by RoleSort
+        )
+        
+        select
+            *
+        from list
+        where rn <![CDATA[<=]]> #{page} * #{limit}
+          and rn > (#{page} - 1) * #{limit}
+    </select>
+    
+    <select id="countSelect" resultType="integer">
+        select
+            count(1)
+        from role_info
+        <where>
+            and Valid = 1
+            <if test="roleCode != null and roleCode != ''">
+                and RoleCode = #{roleCode}
+            </if>
+            <if test="roleName != null and roleName != ''">
+                and RoleName like concat('%', #{roleName}, '%')
+            </if>
+        </where>
+    </select>
+    
+    <select id="selectEntityById" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+            <include refid="Base_Column_List" />
+        from role_info
+        where ID = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="removeEntity">
+        <!--@mbg.generated-->
+        delete from role_info
+        where ID in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+
+    <insert id="insertEntity">
+        <!--@mbg.generated-->
+        insert into role_info (ID, RoleCode, RoleName,
+        RoleSort, `Valid`, CreateBy,
+        CreateDt, UpdateBy, UpdateDt)
+        values (#{id,jdbcType=VARCHAR}, #{roleCode,jdbcType=VARCHAR}, #{roleName,jdbcType=VARCHAR},
+        #{roleSort,jdbcType=INTEGER}, #{valid,jdbcType=BIT}, #{createBy,jdbcType=VARCHAR},
+        #{createDt,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateDt,jdbcType=TIMESTAMP})
+    </insert>
+
+    <update id="updateEntity">
+        <!--@mbg.generated-->
+        update role_info
+        <set>
+            <if test="roleCode != null and roleCode != ''">
+                RoleCode = #{roleCode,jdbcType=VARCHAR},
+            </if>
+            <if test="roleName != null and roleName != ''">
+                RoleName = #{roleName,jdbcType=VARCHAR},
+            </if>
+            <if test="roleSort != null">
+                RoleSort = #{roleSort,jdbcType=INTEGER},
+            </if>
+            <if test="valid != null">
+                `Valid` = #{valid,jdbcType=BIT},
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                UpdateBy = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateBy != null">
+                UpdateDt = #{updateDt,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=VARCHAR}
+    </update>
+</mapper>

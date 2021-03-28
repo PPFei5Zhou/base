@@ -2,11 +2,10 @@ package com.easy.base.controller;
 
 import com.easy.base.domain.dao.BaseDAO;
 import com.easy.base.domain.dto.JsonResult;
+import com.easy.base.domain.dto.LayuiTable;
 import com.easy.base.service.IBaseService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
@@ -49,12 +48,12 @@ public class BaseController<T extends BaseDAO, S extends IBaseService<T>> {
         return service.insertEntity(model);
     }
 
-    @PostMapping("UpdateEntity")
+    @PutMapping("UpdateEntity")
     public JsonResult<?> updateEntity(T model) {
         return service.updateEntity(model);
     }
 
-    @PostMapping("RemoveEntity")
+    @DeleteMapping("RemoveEntity")
     public JsonResult<?> removeEntity(@RequestParam(value = "ids[]") String[] ids) {
         return service.removeEntity(ids);
     }
@@ -62,6 +61,13 @@ public class BaseController<T extends BaseDAO, S extends IBaseService<T>> {
     @GetMapping("SelectEntities")
     public JsonResult<?> selectEntities(T model, int page, int limit) {
         return service.selectEntities(model, page, limit);
+    }
+
+    @GetMapping("EntitiesLayuiTable")
+    public LayuiTable entitiesLayuiTable(T model, int page, int limit) {
+        JsonResult<?> result = service.selectEntities(model, page, limit);
+        int code = result.isResult() ? 0 : 1;
+        return new LayuiTable(code, result.getMessage(), result.getCount(), result.getObj());
     }
 
     @GetMapping("SelectEntityByID")

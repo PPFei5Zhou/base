@@ -44,6 +44,8 @@ public class BaseService<T extends BaseDAO, M extends BaseMapper<T>> implements 
             model.setId(uuidUtil.generateUUID());
             model.setCreateBy(getSessionUserAccount());
             model.setCreateDt(new Timestamp(now.getTime()));
+            model.setUpdateBy(getSessionUserAccount());
+            model.setUpdateDt(new Timestamp(now.getTime()));
             int i = mapper.insertEntity(model);
             return JsonResult.CreateResult(i > 0, model.getId());
         } catch (Exception e) {

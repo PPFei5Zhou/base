@@ -1,8 +1,8 @@
 package com.easy.base.service.impl.user;
 
-import com.easy.base.domain.dao.UserRoleDAO;
+import com.easy.base.domain.dao.user.UserRoleDAO;
 import com.easy.base.repository.mapper.UserMapper;
-import com.easy.base.domain.dao.UserInfoDAO;
+import com.easy.base.domain.dao.user.UserInfoDAO;
 import com.easy.base.domain.dto.UserDTO;
 import com.easy.base.service.impl.BaseService;
 import com.easy.base.service.user.IUserServer;

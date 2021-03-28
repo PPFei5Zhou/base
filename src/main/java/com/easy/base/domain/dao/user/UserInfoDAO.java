@@ -1,5 +1,6 @@
-package com.easy.base.domain.dao;
+package com.easy.base.domain.dao.user;
 
+import com.easy.base.domain.dao.BaseDAO;
 import lombok.*;
 
 import java.sql.Timestamp;

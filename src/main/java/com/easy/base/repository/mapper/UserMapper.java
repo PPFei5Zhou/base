@@ -1,9 +1,9 @@
 package com.easy.base.repository.mapper;
 
-import com.easy.base.domain.dao.RoleInfoDAO;
-import com.easy.base.domain.dao.UserRoleDAO;
+import com.easy.base.domain.dao.user.RoleInfoDAO;
+import com.easy.base.domain.dao.user.UserRoleDAO;
 import com.easy.base.repository.BaseMapper;
-import com.easy.base.domain.dao.UserInfoDAO;
+import com.easy.base.domain.dao.user.UserInfoDAO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 

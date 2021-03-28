@@ -18,10 +18,10 @@ SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
--- Table structure for menu_list
+-- Table structure for menu_info
 -- ----------------------------
-DROP TABLE IF EXISTS `menu_list`;
-CREATE TABLE `menu_list`  (
+DROP TABLE IF EXISTS `menu_info`;
+CREATE TABLE `menu_info`  (
   `ID` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `MenuUrl` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `MenuName` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
@@ -44,6 +44,7 @@ CREATE TABLE `role_info`  (
   `ID` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `RoleCode` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `RoleName` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
+  'RoleSort' int(0) NULL DEFAULT NULL,
   `Valid` bit(1) NULL DEFAULT b'1',
   `CreateBy` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `CreateDt` datetime(6) NULL DEFAULT NULL,
@@ -55,7 +56,7 @@ CREATE TABLE `role_info`  (
 -- ----------------------------
 -- Records of role_info
 -- ----------------------------
-INSERT INTO `role_info` VALUES ('0A601E7E736A11EB9BEC54EE759FD5E5', 'ROLE_ADMIN', '管理员', b'1', 'admin', '2021-02-20 18:55:23.000000', 'admin', '2021-02-20 18:55:23.000000');
+INSERT INTO `role_info` VALUES ('0A601E7E736A11EB9BEC54EE759FD5E5', 'ROLE_ADMIN', '管理员', 1, b'1', 'admin', '2021-02-20 18:55:23.000000', 'admin', '2021-02-20 18:55:23.000000');
 
 -- ----------------------------
 -- Table structure for role_menu

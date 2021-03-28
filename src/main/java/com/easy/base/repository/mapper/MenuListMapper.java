@@ -1,6 +1,6 @@
 package com.easy.base.repository.mapper;
 
-import com.easy.base.domain.dao.MenuInfoDAO;
+import com.easy.base.domain.dao.user.MenuInfoDAO;
 import com.easy.base.domain.dto.dTree.DTreeData;
 import com.easy.base.repository.BaseMapper;
 

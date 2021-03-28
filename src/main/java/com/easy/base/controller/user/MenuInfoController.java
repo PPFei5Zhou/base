@@ -1,7 +1,7 @@
 package com.easy.base.controller.user;
 
 import com.easy.base.controller.BaseController;
-import com.easy.base.domain.dao.MenuInfoDAO;
+import com.easy.base.domain.dao.user.MenuInfoDAO;
 import com.easy.base.domain.dto.JsonResult;
 import com.easy.base.domain.dto.dTree.DTreeDTO;
 import com.easy.base.domain.dto.dTree.DTreeData;

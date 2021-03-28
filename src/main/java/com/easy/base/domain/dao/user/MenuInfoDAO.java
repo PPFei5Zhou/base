@@ -1,8 +1,9 @@
-package com.easy.base.domain.dao;
+package com.easy.base.domain.dao.user;
 
 import java.io.Serializable;
 import java.util.List;
 
+import com.easy.base.domain.dao.BaseDAO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
