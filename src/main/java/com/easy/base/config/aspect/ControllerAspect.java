@@ -3,7 +3,6 @@ package com.easy.base.config.aspect;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import com.easy.base.domain.dto.JsonResult;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

@@ -18,29 +18,27 @@ import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    private final UserService userService;
-    private final AuthenticationDetailsSource<HttpServletRequest, WebAuthenticationDetails> authenticationDetailsSource;
-    private CustomAuthenticationProvider customAuthenticationProvider;
-    private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
-    private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
+    @Resource
+    private UserService userService;
 
-    public WebSecurityConfig(UserService userService
-            , AuthenticationDetailsSource<HttpServletRequest, WebAuthenticationDetails> authenticationDetailsSource
-            , CustomAuthenticationProvider customAuthenticationProvider
-            , CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler
-            , CustomAuthenticationFailureHandler customAuthenticationFailureHandler) {
-        this.userService = userService;
-        this.authenticationDetailsSource = authenticationDetailsSource;
-        this.customAuthenticationProvider = customAuthenticationProvider;
-        this.customAuthenticationSuccessHandler = customAuthenticationSuccessHandler;
-        this.customAuthenticationFailureHandler = customAuthenticationFailureHandler;
-    }
+    @Resource
+    private AuthenticationDetailsSource<HttpServletRequest, WebAuthenticationDetails> authenticationDetailsSource;
+
+    @Resource
+    private CustomAuthenticationProvider customAuthenticationProvider;
+
+    @Resource
+    private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+
+    @Resource
+    private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
 
     @Bean
     public SessionRegistry sessionRegistry() {

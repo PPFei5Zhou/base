@@ -17,10 +17,10 @@ $(function (){
          url: prefixUrl + '/GetMenuLevel',
          method: 'get',
          dataType: 'json',
-         success: function (data) {
-            if (data.result) {
+         success: function (result) {
+            if (result) {
                let option = '';
-               $.each(data.obj, function (index, item) {
+               $.each(result, function (index, item) {
                   option += '<option value="' + item + '">' + item + '</option>'
                });
                selectMenuLevel.html(option);

@@ -1,10 +1,10 @@
 package com.easy.base.controller.user;
 
 import com.easy.base.controller.BaseController;
-import com.easy.base.domain.dao.user.UserInfoDAO;
-import com.easy.base.domain.dto.JsonResult;
 
+import com.easy.base.domain.dto.user.UserDTO;
 import com.easy.base.service.user.IUserServer;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;
@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/User")
-public class UserController extends BaseController<UserInfoDAO, IUserServer> {
+public class UserController extends BaseController<UserDTO, IUserServer> {
     @Resource
     private SessionRegistry sessionRegistry;
 
@@ -29,7 +29,7 @@ public class UserController extends BaseController<UserInfoDAO, IUserServer> {
 
     @PreAuthorize("hasRole('ROLE_ADMIN1')")
     @RequestMapping("/KickOutUser")
-    public JsonResult<String> kickOutUser(String userName) {
+    public ResponseEntity<String> kickOutUser(String userName) {
         int count = 0;
         List<Object> users = sessionRegistry.getAllPrincipals();
         for (Object principal : users) {
@@ -46,12 +46,12 @@ public class UserController extends BaseController<UserInfoDAO, IUserServer> {
                 }
             }
         }
-        return JsonResult.CreateResult(true, "操作成功，清理session共" + count + "个");
+        return ResponseEntity.ok("操作成功，清理session共" + count + "个");
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "/GetSessionUser", method = RequestMethod.GET)
-    public JsonResult<UserInfoDAO> getSessionUser(Principal principal) {
-        return service.selectEntityByID(principal.getName());
+    public ResponseEntity<?> getSessionUser(Principal principal) {
+        return responseEntity(service.selectEntityByID(principal.getName()));
     }
 }

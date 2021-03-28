@@ -1,7 +1,7 @@
 package com.easy.base.service.impl;
 
 import com.easy.base.domain.dao.BaseDAO;
-import com.easy.base.domain.dto.JsonResult;
+import com.easy.base.domain.dto.ResultDTO;
 import com.easy.base.repository.BaseMapper;
 import com.easy.base.service.IBaseService;
 import com.easy.base.utils.UUIDUtil;
@@ -38,7 +38,7 @@ public class BaseService<T extends BaseDAO, M extends BaseMapper<T>> implements 
     }
 
     @Override
-    public JsonResult<?> insertEntity(T model) {
+    public ResultDTO<?> insertEntity(T model) {
         try {
             Date now = new Date();
             model.setId(uuidUtil.generateUUID());
@@ -47,58 +47,58 @@ public class BaseService<T extends BaseDAO, M extends BaseMapper<T>> implements 
             model.setUpdateBy(getSessionUserAccount());
             model.setUpdateDt(new Timestamp(now.getTime()));
             int i = mapper.insertEntity(model);
-            return JsonResult.CreateResult(i > 0, model.getId());
+            return ResultDTO.CreateResult(i > 0, model.getId());
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            return JsonResult.CreateResult(false, e.getMessage());
+            return ResultDTO.CreateResult(false, e.getMessage());
         }
     }
 
     @Override
-    public JsonResult<?> updateEntity(T model) {
+    public ResultDTO<?> updateEntity(T model) {
         try {
             Date now = new Date();
             model.setUpdateBy(getSessionUserAccount());
             model.setUpdateDt(new Timestamp(now.getTime()));
             int i = mapper.updateEntity(model);
-            return JsonResult.CreateResult(i > 0);
+            return ResultDTO.CreateResult(i > 0);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            return JsonResult.CreateResult(false, e.getMessage());
+            return ResultDTO.CreateResult(false, e.getMessage());
         }
     }
 
     @Override
-    public JsonResult<?> removeEntity(String[] ids) {
+    public ResultDTO<?> removeEntity(String[] ids) {
         try {
             int i = mapper.removeEntity(ids);
-            return JsonResult.CreateResult(i > 0);
+            return ResultDTO.CreateResult(i > 0);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            return JsonResult.CreateResult(false, e.getMessage());
+            return ResultDTO.CreateResult(false, e.getMessage());
         }
     }
 
     @Override
-    public JsonResult<List<T>> selectEntities(T model, int page, int limit) {
+    public ResultDTO<List<T>> selectEntities(T model, int page, int limit) {
         try {
             List<T> list = mapper.selectEntities(model, page, limit);
             int count = mapper.countSelect(model);
-            return JsonResult.CreateResult(true, list, count);
+            return ResultDTO.CreateResult(true, list, count);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            return JsonResult.CreateResult(false, e.getMessage());
+            return ResultDTO.CreateResult(false, e.getMessage());
         }
     }
 
     @Override
-    public JsonResult<T> selectEntityByID(String id) {
+    public ResultDTO<T> selectEntityByID(String id) {
         try {
             T entity = mapper.selectEntityById(id);
-            return JsonResult.CreateResult(true, entity);
+            return ResultDTO.CreateResult(true, entity);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            return JsonResult.CreateResult(false, e.getMessage());
+            return ResultDTO.CreateResult(false, e.getMessage());
         }
     }
 }

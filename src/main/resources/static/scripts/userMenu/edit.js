@@ -29,9 +29,9 @@ $(function () {
                     if (levelCode > 0) renderSelect(levelCode - 1);
                     layerIndex = layer.load();
                 },
-                success: function (data) {
-                    if (data && data.result && data.obj) {
-                        let obj = data.obj;
+                success: function (result) {
+                    if (result) {
+                        let obj = result;
                         hiddenId.val(obj.id);
                         selectParentId.val(obj.parentId);
                         inputMenuUrl.val(obj.menuUrl);
@@ -96,10 +96,10 @@ $(function () {
                 beforeSend: function () {
                     layerIndex = layer.load();
                 },
-                success: function (data) {
+                success: function (result) {
                     let html = '';
-                    if(data.result) {
-                        $.each(data.obj, function (index, item) {
+                    if(result) {
+                        $.each(result, function (index, item) {
                             html += '<option value="' + item.id + '">' + item.menuName + '</option>'
                         });
                         selectParentId.html(html);

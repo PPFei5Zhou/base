@@ -11,8 +11,16 @@
         <div class="layui-form">
             <div class="layui-form-item">
                 <label class="layui-form-label" for="inputRoleName">权限名称</label>
-                <div class="layui-input-block">
+                <div class="layui-input-inline">
                     <input type="text" id="inputRoleName" class="layui-input">
+                </div>
+                <label class="layui-form-label" for="selectValid">是否有效</label>
+                <div class="layui-input-inline">
+                    <select id="selectValid">
+                        <option value=""></option>
+                        <option value="true">TRUE</option>
+                        <option value="false">FALSE</option>
+                    </select>
                 </div>
             </div>
             <div>
@@ -35,6 +43,7 @@
 </body>
 <script type="text/javascript" th:inline="none">
     let inputRoleName = $('#inputRoleName');
+    let selectValid = $('#selectValid');
 
     $(function () {
         layui.use(['form', 'table', 'layer'], function () {
@@ -134,7 +143,8 @@
             function tableReload() {
                 table.reload('dataTable', {
                     where: {
-                        roleName: inputRoleName.val()
+                        roleName: inputRoleName.val(),
+                        valid: selectValid.val()
                     }
                 })
             }

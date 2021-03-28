@@ -1,8 +1,7 @@
 package com.easy.base;
 
-import com.easy.base.domain.dao.user.UserInfoDAO;
-import com.easy.base.domain.dto.JsonResult;
-import com.easy.base.domain.dto.UserDTO;
+import com.easy.base.domain.dto.ResultDTO;
+import com.easy.base.domain.dto.user.UserDTO;
 import com.easy.base.service.impl.user.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -29,7 +28,7 @@ public class ServiceTests {
         UserDTO dto = new UserDTO();
         dto.setUserAccount("admin");
         dto.setMethodName("");
-        JsonResult<UserInfoDAO> jsonResult = userService.selectEntityByID("admin");
-        log.error(jsonResult.toString());
+        ResultDTO<UserDTO> resultDTO = userService.selectEntityByID("admin");
+        log.error(resultDTO.toString());
     }
 }

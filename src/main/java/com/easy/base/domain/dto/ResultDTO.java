@@ -9,58 +9,58 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @ToString
-public class JsonResult<T> implements Serializable {
+public class ResultDTO<T> implements Serializable {
     private static final long serialVersionUID = 2757646236478345787L;
 
-    JsonResult(boolean result) {
+    ResultDTO(boolean result) {
         this.result = result;
         this.message = "";
         this.obj = null;
         this.count = 0;
     }
 
-    JsonResult(boolean result, String message) {
+    ResultDTO(boolean result, String message) {
         this.result = result;
         this.message = message;
         this.obj = null;
         this.count = 0;
     }
 
-    JsonResult(boolean result, T obj) {
+    ResultDTO(boolean result, T obj) {
         this.result = result;
         this.message = "";
         this.obj = obj;
         this.count = 0;
     }
 
-    JsonResult(boolean result, T obj, String message) {
+    ResultDTO(boolean result, T obj, String message) {
         this.result = result;
         this.message = message;
         this.obj = obj;
         this.count = 0;
     }
 
-    JsonResult(boolean result, T obj, int count) {
+    ResultDTO(boolean result, T obj, int count) {
         this.result = result;
         this.message = "";
         this.obj = obj;
         this.count = count;
     }
 
-    public static <T> JsonResult<T> CreateResult(boolean result) {
-        return new JsonResult<>(result);
+    public static <T> ResultDTO<T> CreateResult(boolean result) {
+        return new ResultDTO<>(result);
     }
 
-    public static <T> JsonResult<T> CreateResult(boolean result, String message) {
-        return new JsonResult<>(result, message);
+    public static <T> ResultDTO<T> CreateResult(boolean result, String message) {
+        return new ResultDTO<>(result, message);
     }
 
-    public static <T> JsonResult<T> CreateResult(boolean result, T obj, int count) {
-        return new JsonResult<>(result, obj, count);
+    public static <T> ResultDTO<T> CreateResult(boolean result, T obj, int count) {
+        return new ResultDTO<>(result, obj, count);
     }
 
-    public static <T> JsonResult<T> CreateResult(boolean result, T obj) {
-        return new JsonResult<>(result, obj);
+    public static <T> ResultDTO<T> CreateResult(boolean result, T obj) {
+        return new ResultDTO<>(result, obj);
     }
 
     /**

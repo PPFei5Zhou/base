@@ -1,10 +1,12 @@
 package com.easy.base.controller;
 
 import com.easy.base.domain.dao.BaseDAO;
-import com.easy.base.domain.dto.JsonResult;
+import com.easy.base.domain.dto.ResultDTO;
 import com.easy.base.domain.dto.LayuiTable;
 import com.easy.base.service.IBaseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -28,6 +30,14 @@ public class BaseController<T extends BaseDAO, S extends IBaseService<T>> {
         return principal.getName();
     }
 
+    public ResponseEntity<?> responseEntity(ResultDTO<?> result) {
+        if (result.isResult()) {
+            return ResponseEntity.ok(result.getObj());
+        } else {
+            return new ResponseEntity<>(result.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/Index")
     public ModelAndView index() {
         return new ModelAndView(urlPrefix + "/index");
@@ -44,34 +54,34 @@ public class BaseController<T extends BaseDAO, S extends IBaseService<T>> {
     }
 
     @PostMapping("InsertEntity")
-    public JsonResult<?> insertEntity(T model) {
-        return service.insertEntity(model);
+    public ResponseEntity<?> insertEntity(T model) {
+        return responseEntity(service.insertEntity(model));
     }
 
     @PutMapping("UpdateEntity")
-    public JsonResult<?> updateEntity(T model) {
-        return service.updateEntity(model);
+    public ResponseEntity<?> updateEntity(T model) {
+        return responseEntity(service.updateEntity(model));
     }
 
     @DeleteMapping("RemoveEntity")
-    public JsonResult<?> removeEntity(@RequestParam(value = "ids[]") String[] ids) {
-        return service.removeEntity(ids);
+    public ResponseEntity<?> removeEntity(@RequestParam(value = "ids[]") String[] ids) {
+        return responseEntity(service.removeEntity(ids));
     }
 
     @GetMapping("SelectEntities")
-    public JsonResult<?> selectEntities(T model, int page, int limit) {
-        return service.selectEntities(model, page, limit);
+    public ResponseEntity<?> selectEntities(T model, int page, int limit) {
+        return responseEntity(service.selectEntities(model, page, limit));
     }
 
     @GetMapping("EntitiesLayuiTable")
-    public LayuiTable entitiesLayuiTable(T model, int page, int limit) {
-        JsonResult<?> result = service.selectEntities(model, page, limit);
+    public ResponseEntity<LayuiTable> entitiesLayuiTable(T model, int page, int limit) {
+        ResultDTO<?> result = service.selectEntities(model, page, limit);
         int code = result.isResult() ? 0 : 1;
-        return new LayuiTable(code, result.getMessage(), result.getCount(), result.getObj());
+        return ResponseEntity.ok(new LayuiTable(code, result.getMessage(), result.getCount(), result.getObj()));
     }
 
     @GetMapping("SelectEntityByID")
-    public JsonResult<?> selectEntityByID(String id) {
-        return service.selectEntityByID(id);
+    public ResponseEntity<?> selectEntityByID(String id) {
+        return responseEntity(service.selectEntityByID(id));
     }
 }

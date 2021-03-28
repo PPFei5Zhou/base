@@ -86,9 +86,9 @@ $(function() {
                     limit: 100
                 },
                 dataType: 'json',
-                success: function (data) {
-                    if (data.result && data.obj && data.obj.length > 0) {
-                        let _html = renderUserMenuHtml(data.obj);
+                success: function (result) {
+                    if (result && result.length > 0) {
+                        let _html = renderUserMenuHtml(result);
                         if (_html) {
                             $('#dlUserMenu').html(_html);
                         }
@@ -125,9 +125,9 @@ function RenderUserInfo() {
         async: false,
         type: 'get',
         dataType: 'json',
-        success: function(data) {
-            if (data.result) {
-                $('#labelUserName').text(data.obj.userName);
+        success: function(result) {
+            if (result) {
+                $('#labelUserName').text(result.userName);
             }
         }
     });
