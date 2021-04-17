@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.easy.base.repository.mapper.UserMapper">
-    <resultMap id="user" type="com.easy.base.domain.dao.user.UserInfoDAO">
+    <resultMap id="user" type="com.easy.base.domain.dto.user.UserDTO">
         <id property="id" column="user_ID"/>
         <result property="userName" column="user_UserName"/>
         <result property="userAccount" column="user_UserAccount"/>

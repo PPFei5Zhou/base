@@ -2,8 +2,7 @@ package com.easy.base.service.impl.user;
 
 import com.easy.base.domain.dao.user.UserRoleDAO;
 import com.easy.base.repository.mapper.UserMapper;
-import com.easy.base.domain.dao.user.UserInfoDAO;
-import com.easy.base.domain.dto.UserDTO;
+import com.easy.base.domain.dto.user.UserDTO;
 import com.easy.base.service.impl.BaseService;
 import com.easy.base.service.user.IUserServer;
 import lombok.extern.slf4j.Slf4j;
@@ -20,12 +19,12 @@ import java.util.List;
 
 @Slf4j
 @Service
-public class UserService extends BaseService<UserInfoDAO, UserMapper> implements IUserServer {
+public class UserService extends BaseService<UserDTO, UserMapper> implements IUserServer {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
-        UserInfoDAO userInfoDAO = GetUserInfoDAO(username);
+        UserDTO userInfoDAO = GetUserInfoDAO(username);
         if (userInfoDAO == null) {
             throw new UsernameNotFoundException("用户不存在");
         }
@@ -36,11 +35,11 @@ public class UserService extends BaseService<UserInfoDAO, UserMapper> implements
         return new User(userInfoDAO.getUserAccount(), userInfoDAO.getPassword(), authorities);
     }
 
-    private UserInfoDAO GetUserInfoDAO(String account) {
+    private UserDTO GetUserInfoDAO(String account) {
         try {
             UserDTO userDTO = new UserDTO();
             userDTO.setUserAccount(account);
-            List<UserInfoDAO> list = mapper.selectEntities(userDTO, 1, Integer.MAX_VALUE);
+            List<UserDTO> list = mapper.selectEntities(userDTO, 1, Integer.MAX_VALUE);
             return list.stream().findFirst().orElse(null);
         } catch (Exception e) {
             log.error(e.getMessage(), e);

@@ -1,4 +1,4 @@
-package com.easy.base.domain.dto;
+package com.easy.base.domain.dto.user;
 
 import com.easy.base.domain.dao.user.UserInfoDAO;
 import lombok.AllArgsConstructor;

@@ -17,7 +17,6 @@
                 <label class="layui-form-label" for="selectValid">是否有效</label>
                 <div class="layui-input-inline">
                     <select id="selectValid">
-                        <option value=""></option>
                         <option value="true">TRUE</option>
                         <option value="false">FALSE</option>
                     </select>
@@ -56,17 +55,21 @@
                 id: 'dataTable',
                 elem: '#dataTable',
                 url: prefixes + '/EntitiesLayuiTable',
+                where: {
+                    roleName: inputRoleName.val(),
+                    valid: selectValid.val()
+                },
                 page: true,
                 toolbar: '#dataBar',
                 defaultToolbar: ['exports'],
                 cols: [[
                     {type: 'checkbox', fixed: 'left'},
                     {field: 'id', title: 'ID', minWidth: 305},
-                    {field: 'roleCode', title: '权限标识', minWidth: 120},
-                    {field: 'roleName', title: '权限名称', minWidth: 120},
-                    {field: 'roleSort', title: '权限顺序', minWidth: 120},
-                    {field: 'valid', title: '是否有效', minWidth: 120},
-                    {field: 'updateDt', title: '最后修改日期'}
+                    {field: 'roleCode', title: '权限标识', minWidth: 120, align: 'center'},
+                    {field: 'roleName', title: '权限名称', minWidth: 120, align: 'center'},
+                    {field: 'roleSort', title: '权限顺序', minWidth: 120, align: 'center'},
+                    {field: 'valid', title: '是否有效', minWidth: 120, align: 'center'},
+                    {field: 'updateDt', title: '最后修改日期', align: 'center'}
                 ]]
             });
 
