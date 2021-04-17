@@ -1,20 +1,25 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <th:block th:replace="~{::head_title}?:_"></th:block>
+    <th:block th:replace="~{::head_title}?:_">
+    </th:block>
     <script type="text/javascript" src="/scripts/layui/layui.js" ></script>
     <script type="text/javascript" src="/scripts/jquery-3.5.1.min.js" ></script>
     <script type="text/javascript" src="/scripts/common.js" ></script>
-    <th:block th:replace="~{::head_script}?:_"></th:block>
+    <th:block th:replace="~{::head_script}?:_">
+    </th:block>
     <link rel="stylesheet" href="/scripts/layui/css/layui.css" />
-    <th:block th:replace="~{::head_style}?:_"></th:block>
+    <th:block th:replace="~{::head_style}?:_">
+    </th:block>
 </head>
 <body>
-    <th:block th:replace="~{::body_content}?:_"></th:block>
-    <th:block th:replace="~{::body_script}?:_"></th:block>
+    <th:block th:replace="~{::body_content}?:_">
+    </th:block>
+    <th:block th:replace="~{::body_script}?:_">
+    </th:block>
 </body>
 </html>

@@ -1,12 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="layout">
 <head>
-    <meta charset="UTF-8">
-    <script src="/scripts/header-reference.js"></script>
-    <title>角色列表</title>
+    <title th:fragment="head_title">角色列表</title>
 </head>
 <body>
-<div class="layui-card">
+<div class="layui-card" th:fragment="body_content">
     <div class="layui-card-body">
         <div class="layui-form">
             <div class="layui-form-item">
@@ -40,7 +38,7 @@
     </div>
 </div>
 </body>
-<script type="text/javascript" th:inline="none">
+<script type="text/javascript" th:fragment="body_script" th:inline="none">
     let inputRoleName = $('#inputRoleName');
     let selectValid = $('#selectValid');
 

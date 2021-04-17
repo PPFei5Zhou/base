@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" th:replace="layout">
 
 <head>
-    <meta charset="UTF-8" />
-    <script src="/scripts/header-reference.js"></script>
-    <title>base Index</title>
+    <title th:fragment="head_title">base Index</title>
 </head>
 
-<body class="layui-layout-body">
-    <div class="layui-layout layui-layout-admin">
+<body>
+<div>
+    <div class="layui-layout layui-layout-admin" th:fragment="body_content">
         <div class="layui-header">
             <div class="layui-logo">Base Project</div>
             <ul class="layui-nav layui-layout-right">
@@ -47,7 +46,10 @@
             </div>
         </div>
     </div>
+</div>
+<th:block th:fragment="body_script">
     <script src="/scripts/index.js"></script>
+</th:block>
 </body>
 
 </html>

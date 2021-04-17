@@ -1,49 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="layout">
 <head>
-    <meta charset="UTF-8">
-    <script src="/scripts/header-reference.js"></script>
-    <title>用户菜单-编辑</title>
+    <title th:fragment="head_title">用户菜单-编辑</title>
 </head>
-<body class="layui-form">
-<form id="editForm" style="margin: 20px;">
-    <input type="hidden" name="id" id="hiddenId"/>
-    <div class="layui-form-item">
-        <label class="layui-form-label" for="inputMenuLevel">菜单层级</label>
-        <div class="layui-input-block">
-            <input type="text" class="layui-input" name="menuLevel" id="inputMenuLevel" disabled/>
+<body>
+<div class="layui-form" th:fragment="body_content">
+    <form id="editForm" style="margin: 20px;">
+        <input type="hidden" name="id" id="hiddenId"/>
+        <div class="layui-form-item">
+            <label class="layui-form-label" for="inputMenuLevel">菜单层级</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" name="menuLevel" id="inputMenuLevel" disabled/>
+            </div>
         </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label" for="selectParentId">父级菜单</label>
-        <div class="layui-input-block">
-            <select name="parentId" id="selectParentId" lay-search>
-                <option value=""></option>
-            </select>
+        <div class="layui-form-item">
+            <label class="layui-form-label" for="selectParentId">父级菜单</label>
+            <div class="layui-input-block">
+                <select name="parentId" id="selectParentId" lay-search>
+                    <option value=""></option>
+                </select>
+            </div>
         </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label" for="inputMenuUrl">菜单链接</label>
-        <div class="layui-input-block">
-            <input type="text" class="layui-input" name="menuUrl" id="inputMenuUrl"/>
+        <div class="layui-form-item">
+            <label class="layui-form-label" for="inputMenuUrl">菜单链接</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" name="menuUrl" id="inputMenuUrl"/>
+            </div>
         </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label" for="inputMenuName">菜单名称</label>
-        <div class="layui-input-block">
-            <input type="text" class="layui-input" name="menuName" id="inputMenuName"/>
+        <div class="layui-form-item">
+            <label class="layui-form-label" for="inputMenuName">菜单名称</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" name="menuName" id="inputMenuName"/>
+            </div>
         </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label" for="inputValid">是否有效</label>
-        <div class="layui-input-block">
-            <input type="checkbox" name="valid" id="inputValid" lay-skin="switch" lay-text="有效|无效">
+        <div class="layui-form-item">
+            <label class="layui-form-label" for="inputValid">是否有效</label>
+            <div class="layui-input-block">
+                <input type="checkbox" name="valid" id="inputValid" lay-skin="switch" lay-text="有效|无效">
+            </div>
         </div>
+    </form>
+    <div class="layui-form-item" style="text-align: center;">
+        <button class="layui-btn" id="btnSave">保存</button>
     </div>
-</form>
-<div class="layui-form-item" style="text-align: center;">
-    <button class="layui-btn" id="btnSave">保存</button>
 </div>
-<script src="/scripts/userMenu/edit.js"></script>
+<th:block th:fragment="body_script">
+    <script src="/scripts/userMenu/edit.js"></script>
+</th:block>
 </body>
 </html>

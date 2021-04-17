@@ -64,7 +64,7 @@ $(function (){
                   });
                }}, {menubarId: 'btnDeleteMenu', handler: function (node) {
                   // 删除节点
-                  layer.confirm('是否要删除?', function () {
+                  layer.confirm('是否要删除?', function (index) {
                      let ids = [];
                      let params = dtree.getCheckbarNodesParam("ulMenuTree");
                      $.each(params, function (index, item) {
@@ -73,14 +73,23 @@ $(function (){
 
                      $.ajax({
                         url: '/UserMenu/RemoveEntity',
-                        type: 'post',
+                        type: 'delete',
                         data: {ids: ids},
                         dataType: 'json',
                         beforeSend: function () {
+                           layer.close(index);
                            layerIndex = layer.load();
                         },
-                        success: function (data) {
-                           layer.msg(data.message);
+                        statusCode: {
+                           200: function () {
+                              layer.msg('成功!');
+                           }
+                        },
+                        error: function (XMLHttpRequest) {
+                           if (XMLHttpRequest.responseText) {
+                              let response = JSON.parse(XMLHttpRequest.responseText);
+                              layer.alert(response ? response.message : '');
+                           }
                         },
                         complete: function () {
                            let title = inputMenuName.val();

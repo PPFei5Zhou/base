@@ -32,7 +32,10 @@ public class BaseController<T extends BaseDAO, S extends IBaseService<T>> {
 
     public ResponseEntity<?> responseEntity(ResultDTO<?> result) {
         if (result.isResult()) {
-            return ResponseEntity.ok(result.getObj());
+            if (result.getObj() != null)
+                return ResponseEntity.ok(result.getObj());
+            else
+                return ResponseEntity.ok(result.getMessage());
         } else {
             return new ResponseEntity<>(result.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
