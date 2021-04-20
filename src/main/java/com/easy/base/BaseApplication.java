@@ -8,10 +8,12 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import springfox.documentation.oas.annotations.EnableOpenApi;
 
 @MapperScan("com.easy.base.repository.mapper")
 @EnableRedisHttpSession
 @EnableTransactionManagement
+@EnableOpenApi
 @SpringBootApplication
 public class BaseApplication {
 

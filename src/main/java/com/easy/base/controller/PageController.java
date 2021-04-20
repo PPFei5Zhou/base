@@ -1,5 +1,7 @@
 package com.easy.base.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Controller;
@@ -13,17 +15,21 @@ import java.io.IOException;
 
 @Controller
 @RequestMapping("/")
+@Api(tags = "根目录页面")
 public class PageController {
+    @ApiOperation(value = "登录页")
     @GetMapping("Login")
     public String login() {
         return  "login";
     }
 
+    @ApiOperation(value = "首页")
     @GetMapping("Index")
     public String index() {
         return "index";
     }
 
+    @ApiOperation(value = "登录错误页")
     @GetMapping("/LoginError")
     public void loginError(HttpServletRequest request, HttpServletResponse response) {
         response.setContentType("text/html;charset=utf-8");
@@ -35,6 +41,7 @@ public class PageController {
         }
     }
 
+    @ApiOperation(value = "无效页")
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @GetMapping("/Invalid")
     public String invalid() {
