@@ -11,10 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.security.Principal;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class BaseService<T extends BaseDAO, M extends BaseMapper<T>> implements IBaseService<T> {
@@ -80,6 +82,31 @@ public class BaseService<T extends BaseDAO, M extends BaseMapper<T>> implements 
     }
 
     @Override
+    public ResultDTO<?> removeEntity(T model) {
+        try {
+            List<T> list = mapper.selectEntities(model, 1, Integer.MAX_VALUE);
+            if (list == null || list.size() == 0) return ResultDTO.CreateResult(false, "No any data with this condition");
+            List<String> idList = list.stream().map(T::getId).distinct().collect(Collectors.toList());
+            String[] ids = new String[101];
+            int effectiveRow = 0;
+            int i = 0;
+            for (String id : idList) {
+                ids[i] = id;
+                if (i % 100 == 0) {
+                    effectiveRow += mapper.removeEntity(ids);
+                    ids = new String[101];
+                    i = 0;
+                }
+                i++;
+            }
+            return ResultDTO.CreateResult(effectiveRow > 0, String.format("共删除%d行数据", effectiveRow));
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return ResultDTO.CreateResult(false, e.getMessage());
+        }
+    }
+
+    @Override
     public ResultDTO<List<T>> selectEntities(T model, int page, int limit) {
         try {
             List<T> list = mapper.selectEntities(model, page, limit);
@@ -100,5 +127,10 @@ public class BaseService<T extends BaseDAO, M extends BaseMapper<T>> implements 
             log.error(e.getMessage(), e);
             return ResultDTO.CreateResult(false, e.getMessage());
         }
+    }
+
+    @Override
+    public ResultDTO<File> exportToExcel(T model) {
+        throw new UnsupportedOperationException("Service未实现此方法");
     }
 }

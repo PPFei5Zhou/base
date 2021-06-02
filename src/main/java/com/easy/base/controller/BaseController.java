@@ -83,6 +83,12 @@ public class BaseController<T extends BaseDAO, S extends IBaseService<T>> {
         return responseEntity(service.removeEntity(ids));
     }
 
+    @ApiOperation(value = "按条件删除实体")
+    @DeleteMapping("RemoveEntityByCondition")
+    public ResponseEntity<?> responseEntity(T model) {
+        return responseEntity(service.removeEntity(model));
+    }
+
     @ApiOperation(value = "分页查询实体")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "页码", dataTypeClass = Integer.class, paramType = "query"),
