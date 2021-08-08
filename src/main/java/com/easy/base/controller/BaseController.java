@@ -15,6 +15,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import java.security.Principal;
 
 public class BaseController<T extends BaseDAO, S extends IBaseService<T>> {
@@ -26,6 +29,12 @@ public class BaseController<T extends BaseDAO, S extends IBaseService<T>> {
 
     @Resource
     public HttpServletRequest request;
+
+    @Resource
+    public HttpServletResponse response;
+
+    @Resource
+    public HttpSession session;
 
     /** 获取当前用户账号 */
     public String getSessionUserAccount() {

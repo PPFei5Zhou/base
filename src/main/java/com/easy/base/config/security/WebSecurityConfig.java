@@ -1,5 +1,6 @@
 package com.easy.base.config.security;
 
+import com.easy.base.service.impl.user.RoleInfoService;
 import com.easy.base.service.impl.user.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +28,9 @@ import javax.servlet.http.HttpServletRequest;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource
     private UserService userService;
+
+    @Resource
+    private RoleInfoService roleInfoService;
 
     @Resource
     private AuthenticationDetailsSource<HttpServletRequest, WebAuthenticationDetails> authenticationDetailsSource;
@@ -71,10 +75,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public RoleHierarchy roleHierarchy() {
-        // TODO 从后台读取权限排列顺序
-        String separator = System.lineSeparator();
         RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
-        String hierarchy = "ROLE_ADMIN > ROLE_ADMIN1 " + separator + " ROLE_ADMIN1 > ROLE_USER";
+        String hierarchy = roleInfoService.roleHierarchyChain();
         roleHierarchy.setHierarchy(hierarchy);
         return roleHierarchy;
     }

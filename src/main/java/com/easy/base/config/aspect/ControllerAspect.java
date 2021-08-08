@@ -3,7 +3,6 @@ package com.easy.base.config.aspect;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
@@ -55,11 +54,7 @@ public class ControllerAspect {
     public void afterReturning(JoinPoint joinPoint, Object result) {
         String url = request.getRequestURL().toString();
         String method = joinPoint.getTarget().getClass().getName() + "." + joinPoint.getSignature().getName() + "()";
-        try {
-            log.info("Request url: " + url + ", method: " + method + ", return: " + objectMapper.writeValueAsString(result));
-        } catch (JsonProcessingException e) {
-            log.error(e.getMessage());
-        }
+        log.info("Request url: " + url + ", method: " + method);
     }
 
     @AfterThrowing(pointcut = "pointcut()", throwing = "throwable")

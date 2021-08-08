@@ -10,4 +10,12 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @ApiModel(value = "权限信息")
-public class RoleInfoDTO extends RoleInfoDAO { }
+public class RoleInfoDTO extends RoleInfoDAO {
+    
+    /** Create valid RoleInfoDTO model instance */
+    public static RoleInfoDTO validInstance() {
+        RoleInfoDTO r = new RoleInfoDTO();
+        r.setValid(true);
+        return r;
+    }
+ }
